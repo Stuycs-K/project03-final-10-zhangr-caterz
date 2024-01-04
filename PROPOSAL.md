@@ -1,44 +1,65 @@
 # Final Project Proposal
 
+
 ## Group Members:
 
-Zameen Cater
+Zameen Cater  
 Raymond Zhang
 
-# Intentions:
 
-We want to create a text file editor. It will be a terminal based text editor with editing as well as copy-pasting capabilities.
+## Intentions:
 
-# Intended usage:
+We will create a terminal-based text file editor with copy-pasting capabilities.
 
-It will be called from the shell and run on the terminal. 
+
+## Intended usage:
+
+It will be called from the shell and run in the terminal. Users will move a cursor around using the arrow keys and will be able to perform actions such as writing to a file using special key combinations (*e.g.* with the control key, super key), inspired by the design of the `nano` text editor.
   
-# Technical Details:
 
-Topics we will be using: 
+## Technical Details:
+
+### Topics we will be using: 
+
 - Working with files
 - Finding information about files
+- Memory allocation for the file and clipboard buffers
 - Signals to deal with interrupts and kill commands
-- Semaphores to prevent editing of files from too many users/random outside users
+- Sockets, shared memory, and semaphores - stretch goal 2
 
-Project Breakdown:
+### Project Breakdown:
 
 - Reading file and displaying on screen (Raymond)
+- Saving and closing file (Raymond)
 - Dealing with keyboard input (Zameen)
-- Moving file around (Raymond)
-- Saving and closing file (Zameen)
+- Line linked-list implementation (Zameen)
+- Copy-paste functionality (Raymond and Zameen)
 
-Data Structures:
+### Data Structures:
 
-- a copy paste buffer
-- file buffer
-- 
-A description of your technical design. This should include:
-       
-What data structures you will be using and how.
-     
-What algorithms and /or data structures you will be using, and how.
+- a clipboard buffer (length & large `char` array (not null terminated))
+- file buffer (length & linked list of lines, each a length & a `char` array)
+
+### Algorithms:
+
+- Determining the length of a line and how it should wrap around the screen
+- Relatively logical cursor movement
+- Functions relating specifically to our linked list, like combining/separating lines or pasting lines
+- Character identification and printing on keypress
+- Non-null-terminated buffer handling
     
-# Intended pacing:
 
-A timeline with expected completion dates of parts of the project.
+## Intended pacing:
+
+- Reading file and displaying on screen - 2024/01/05
+- Saving and closing files - 2024/01/09
+- Dealing with keyboard input - 2024/01/06
+- Line linked-list implementation - 2024/01/09
+- Saving and closing files - 2024/01/11
+
+
+## Stretch goals:
+
+1. Editing multiple lines at a time, line-based movement (vim-style)
+2. Networking: multiple users can simultaneously edit a file
+3. Very basic `undo` capability
