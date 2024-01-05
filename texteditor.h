@@ -13,3 +13,8 @@
 
 int err();
 int readFile(char* filepath);
+struct line{
+    char str[256]; //line itself
+    struct line* previous;
+    struct line* next;
+};

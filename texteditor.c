@@ -1,5 +1,6 @@
 #include "texteditor.h"
 #define LINE_SIZE 256
+
 int main(){
     readFile("./test.txt");
 }
@@ -11,7 +12,7 @@ int err(){
 }
 
 //params: filepath is path of the file
-int readFile(char* filepath){
+int readFile(char* filepath, struct lines){
     int f = open(filepath,O_RDONLY,0);
     if (f < 0){
         err();
@@ -19,17 +20,20 @@ int readFile(char* filepath){
     char text[LINE_SIZE+1];
     text[LINE_SIZE] = 0;
     int bytes;
-    while (bytes = read(f, text, LINE_SIZE)){ //not necessarily 256 bytes in a line
-        if (text < 0){
-            err();
+    int endOfFile = 1; //0 indicates end of file;
+    char textchecker[2];
+    while (endOfFile){ //not necessarily 256 bytes in a line
+        bytes = read(f, textchecker, 1);
+        if (bytes <= 0){
+            endOfFile = 0;
         }
-        printf("%s",text);
+        if (strcmp(textchecker,"\n") == 0){ //if hit newline
+            //goes to new line, refresh memory on structs from music library
+        }
+        else{
+            strcat(text, textchecker);
+        }
     }
     return 0;
 }
 
-int countLines(char* filepath){
-    for (int i = 0){
-        //for later
-    }
-}
