@@ -1,52 +1,57 @@
-#include <stdio.h> // printf, fgetc
 #include <unistd.h> // stdin_fileno
 #include <termios.h> // terminal functions
-#include <errno.h> // errno
-#include <string.h> // strerror
-#include <stdlib.h> // exit
+#include <stdbool.h> // bool in_raw_mode
+#include "util.h"
 
-// original termios settings
-struct termios orig_termios;
-
-int err(int i, char* msg);
-
+struct editorinfo{
+  struct termios orig_termios;
+  bool in_raw_mode;
+};
+struct editorinfo E;
 
 // Set terminal to raw mode
-int setup_terminal(){
-  tcgetattr(STDIN_FILENO, &orig_termios); 
-
+void setup_terminal(){
   struct termios term;
-  err(tcgetattr(STDIN_FILENO, &term), "tcgetattr");
-  cfmakeraw(&term);
-  err(tcsetattr(STDIN_FILENO, TCSAFLUSH, &term), "tcsetattr");
+  err(tcgetattr(STDIN_FILENO, &term), "setup tcgetattr"); 
+  E.orig_termios = term;
 
-  return 0;
+  cfmakeraw(&term);
+  err(tcsetattr(STDIN_FILENO, TCSAFLUSH, &term), "setup tcsetattr");
+
+  E.in_raw_mode = true;
 }
 
 // Revert terminal to the original interface
-int clean_terminal(){
-  err(tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios), "tcsetattr");
-  return 0;
+void clean_terminal(){
+  err(tcsetattr(STDIN_FILENO, TCSAFLUSH, &E.orig_termios), "cleaning tcsetattr");
+  E.in_raw_mode = false;
 }
 
+// Read one key from stdin
+char readKey(){
+  char c;
+  err(read(STDIN_FILENO, &c, 1), "reading keycode");
+  return c;
+}
+
+void processKey(char c){
+  printf("%d: %c\r\n", c, c);
+  if(c==(('q') & 0x1f)){ // quit on control-q
+    exit(0);
+  }
+}
 
 int main(){
   setup_terminal();
+  atexit(clean_terminal);
   char c;
 
-  while(err(read(STDIN_FILENO, &c, 1), "read") && c!='q'){
-    printf("%d: %c\r\n", c, c);
+  printf("^Q to quit\r\n");
+  while(1){
+    c = readKey();
+    processKey(c);
   }
 
-  clean_terminal();
   return 0;
 }
 
-int err(int i, char* msg){
-  if(i<0){
-    printf("Error: %s - %s\n", msg, strerror(errno));
-    clean_terminal();
-    exit(1);
-  }
-  return i;
-}
