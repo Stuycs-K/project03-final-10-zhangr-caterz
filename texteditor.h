@@ -12,4 +12,4 @@
 #include <netdb.h>
 
 int err();
-int readFile(char* filepath, char* text);
+int readFile(char* filepath);

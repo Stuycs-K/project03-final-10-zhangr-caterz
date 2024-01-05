@@ -1,7 +1,7 @@
 #include "texteditor.h"
 #define LINE_SIZE 256
 int main(){
-
+    readFile("./test.txt");
 }
 
 int err(){
@@ -16,7 +16,8 @@ int readFile(char* filepath){
     if (f < 0){
         err();
     }
-    char* text;
+    char text[LINE_SIZE+1];
+    text[LINE_SIZE] = 0;
     int bytes;
     while (bytes = read(f, text, LINE_SIZE)){ //not necessarily 256 bytes in a line
         if (text < 0){
@@ -24,5 +25,5 @@ int readFile(char* filepath){
         }
         printf("%s",text);
     }
-    
+    return 0;
 }
