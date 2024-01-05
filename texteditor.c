@@ -27,3 +27,9 @@ int readFile(char* filepath){
     }
     return 0;
 }
+
+int countLines(char* filepath){
+    for (int i = 0){
+        //for later
+    }
+}
