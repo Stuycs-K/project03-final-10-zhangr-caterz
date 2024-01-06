@@ -4,7 +4,7 @@ compile run:
 	@echo "cannot compile"
 
 input: input.o util.o
-	gcc -o input input.o util.o
+	gcc -o input input.o util.o -lncurses
 
 input.o: input.c util.h
 	gcc -c input.c
