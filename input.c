@@ -36,8 +36,6 @@ int main(){
     else if(ch==KEY_UP) printw("up");
     else if(ch==KEY_DOWN) printw("down");
     else if(ch==KEY_ENTER) printw("enter");
-    else if(ch==KEY_CTRL('b')) printw("2");
-    else if(ch==KEY_CTRL('c')) printw("3");
     else if(isprint(ch)) printw("%d: %c", ch, ch);
     else printw("%d", ch);
     printw("\n");
