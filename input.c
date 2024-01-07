@@ -14,6 +14,13 @@ struct editor_status E;
 WINDOW *info_window;
 WINDOW *help_window;
 
+void alternate(WINDOW* win, attr_t attr, char* special, char* normal){
+  wattron(win, attr);
+  wprintw(win, "%s", special);
+  wattroff(win, attr);
+  wprintw(win, "%s", normal);
+}
+
 void setup(){
   // input setup
   initscr();
@@ -28,17 +35,21 @@ void setup(){
   E.minx = 0; E.miny = 1;
   E.maxy--; E.maxy--;
 
-
   // initialize info window
   info_window = newwin(1, getmaxx(stdscr)-1, 0, 0);
   refresh();
-  mvwprintw(info_window, 0, 0, "FILE NAME GOES HERE");
+  wprintw(info_window, "NOT_A_FILE.txt");
+  mvwchgat(info_window, 0, 0, -1, A_STANDOUT, 0, NULL);
   wrefresh(info_window);
 
   // initialize help window
   help_window = newwin(1, getmaxx(stdscr), getmaxy(stdscr)-1, 0);
   refresh();
-  mvwprintw(help_window, 0, 0, "^Q: quit");
+  alternate(help_window, A_STANDOUT, "^Q", " quit");
+  wmove(help_window, 0, 10);
+  alternate(help_window, A_STANDOUT, "^W", " write");
+  wmove(help_window, 0, 20);
+  alternate(help_window, A_STANDOUT, "^R", " reset");
   wrefresh(help_window);
 
   // initialize cursor
