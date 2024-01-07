@@ -1,8 +1,16 @@
 #include <stdlib.h> // atexit
 #include <ncurses.h> // ncurses
 #include <ctype.h> // isprint
+#include "util.h" // clamp
 
 #define KEY_CTRL(c) ((c) & 0x1f)
+
+struct editor_status{
+  int rows, cols;
+  int cx, cy;
+};
+
+struct editor_status E;
 
 void setup(){
   initscr();
@@ -11,6 +19,10 @@ void setup(){
   noecho();
   nonl();
   curs_set(1);
+
+  getmaxyx(stdscr, E.rows, E.cols);
+  E.cx = 0;
+  E.cy = 0;
 }
 
 void reset(){
@@ -22,6 +34,25 @@ int getKey(){
   return ch;
 }
 
+void moveCursor(int ch){
+  switch(ch){
+    case KEY_UP:
+      E.cy--; break;
+    case KEY_DOWN:
+      E.cy++; break;
+    case KEY_LEFT:
+      E.cx--; break;
+    case KEY_RIGHT:
+      E.cx++; break;
+  }
+}
+
+void updateCursor(){
+  E.cx = clamp(E.cx, 0, E.cols);
+  E.cy = clamp(E.cy, 0, E.rows);
+  move(E.cy, E.cx);
+}
+
 int main(){
 
   setup();
@@ -31,16 +62,11 @@ int main(){
 
   while(1){
     ch = getKey();
-    if(ch==KEY_LEFT) printw("left");
-    else if(ch==KEY_RIGHT) printw("right");
-    else if(ch==KEY_UP) printw("up");
-    else if(ch==KEY_DOWN) printw("down");
-    else if(ch==KEY_ENTER) printw("enter");
-    else if(ch==KEY_CTRL('b')) printw("2");
-    else if(ch==KEY_CTRL('c')) printw("3");
-    else if(isprint(ch)) printw("%d: %c", ch, ch);
+    if(ch==KEY_UP || ch==KEY_DOWN || ch==KEY_LEFT || ch==KEY_RIGHT) moveCursor(ch);
+    else if(isprint(ch)) {printw("%c", ch); E.cx++;}
     else printw("%d", ch);
-    printw("\n");
+
+    updateCursor();
     refresh();
 
     if(ch==KEY_CTRL('q')) break;

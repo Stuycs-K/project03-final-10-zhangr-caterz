@@ -6,4 +6,5 @@
 #ifndef UTIL_H
 #define UTIL_H
 int err(int i, char* msg);
+int clamp(int x, int min, int max);
 #endif
