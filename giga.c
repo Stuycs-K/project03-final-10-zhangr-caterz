@@ -1,9 +1,8 @@
 #include <ncurses.h>
 #include "giga.h"
-#include "setup.h"
-#include "input.h"
-#include "util.h"
-
+#include "setup.h" // setup
+#include "input.h" // keyStuff
+#include "util.h" // err
 
 struct editor_status E;
 WINDOW *info_window;
@@ -12,9 +11,7 @@ WINDOW *edit_window;
 
 int main(){
 
-  //setup(&E, info_window, help_window, edit_window);
   setup();
-  atexit(reset);
 
   keyStuff();
 

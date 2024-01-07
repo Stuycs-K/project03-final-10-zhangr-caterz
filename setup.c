@@ -1,16 +1,13 @@
-//#include <ncurses.h>
+#include <ncurses.h>
+#include "giga.h"
+#include <stdlib.h> // atexit
 #include "setup.h"
 
-void alternate(WINDOW* win, attr_t attr, char* special, char* normal){
-  wattron(win, attr);
-  wprintw(win, "%s", special);
-  wattroff(win, attr);
-  wprintw(win, "%s", normal);
-}
+void reset();
+void alternate(WINDOW* win, attr_t attr, char* special, char* normal);
 
-//void setup(struct editor_status *F, WINDOW* info_window, WINDOW* help_window, WINDOW* edit_window){
 void setup(){
-  //struct editor_status E = *F;
+  atexit(reset);
 
   // input setup
   initscr();
@@ -64,3 +61,9 @@ void reset(){
   endwin();
 }
 
+void alternate(WINDOW* win, attr_t attr, char* special, char* normal){
+  wattron(win, attr);
+  wprintw(win, "%s", special);
+  wattroff(win, attr);
+  wprintw(win, "%s", normal);
+}

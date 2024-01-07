@@ -1,9 +1,9 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-char getKey();
-void updateCursor(int ch);
-void moveCursor();
+int getKey();
+void updateCursor();
+void moveCursor(int ch);
 void keyStuff();
 
 #endif

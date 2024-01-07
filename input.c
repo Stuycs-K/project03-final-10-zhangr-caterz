@@ -1,14 +1,8 @@
-#include <stdlib.h> // atexit
-#include <ncurses.h> // ncurses
-#include <ctype.h> // isprint
-#include "setup.h" // setup
-#include "util.h" // clamp, editor_status
+#include <ncurses.h>
 #include "giga.h"
-#include <error.h>
-
-#define KEY_CTRL(c) ((c) & 0x1f)
-
-
+#include <ctype.h> // isprint
+#include "util.h" // clamp
+#include "input.h"
 
 int getKey(){
   int ch = getch();
@@ -34,19 +28,16 @@ void updateCursor(){
   wmove(edit_window, E.cy, E.cx);
 }
 
-//void reset(WINDOW* info_window, WINDOW* help_window, WINDOW* edit_window){
-
 void keyStuff(){
   int ch;
-
-  //endwin();
-  //printf("%d", E.maxy);
-  //exit(1);
 
   while(1){
     ch = getKey();
     if(ch==KEY_UP || ch==KEY_DOWN || ch==KEY_LEFT || ch==KEY_RIGHT) moveCursor(ch);
-    else if(isprint(ch)) {wprintw(edit_window, "%c", ch); E.cx++;}
+    else if(isprint(ch)) {
+      wprintw(edit_window, "%c", ch);
+      E.cx++;
+    }
     else wprintw(edit_window, "%d", ch);
 
     updateCursor();
