@@ -3,6 +3,7 @@
 #include <ctype.h> // isprint
 #include "setup.h" // setup
 #include "cursor.h" // moveCursor, updateCursor
+#include "config.h" // readConfig
 #include "util.h" // err
 
 struct editor_status E;
@@ -13,6 +14,7 @@ WINDOW *edit_window;
 int main(){
 
   setup();
+  readConfig();
 
   int ch;
 
