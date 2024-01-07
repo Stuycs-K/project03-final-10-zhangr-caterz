@@ -18,6 +18,10 @@ int main(){
 
   while(1){
     ch = getch();
+    if(ch==KEY_CTRL('q')) break;
+    if(ch==KEY_CTRL('w')) mvwprintw(help_window, 0, 60, "can't write, sorry");
+    if(ch==KEY_CTRL('r')) mvwprintw(help_window, 0, 60, "can't reset, sorry");
+
     mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
     wrefresh(help_window);
 
@@ -28,8 +32,6 @@ int main(){
     }
     updateCursor();
     wrefresh(edit_window);
-
-    if(ch==KEY_CTRL('q')) break;
   }
 
   return 0;
