@@ -3,17 +3,16 @@
 run: giga
 	./giga
 
-compile giga: giga.o input.o setup.o util.o
-	gcc -o giga giga.o input.o setup.o util.o -lncurses
+compile giga: giga.o cursor.o setup.o util.o
+	gcc -o giga giga.o cursor.o setup.o util.o -lncurses
 
-
-giga.o: giga.c giga.h input.h setup.h util.h
+giga.o: giga.c giga.h cursor.h setup.h util.h
 	gcc -c giga.c
 
-input.o: input.c giga.h input.h setup.h util.h
-	gcc -c input.c
+cursor.o: cursor.c cursor.h giga.h util.c
+	gcc -c cursor.c
 
-setup.o: setup.c giga.h input.h setup.h util.h
+setup.o: setup.c setup.h giga.h
 	gcc -c setup.c
 
 util.o: util.c util.h

@@ -1,4 +1,3 @@
-#include <ncurses.h>
 #ifndef GIGA_H
 #define GIGA_H
 
