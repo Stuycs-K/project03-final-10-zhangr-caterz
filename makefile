@@ -1,13 +1,11 @@
 .PHONY: compile run clean
 
-compile run:
-	@echo "cannot compile"
+run: giga
+	./giga
 
-giga: giga.o input.o setup.o util.o
+compile giga: giga.o input.o setup.o util.o
 	gcc -o giga giga.o input.o setup.o util.o -lncurses
 
-#input: input.o setup.o util.o
-#	gcc -o input input.o setup.o util.o -lncurses
 
 giga.o: giga.c giga.h input.h setup.h util.h
 	gcc -c giga.c
@@ -22,5 +20,5 @@ util.o: util.c util.h
 	gcc -c util.c
 
 clean:
-	rm input
+	rm giga
 	rm *.o
