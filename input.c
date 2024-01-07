@@ -6,13 +6,16 @@
 #define KEY_CTRL(c) ((c) & 0x1f)
 
 struct editor_status{
-  int rows, cols;
+  int maxx, maxy, minx, miny;
   int cx, cy;
 };
 
 struct editor_status E;
+WINDOW *info_window;
+WINDOW *help_window;
 
 void setup(){
+  // input setup
   initscr();
   raw();
   keypad(stdscr, TRUE);
@@ -20,12 +23,33 @@ void setup(){
   nonl();
   curs_set(1);
 
-  getmaxyx(stdscr, E.rows, E.cols);
-  E.cx = 0;
-  E.cy = 0;
+  // initialize editor status
+  getmaxyx(stdscr, E.maxy, E.maxx);
+  E.minx = 0; E.miny = 1;
+  E.maxy--; E.maxy--;
+
+
+  // initialize info window
+  info_window = newwin(1, getmaxx(stdscr)-1, 0, 0);
+  refresh();
+  mvwprintw(info_window, 0, 0, "FILE NAME GOES HERE");
+  wrefresh(info_window);
+
+  // initialize help window
+  help_window = newwin(1, getmaxx(stdscr), getmaxy(stdscr)-1, 0);
+  refresh();
+  mvwprintw(help_window, 0, 0, "^Q: quit");
+  wrefresh(help_window);
+
+  // initialize cursor
+  E.cx = E.minx;
+  E.cy = E.miny;
+  wmove(stdscr, E.cy, E.cx);
 }
 
 void reset(){
+  delwin(info_window);
+  delwin(help_window);
   endwin();
 }
 
@@ -48,8 +72,8 @@ void moveCursor(int ch){
 }
 
 void updateCursor(){
-  E.cx = clamp(E.cx, 0, E.cols);
-  E.cy = clamp(E.cy, 0, E.rows);
+  E.cx = clamp(E.cx, E.minx, E.maxx);
+  E.cy = clamp(E.cy, E.miny, E.maxy);
   move(E.cy, E.cx);
 }
 
@@ -67,7 +91,7 @@ int main(){
     else printw("%d", ch);
 
     updateCursor();
-    refresh();
+    wrefresh(stdscr);
 
     if(ch==KEY_CTRL('q')) break;
   }
