@@ -12,11 +12,14 @@
 #include <netdb.h>
 
 #define LINE_SIZE 256
-int err();
-int readFile(char* filepath);
+
 struct line{
     char str[LINE_SIZE+1]; //line itself
     struct line* previous;
     struct line* next;
     int line_num; 
 };
+int err();
+int readFile(char* filepath, struct line * document);
+struct line* insert_line(struct line* list, char s[], int line_num);
+
