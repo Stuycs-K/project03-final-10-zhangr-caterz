@@ -2,7 +2,7 @@
 #include <stdio.h> // fprintf
 #include <stdlib.h> // exit
 #include <errno.h> // errno
-#include <string.h> // strerror
+#include <string.h> // strerror, strsep
 #include "util.h"
 
 int err(int i, char* msg){
@@ -18,4 +18,9 @@ int clamp(int x, int min, int max){
   if(x < min) return min;
   if(x > max) return max;
   return x;
+}
+
+// splits `str` on spaces, destroys `str`
+void split(char* str, char** args){
+  while(*args++ = strsep(&str, " "));
 }

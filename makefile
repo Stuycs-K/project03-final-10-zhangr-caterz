@@ -2,17 +2,20 @@
 run: giga
 	./giga
 
-compile giga: giga.o cursor.o setup.o util.o
-	gcc -o giga giga.o cursor.o setup.o util.o -lncurses
+compile giga: giga.o cursor.o setup.o config.o util.o
+	gcc -o giga giga.o cursor.o setup.o config.o util.o -lncurses
 
-giga.o: giga.c giga.h cursor.h setup.h util.h
+giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h
 	gcc -c giga.c
 
-cursor.o: cursor.c cursor.h giga.h util.c
+cursor.o: cursor.c cursor.h giga.c giga.h util.c util.h
 	gcc -c cursor.c
 
-setup.o: setup.c setup.h giga.h
+setup.o: setup.c setup.h giga.c giga.h config.c config.h
 	gcc -c setup.c
+
+config.o: config.c config.h giga.c giga.h util.c util.h
+	gcc -c config.c
 
 util.o: util.c util.h
 	gcc -c util.c

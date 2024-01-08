@@ -17,6 +17,8 @@ Replaced all existing keyboard input code with ncurses code (2 hours)
 ### 2024-01-07 - refactoring and prettying
 Improved general aesthetic and learned more about ncurses (1 hour)
 Split program into multiple files and entirely refactored code (2 hours)
+Added more key functionality and rewrote code (45 min)
+Implemented half a config file (4 hours)
 
 ## Raymond Zhang
 
@@ -25,3 +27,6 @@ Wrote proposal (2 hours)
 
 ### 2024-01-04 - Reading from file
 Spent programming reading from file line by line, only got 1 line working. (45 min including class time)
+
+### 2024-01-05 to 2024-01-07 - Reading from file
+Finished implementing file reading with line numbers, through the use of double linked lists (3 hours total)
