@@ -10,5 +10,6 @@ extern struct editor_status E;
 extern WINDOW *info_window;
 extern WINDOW *help_window;
 extern WINDOW *edit_window;
+extern struct line *data;
 
 #endif

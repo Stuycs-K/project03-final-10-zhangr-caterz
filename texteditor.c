@@ -1,17 +1,26 @@
 #include "texteditor.h"
 
-int main(){
+/*int main(){
     struct line * document = NULL;
     document = readFile("./test.txt", document);
     print_list(document);
     return 0;
-}
+}*/
 
-int err(){
+int errR(){
     printf("errno %d\n",errno);
     printf("%s\n",strerror(errno));
     exit(1);
 }
+
+void removeCR(char *str){
+  int i=0;
+  while(str[i]){
+    if(str[i]=='\r' || str[i]=='\n') str[i] = '\0';
+    i++;
+  }
+}
+
 
 //params: filepath is path of the file, current is current node (when passing in pass first node in)
 struct line * readFile(char* filepath, struct line * document){
@@ -19,10 +28,11 @@ struct line * readFile(char* filepath, struct line * document){
     char s[LINE_SIZE+1];
     FILE* fp = fopen(filepath,"r");
     if(fp == NULL) {
-        err();        
+        errR();        
     }
 
     while(fgets(s, 256, fp) != NULL){
+        removeCR(s);
         document = insert_line(document, s, counter);
         counter++;
     }

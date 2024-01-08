@@ -3,16 +3,36 @@
 #include <ctype.h> // isprint
 #include "setup.h" // setup
 #include "cursor.h" // moveCursor, updateCursor
+#include "texteditor.h" // readFile
 #include "util.h" // err
 
 struct editor_status E;
 WINDOW *info_window;
 WINDOW *help_window;
 WINDOW *edit_window;
+struct line *data;
 
 int main(){
 
   setup();
+  
+  data = NULL;
+  data = readFile("./test.txt", data);
+  
+  /*endwin();
+  print_list(data);
+  err(-1, "you're bad");*/
+  
+  struct line *list = data;
+  int i = 0;
+  while(list != NULL) {
+    wmove(edit_window, i, 0);
+    wprintw(edit_window, "[%d]", list->line_num);
+    wprintw(edit_window, "%s", list->str);
+    list = list->next;
+    i++;
+    wrefresh(edit_window);
+  }
 
   int ch;
 
