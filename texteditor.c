@@ -26,7 +26,7 @@ struct line * readFile(char* filepath, struct line * document){
         document = insert_line(document, s, counter);
         counter++;
     }
-    close(fp);
+    fclose(fp);
     return document;
 }
 
@@ -65,4 +65,9 @@ void print_list(struct line* list) {
         list = list->next;
         i++;
     }
+}
+
+void save_file(char * filepath, struct * line document){
+    struct line* doc = document;
+    FILE * fp = fopen(filepath, "w+");
 }

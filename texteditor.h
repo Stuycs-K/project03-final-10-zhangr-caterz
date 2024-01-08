@@ -15,9 +15,9 @@
 
 struct line{
     char str[LINE_SIZE+1]; //line itself
-    struct line* previous;
-    struct line* next;
-    int line_num; 
+    struct line* previous; //previous line, first line has this equal to NULL
+    struct line* next; //next line, last line has this equal to NULL
+    int line_num; //line number starting with 1
 };
 int err();
 struct line* readFile(char* filepath, struct line * document);
