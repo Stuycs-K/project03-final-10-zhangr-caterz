@@ -1,7 +1,9 @@
 #include "texteditor.h"
 
 int main(){
-    readFile("./test.txt");
+    struct line * first = malloc(sizeof(struct line));
+    readFile("./test.txt", first);
+
 }
 
 int err(){
@@ -12,6 +14,7 @@ int err(){
 
 //params: filepath is path of the file, current is current node (when passing in pass first node in)
 int readFile(char* filepath, struct line * first){
+    struct line * previous = malloc(sizeof(struct line));
     struct line * current = malloc(sizeof(struct line));
     struct line * after = malloc(sizeof(struct line));
     int counter = 1;
@@ -22,32 +25,17 @@ int readFile(char* filepath, struct line * first){
     }
     while(fgets(str, 256, fp) != NULL){
         strcpy(current->str, s);
+        if (counter != 1){
+            current->previous = NULL;
+        }
         current->next = after;
         current->line_num = counter;
+        counter++;
+        previous = current;
+        current = after;
+        after = malloc(sizeof(struct line));
     }
-
-
-    if (f < 0){
-        err();
-    }
-
-    char text[LINE_SIZE+1];
-    text[LINE_SIZE] = 0;
-    int bytes;
-    char textchecker[2];
-    // while (bytes > 0){ //not necessarily 256 bytes in a line
-    //     bytes = read(f, textchecker, 1);
-    //     if (bytes <= 0){
-    //         endOfFile = 0;
-    //     }
-    //     if (strcmp(textchecker,"\n") == 0){ //if hit newline   
-    //         //goes to new line, refresh memory on structs from music library
-    //         current = current->next;
-    //     }
-    //     else{
-    //         strcat(text, textchecker);
-    //     }
-    // }
-    return 0;
 }
+
+
 
