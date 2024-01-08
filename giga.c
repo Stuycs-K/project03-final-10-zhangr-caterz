@@ -10,6 +10,7 @@ struct editor_status E;
 WINDOW *info_window;
 WINDOW *help_window;
 WINDOW *edit_window;
+WINDOW *nums_window;
 struct line *data;
 
 int main(int argc, char *argv[]){
@@ -20,13 +21,8 @@ int main(int argc, char *argv[]){
   setup();
   
   struct line *list = data;
-  int i = 0;
-  while(list != NULL) {
-    wmove(edit_window, i, 0);
-    wprintw(edit_window, "[%d]", list->line_num);
-    wprintw(edit_window, "%s", list->str);
-    list = list->next;
-    i++;
+  for(int i=0; list; list = list->next) {
+    mvwprintw(edit_window, i++, 0, "%s", list->str);
   }
   updateCursor();
   wrefresh(edit_window);

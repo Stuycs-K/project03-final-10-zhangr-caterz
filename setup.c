@@ -22,14 +22,15 @@ void setup(){
   // create windows
   info_window = newwin(1, getmaxx(stdscr), 0, 0);
   help_window = newwin(1, getmaxx(stdscr), getmaxy(stdscr)-1, 0);
-  edit_window = newwin(getmaxy(stdscr)-2, getmaxx(stdscr), 1, 0);
+  edit_window = newwin(getmaxy(stdscr)-2, getmaxx(stdscr)-3, 1, 3);
+  nums_window = newwin(getmaxy(stdscr)-2, 3, 1, 0);
   refresh();
 
   // initialize color pairs
   init_pair(1, COLOR_BLACK, COLOR_WHITE);
   init_pair(2, COLOR_WHITE, COLOR_BLACK);
   init_pair(3, COLOR_WHITE, COLOR_BLACK);
-  //init_pair(4, COLOR_WHITE, COLOR_BLACK);
+  init_pair(4, COLOR_WHITE, COLOR_BLACK);
 
   // use config file to modify color pairs
   readConfig();
@@ -56,6 +57,12 @@ void setup(){
     mvwaddch(edit_window, i, 0, '~');
   }
 
+  // initialize nums window
+  wbkgd(nums_window, COLOR_PAIR(4));
+  for(int i=E.miny; i<E.maxy; i++){
+    mvwprintw(nums_window, i, 0, "%2d", i);
+  }
+
   // initialize cursor
   E.cx = E.minx;
   E.cy = E.miny;
@@ -64,6 +71,7 @@ void setup(){
   wrefresh(info_window);
   wrefresh(help_window);
   wrefresh(edit_window);
+  wrefresh(nums_window);
 
 }
 
