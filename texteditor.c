@@ -2,8 +2,8 @@
 
 int main(){
     struct line * document = NULL;
-    readFile("./test.txt", document);
-
+    document = readFile("./test.txt", document);
+    print_list(document);
     return 0;
 }
 
@@ -14,7 +14,7 @@ int err(){
 }
 
 //params: filepath is path of the file, current is current node (when passing in pass first node in)
-int readFile(char* filepath, struct line * document){
+struct line * readFile(char* filepath, struct line * document){
     // struct line * previous = malloc(sizeof(struct line));
     // struct line * current = malloc(sizeof(struct line));
     // struct line * after = malloc(sizeof(struct line));
@@ -25,9 +25,9 @@ int readFile(char* filepath, struct line * document){
     if(fp == NULL) {
         err();        
     }
-    
+
     while(fgets(s, 256, fp) != NULL){
-        insert_line(document, s, counter);
+        document = insert_line(document, s, counter);
         counter++;
         // if (counter != 1){
         //     current->previous = NULL;
@@ -39,7 +39,8 @@ int readFile(char* filepath, struct line * document){
         // current = after;
         // after = malloc(sizeof(struct line));
     }
-    return 0;
+
+    return document;
 }
 
 struct line* insert_line(struct line* list, char s[], int line_num) {
@@ -48,26 +49,34 @@ struct line* insert_line(struct line* list, char s[], int line_num) {
     node->next = NULL;
     node->line_num = line_num;
     node->previous = NULL;
-    strcpy(node->str, s);
-    if (list == NULL){
+    if (list == NULL){ //first line
         list = node;
         return list;
     }
+
     struct line * current = list;
-    struct line * previous;
-    for (int i = 1; i <= line_num; i++){
-        if (i = line_num - 1){
+
+    while(current->next != NULL){
+        current = current->next;
+        if(current->line_num == line_num - 1){
             node->previous = current;
         }
-        current = current->next;
     }
+
     if (current->next == NULL){
+        printf("tworks!");
         current->next = node;
         return list;
     }
-    node->next = current->next;
-    current->next = node;
     return list;
 }
 
-
+void print_list(struct line* list) {
+    int i = 0;
+    while(list != NULL) {
+        printf("[%d]", list->line_num);
+        printf("%s\n", list->str);
+        list = list->next;
+        i++;
+    }
+}

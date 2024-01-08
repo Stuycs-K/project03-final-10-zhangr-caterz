@@ -20,6 +20,8 @@ struct line{
     int line_num; 
 };
 int err();
-int readFile(char* filepath, struct line * document);
+struct line* readFile(char* filepath, struct line * document);
 struct line* insert_line(struct line* list, char s[], int line_num);
+void print_list(struct line* list);
+
 
