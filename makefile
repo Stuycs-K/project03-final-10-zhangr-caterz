@@ -1,5 +1,4 @@
 .PHONY: compile run clean
-
 run: giga
 	./giga
 
@@ -18,6 +17,14 @@ setup.o: setup.c setup.h giga.h
 util.o: util.c util.h
 	gcc -c util.c
 
+texteditor: texteditor.o
+	gcc -o texteditor texteditor.o
+
+texteditor.o: texteditor.c texteditor.h
+	gcc -c texteditor.c
+
 clean:
 	rm giga
-	rm *.o
+	rm texteditor
+
+
