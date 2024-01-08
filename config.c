@@ -19,6 +19,11 @@ void readConfig(){
     split(line, args);
 
     if(strcmp(args[0], "set")) continue;
+    if(1 || !strcmp(args[1], "infocolor")){
+      init_color(1, 256, 0, 0);
+      init_color(2, 0, 256, 0);
+      init_pair(1, 1, 2);
+    }
     wprintw(edit_window, "[%s]", args[1]);
     wrefresh(edit_window);
   }

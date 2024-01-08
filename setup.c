@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include "giga.h"
 #include <stdlib.h> // atexit
+#include "config.h"
 #include "setup.h"
 
 void reset();
@@ -11,6 +12,7 @@ void setup(){
 
   // input setup
   initscr();
+  start_color();
   raw();
   keypad(stdscr, TRUE);
   noecho();
@@ -21,16 +23,27 @@ void setup(){
   info_window = newwin(1, getmaxx(stdscr)-1, 0, 0);
   help_window = newwin(1, getmaxx(stdscr), getmaxy(stdscr)-1, 0);
   edit_window = newwin(getmaxy(stdscr)-2, getmaxx(stdscr)-1, 1, 0);
+  refresh();
+
+  // initialize color pairs
+  init_pair(1, COLOR_BLACK, COLOR_WHITE);
+  init_pair(2, COLOR_WHITE, COLOR_BLACK);
+  init_pair(3, COLOR_WHITE, COLOR_BLACK);
+  //init_pair(4, COLOR_WHITE, COLOR_BLACK);
+
+  // use config file to modify color pairs
+  readConfig();
 
   // initialize editor status
   E.miny = 0; E.minx = 0;
   getmaxyx(edit_window, E.maxy, E.maxx);
 
   // initialize info window
+  wbkgd(info_window, COLOR_PAIR(1));
   wprintw(info_window, "NOT_A_FILE.txt");
-  mvwchgat(info_window, 0, 0, -1, A_STANDOUT, 0, NULL);
 
   // initialize help window
+  wbkgd(help_window, COLOR_PAIR(2));
   alternate(help_window, A_STANDOUT, "^Q", " quit");
   wmove(help_window, 0, 10);
   alternate(help_window, A_STANDOUT, "^W", " write");
@@ -38,6 +51,7 @@ void setup(){
   alternate(help_window, A_STANDOUT, "^R", " reset");
 
   // initialize edit window
+  wbkgd(edit_window, COLOR_PAIR(3));
   for(int i=E.miny; i<E.maxy; i++){
     mvwaddch(edit_window, i, 0, '~');
   }
@@ -47,10 +61,10 @@ void setup(){
   E.cy = E.miny;
   wmove(edit_window, E.cy, E.cx);
 
-  refresh();  
   wrefresh(info_window);
   wrefresh(help_window);
   wrefresh(edit_window);
+
 }
 
 
