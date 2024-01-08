@@ -15,10 +15,6 @@ int err(){
 
 //params: filepath is path of the file, current is current node (when passing in pass first node in)
 struct line * readFile(char* filepath, struct line * document){
-    // struct line * previous = malloc(sizeof(struct line));
-    // struct line * current = malloc(sizeof(struct line));
-    // struct line * after = malloc(sizeof(struct line));
-    // current = first;
     int counter = 1;
     char s[LINE_SIZE+1];
     FILE* fp = fopen(filepath,"r");
@@ -29,15 +25,6 @@ struct line * readFile(char* filepath, struct line * document){
     while(fgets(s, 256, fp) != NULL){
         document = insert_line(document, s, counter);
         counter++;
-        // if (counter != 1){
-        //     current->previous = NULL;
-        // }
-        // current->next = after;
-        // current->line_num = counter;
-        // counter++;
-        // previous = current;
-        // current = after;
-        // after = malloc(sizeof(struct line));
     }
 
     return document;
