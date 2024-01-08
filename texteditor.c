@@ -1,43 +1,11 @@
 #include "texteditor.h"
 
-/*int main(){
-    struct line * document = NULL;
-    document = readFile("./test.txt", document);
-    print_list(document);
-    return 0;
-}*/
-
-int errR(){
-    printf("errno %d\n",errno);
-    printf("%s\n",strerror(errno));
-    exit(1);
-}
-
 void removeCR(char *str){
   int i=0;
   while(str[i]){
     if(str[i]=='\r' || str[i]=='\n') str[i] = '\0';
     i++;
   }
-}
-
-
-//params: filepath is path of the file, current is current node (when passing in pass first node in)
-struct line * readFile(char* filepath, struct line * document){
-    int counter = 1;
-    char s[LINE_SIZE+1];
-    FILE* fp = fopen(filepath,"r");
-    if(fp == NULL) {
-        errR();        
-    }
-
-    while(fgets(s, 256, fp) != NULL){
-        removeCR(s);
-        document = insert_line(document, s, counter);
-        counter++;
-    }
-    close(fp);
-    return document;
 }
 
 struct line* insert_line(struct line* list, char s[], int line_num) {
@@ -67,12 +35,20 @@ struct line* insert_line(struct line* list, char s[], int line_num) {
     return list;
 }
 
-void print_list(struct line* list) {
-    int i = 0;
-    while(list != NULL) {
-        printf("[%d]", list->line_num);
-        printf("%s\n", list->str);
-        list = list->next;
-        i++;
+//params: filepath is path of the file, current is current node (when passing in pass first node in)
+struct line * readFile(char* filepath, struct line * document){
+    int counter = 1;
+    char s[LINE_SIZE+1];
+    FILE* fp = fopen(filepath,"r");
+    if(fp == NULL) {
+        err(-1, "error reading file");        
     }
+
+    while(fgets(s, 256, fp) != NULL){
+        removeCR(s);
+        document = insert_line(document, s, counter);
+        counter++;
+    }
+    fclose(fp);
+    return document;
 }
