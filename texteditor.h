@@ -11,10 +11,12 @@
 #include <sys/socket.h> 
 #include <netdb.h>
 
+#define LINE_SIZE 256
 int err();
 int readFile(char* filepath);
 struct line{
-    char str[256]; //line itself
+    char str[LINE_SIZE+1]; //line itself
     struct line* previous;
     struct line* next;
+    int line_num; 
 };
