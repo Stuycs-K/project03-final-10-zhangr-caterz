@@ -17,7 +17,7 @@ void setup(){
   keypad(stdscr, TRUE);
   noecho();
   nonl();
-  curs_set(1);
+  curs_set(2);
 
   // create windows
   info_window = newwin(1, getmaxx(stdscr)-1, 0, 0);
