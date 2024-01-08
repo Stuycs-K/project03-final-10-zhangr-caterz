@@ -36,7 +36,7 @@ struct line * readFile(char* filepath, struct line * document){
         document = insert_line(document, s, counter);
         counter++;
     }
-
+    close(fp);
     return document;
 }
 
