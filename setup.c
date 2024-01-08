@@ -20,9 +20,9 @@ void setup(){
   curs_set(2);
 
   // create windows
-  info_window = newwin(1, getmaxx(stdscr)-1, 0, 0);
+  info_window = newwin(1, getmaxx(stdscr), 0, 0);
   help_window = newwin(1, getmaxx(stdscr), getmaxy(stdscr)-1, 0);
-  edit_window = newwin(getmaxy(stdscr)-2, getmaxx(stdscr)-1, 1, 0);
+  edit_window = newwin(getmaxy(stdscr)-2, getmaxx(stdscr), 1, 0);
   refresh();
 
   // initialize color pairs
@@ -40,7 +40,7 @@ void setup(){
 
   // initialize info window
   wbkgd(info_window, COLOR_PAIR(1));
-  wprintw(info_window, "NOT_A_FILE.txt");
+  wprintw(info_window, "%s", E.path);
 
   // initialize help window
   wbkgd(help_window, COLOR_PAIR(2));

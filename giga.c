@@ -12,11 +12,12 @@ WINDOW *help_window;
 WINDOW *edit_window;
 struct line *data;
 
-int main(){
+int main(int argc, char *argv[]){
 
-  setup();
+  E.path = argc>1 ? argv[1] : "./data/test.txt";
+  data = readFile(E.path, NULL);
   
-  data = readFile("./data/test.txt", NULL);
+  setup();
   
   struct line *list = data;
   int i = 0;

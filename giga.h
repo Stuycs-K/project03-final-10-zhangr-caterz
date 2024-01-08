@@ -4,6 +4,7 @@
 struct editor_status{
   int maxx, maxy, minx, miny;
   int cx, cy;
+  char* path;
 };
 
 extern struct editor_status E;
