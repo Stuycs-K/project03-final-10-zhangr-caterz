@@ -17,11 +17,11 @@ short colname(char* str){
   return -1;
 }
 
-short pairname(char* str){
-  if(!strcmp(str, "infocolor")) return 1;
-  if(!strcmp(str, "helpcolor")) return 2;
-  if(!strcmp(str, "editcolor")) return 3;
-  if(!strcmp(str, "numscolor")) return 4;
+short elemname(char* str){
+  if(!strcmp(str, "info")) return 1;
+  if(!strcmp(str, "help")) return 2;
+  if(!strcmp(str, "edit")) return 3;
+  if(!strcmp(str, "nums")) return 4;
   return -1;
 }
 
@@ -39,9 +39,12 @@ void readConfig(){
     if(ptr) *ptr = '\0';
     split(line, args);
 
-    if(strcmp(args[0], "set")) continue;
-    if(pairname(args[1]) != -1){
-      init_pair(pairname(args[1]), colname(args[2]), colname(args[3]));
+    if(!strcmp(args[0], "set")){
+      if(!strcmp(args[1], "color")){
+        if(elemname(args[2]) != -1){
+          init_pair(elemname(args[2]), colname(args[3]), colname(args[4]));
+        }
+      }
     }
   }
 
