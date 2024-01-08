@@ -27,3 +27,6 @@ Wrote proposal (2 hours)
 
 ### 2024-01-04 - Reading from file
 Spent programming reading from file line by line, only got 1 line working. (45 min including class time)
+
+### 2024-01-05 to 2024-01-07 - Reading from file
+Finished implementing file reading with line numbers, through the use of double linked lists (3 hours total)
