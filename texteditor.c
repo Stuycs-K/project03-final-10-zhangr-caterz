@@ -51,7 +51,6 @@ struct line* insert_line(struct line* list, char s[], int line_num) {
     }
 
     if (current->next == NULL){
-        printf("tworks!");
         current->next = node;
         return list;
     }
