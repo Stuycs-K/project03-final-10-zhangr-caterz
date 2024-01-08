@@ -1,11 +1,12 @@
 .PHONY: compile run clean
+
 run: giga
 	./giga
 
-compile giga: giga.o cursor.o setup.o config.o util.o texteditor.o
-	gcc -o giga giga.o cursor.o setup.o config.o util.o texteditor.o -lncurses
+compile giga: giga.o cursor.o setup.o config.o util.o read.o
+	gcc -o giga giga.o cursor.o setup.o config.o util.o read.o -lncurses
 
-giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h texteditor.c texteditor.h
+giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h read.c read.h
 	gcc -c giga.c
 
 cursor.o: cursor.c cursor.h giga.c giga.h util.c util.h
@@ -20,14 +21,9 @@ config.o: config.c config.h giga.c giga.h util.c util.h
 util.o: util.c util.h
 	gcc -c util.c
 
-texteditor: texteditor.o
-	gcc -o texteditor texteditor.o
-
-texteditor.o: texteditor.c texteditor.h
-	gcc -c texteditor.c
+read.o: read.c read.h util.c util.h
+	gcc -c read.c
 
 clean:
 	rm giga
-	rm texteditor
-
-
+	rm *.o

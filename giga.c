@@ -3,7 +3,7 @@
 #include <ctype.h> // isprint
 #include "setup.h" // setup
 #include "cursor.h" // moveCursor, updateCursor
-#include "texteditor.h" // readFile
+#include "read.h" // readFile
 #include "util.h" // err
 
 struct editor_status E;
@@ -16,12 +16,7 @@ int main(){
 
   setup();
   
-  data = NULL;
-  data = readFile("./test.txt", data);
-  
-  /*endwin();
-  print_list(data);
-  err(-1, "you're bad");*/
+  data = readFile("./data/test.txt", NULL);
   
   struct line *list = data;
   int i = 0;
@@ -31,8 +26,9 @@ int main(){
     wprintw(edit_window, "%s", list->str);
     list = list->next;
     i++;
-    wrefresh(edit_window);
   }
+  updateCursor();
+  wrefresh(edit_window);
 
   int ch;
 

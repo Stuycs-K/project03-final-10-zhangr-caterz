@@ -1,8 +1,3 @@
-#include <stdio.h> // fopen, fgets
-#include <stdlib.h> // malloc
-#include <string.h> // strcpy
-#include "util.h" // err
-
 #ifndef READ_H
 #define READ_H
 #define LINE_SIZE 256

@@ -1,11 +1,12 @@
-#include "texteditor.h"
+#include <stdio.h> // fopen, fgets
+#include <stdlib.h> // malloc
+#include <string.h> // strcpy
+#include "util.h" // err
+#include "read.h"
 
 void removeCR(char *str){
-  int i=0;
-  while(str[i]){
-    if(str[i]=='\r' || str[i]=='\n') str[i] = '\0';
-    i++;
-  }
+  while(*str && *str!='\r' && *str++!='\n');
+  *str = '\0';
 }
 
 struct line* insert_line(struct line* list, char s[], int line_num) {
