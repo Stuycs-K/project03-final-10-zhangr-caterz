@@ -2,15 +2,14 @@
 #include "giga.h"
 #include <stdlib.h> // atexit
 #include "config.h"
+#include "read.h" // readFile
 #include "setup.h"
 
 void reset();
 void alternate(WINDOW* win, attr_t attr, char* special, char* normal);
 
 void setup(){
-  atexit(reset);
-
-  // input setup
+  // initialize ncurses
   initscr();
   start_color();
   raw();
@@ -18,6 +17,7 @@ void setup(){
   noecho();
   nonl();
   curs_set(2);
+  atexit(reset);
 
   // create windows
   info_window = newwin(1, getmaxx(stdscr), 0, 0);
@@ -28,12 +28,12 @@ void setup(){
 
   // initialize color pairs
   init_pair(1, COLOR_BLACK, COLOR_WHITE);
-  wbkgd(info_window, COLOR_PAIR(1));
   init_pair(2, COLOR_WHITE, COLOR_BLACK);
-  wbkgd(help_window, COLOR_PAIR(2));
   init_pair(3, COLOR_WHITE, COLOR_BLACK);
-  wbkgd(edit_window, COLOR_PAIR(3));
   init_pair(4, COLOR_WHITE, COLOR_BLACK);
+  wbkgd(info_window, COLOR_PAIR(1));
+  wbkgd(help_window, COLOR_PAIR(2));
+  wbkgd(edit_window, COLOR_PAIR(3));
   wbkgd(nums_window, COLOR_PAIR(4));
 
   // use config file to modify color pairs
@@ -42,6 +42,8 @@ void setup(){
   // initialize editor status
   E.miny = 0; E.minx = 0;
   getmaxyx(edit_window, E.maxy, E.maxx);
+  E.data = readFile(E.path, NULL);
+  E.curr_line = E.data;
 
   // initialize info window
   wprintw(info_window, "%s", E.path);
@@ -55,9 +57,9 @@ void setup(){
 
   // initialize nums and edit windows
   int i=0;
-  for(struct line *list = data; list; list = list->next) {
+  for(struct line *node = E.data; node; node = node->next) {
     mvwprintw(nums_window, i+E.miny, 0, "%2d", i);
-    mvwprintw(edit_window, i++, 0, "%s", list->str);
+    mvwprintw(edit_window, i++, 0, "%s", node->str);
   }
   while(i+E.miny<E.maxy){
     mvwprintw(nums_window, i+E.miny, 0, "~");

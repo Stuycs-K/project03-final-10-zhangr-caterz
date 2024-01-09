@@ -9,6 +9,7 @@ struct editor_status{
   int cx_real; // actual cursor x-coordinate
   int cy_old; // previous cursor row (used to calculate new current line)
   char* path;
+  struct line* data;
   struct line* curr_line;
 };
 
@@ -25,6 +26,5 @@ extern WINDOW *info_window;
 extern WINDOW *help_window;
 extern WINDOW *edit_window;
 extern WINDOW *nums_window;
-extern struct line *data;
 
 #endif
