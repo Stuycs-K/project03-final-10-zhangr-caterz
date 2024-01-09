@@ -35,3 +35,6 @@ Spent programming reading from file line by line, only got 1 line working. (45 m
 
 ### 2024-01-05 to 2024-01-07 - Reading from file
 Finished implementing file reading with line numbers, through the use of double linked lists (3 hours total)
+
+### 2024-01-08 - Saving to file pt. 1
+Wrote savefile (30 min), tried to debug not printing lines correctly but to no avail (30 min)
