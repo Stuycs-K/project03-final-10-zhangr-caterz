@@ -21,7 +21,7 @@ config.o: config.c config.h giga.c giga.h util.c util.h
 util.o: util.c util.h
 	gcc -c util.c
 
-read.o: read.c read.h util.c util.h
+read.o: read.c read.h giga.c giga.h util.c util.h
 	gcc -c read.c
 
 clean:

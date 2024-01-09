@@ -17,12 +17,13 @@ int main(int argc, char *argv[]){
 
   E.path = argc>1 ? argv[1] : "./data/test.txt";
   data = readFile(E.path, NULL);
+  E.curr_line = data;
   
   setup();
   
   struct line *list = data;
   for(int i=0; list; list = list->next) {
-    mvwprintw(edit_window, i++, 0, "%s ", list->str);
+    mvwprintw(edit_window, i++, 0, "%s", list->str);
   }
   updateCursor();
   wrefresh(edit_window);
