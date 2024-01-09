@@ -25,6 +25,9 @@ Integrated Raymond's file-reading code with the display (1 hour)
 Files can now be opened by passing them as a command-line argument (15 minutes)
 Added row numbers and improved config file (30 minutes)
 
+### 2024-01-09 - better cursor behavior
+The cursor can no longer freely move and instead follows a vi-esque movement style (30 minutes)
+
 ## Raymond Zhang
 
 ### 2024-01-03 - Wrote proposal
