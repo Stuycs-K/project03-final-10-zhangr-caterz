@@ -9,9 +9,13 @@ struct editor_status E;
 WINDOW *info_window;
 WINDOW *help_window;
 WINDOW *edit_window;
+WINDOW *nums_window;
+struct line *data;
 
-int main(){
+int main(int argc, char *argv[]){
 
+  E.path = argc>1 ? argv[1] : "data/test.txt";
+  
   setup();
 
   int ch;

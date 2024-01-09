@@ -9,15 +9,16 @@
 // make end smarter
 // re-evaluate use of page up and page down
 void moveCursor(int ch){
+  E.cy_old = E.cy;
   switch(ch){
     case KEY_UP:
       E.cy--; break;
     case KEY_DOWN:
       E.cy++; break;
     case KEY_LEFT:
-      E.cx--; break;
+      E.cx = E.cx_real - 1; break;
     case KEY_RIGHT:
-      E.cx++; break;
+      E.cx = E.cx_real + 1; break;
     case KEY_HOME:
       E.cx = E.minx; break;
     case KEY_END:
@@ -34,9 +35,21 @@ void moveCursor(int ch){
 }
 
 // ensures cursor is in valid position and moves it
+// improve this. a lot.
+// minor bug: hitting right arrow at the end of a line will move the desired cursor position, which is annoying when moving vertically (can either go straight or shift right)
 void updateCursor(){
-  E.cx = clamp(E.cx, E.minx, E.maxx-1);
-  E.cy = clamp(E.cy, E.miny, E.maxy-1);
-  wmove(edit_window, E.cy, E.cx);
+  while(E.cy_old < E.cy){
+    if(!E.curr_line->next) {E.cy = E.cy_old; break;}
+    E.curr_line = E.curr_line->next;
+    E.cy_old++;
+  }
+  while(E.cy_old > E.cy){
+    if(!E.curr_line->previous) {E.cy = E.cy_old; break;}
+    E.curr_line = E.curr_line->previous;
+    E.cy_old--;
+  }
+  E.cx = MAX(E.cx, E.minx);
+  E.cx_real = MIN(E.cx, E.curr_line->line_len);
+  wmove(edit_window, E.cy, E.cx_real);
 }
 

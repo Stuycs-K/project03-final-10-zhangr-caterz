@@ -24,3 +24,8 @@ int clamp(int x, int min, int max){
 void split(char* str, char** args){
   while(*args++ = strsep(&str, " "));
 }
+
+void remove_crlf(char *str){
+  while(*str && *str!='\r' && *str!='\n') str++;
+  *str = '\0';
+}
