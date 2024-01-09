@@ -53,16 +53,17 @@ void setup(){
   wmove(help_window, 0, 20);
   alternate(help_window, A_STANDOUT, "^R", " reset");
 
-  // initialize edit window
-  for(int i=E.miny; i<E.maxy; i++){
-    mvwaddch(edit_window, i, 0, '~');
+  // initialize nums and edit windows
+  int i=0;
+  for(struct line *list = data; list; list = list->next) {
+    mvwprintw(nums_window, i+E.miny, 0, "%2d", i);
+    mvwprintw(edit_window, i++, 0, "%s", list->str);
   }
-
-  // initialize nums window
-  for(int i=E.miny; i<E.maxy; i++){
-    mvwprintw(nums_window, i, 0, "%2d", i);
+  while(i+E.miny<E.maxy){
+    mvwprintw(nums_window, i+E.miny, 0, "~");
+    i++;
   }
-
+  
   // initialize cursor
   E.cx = E.minx;
   E.cy = E.miny;
