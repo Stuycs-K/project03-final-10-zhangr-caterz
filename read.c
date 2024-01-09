@@ -1,6 +1,8 @@
+#include <ncurses.h>
+#include "giga.h" // struct line
 #include <stdio.h> // fopen, fgets
 #include <stdlib.h> // malloc
-#include <string.h> // strcpy
+#include <string.h> // strcpy, strlen
 #include "util.h" // err, remove_crlf
 #include "read.h"
 
@@ -10,6 +12,7 @@ struct line* insert_line(struct line* list, char s[], int line_num) {
     node->next = NULL;
     node->line_num = line_num;
     node->previous = NULL;
+    node->line_len = strlen(s);
     if (list == NULL){ //first line
         list = node;
         return list;
@@ -19,10 +22,12 @@ struct line* insert_line(struct line* list, char s[], int line_num) {
 
     while(current->next != NULL){
         current = current->next;
-        if(current->line_num == line_num - 1){
-            node->previous = current;
-        }
     }
+
+    if(current->line_num == line_num - 1){
+        node->previous = current;
+    }
+    
 
     if (current->next == NULL){
         current->next = node;

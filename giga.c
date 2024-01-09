@@ -3,7 +3,6 @@
 #include <ctype.h> // isprint
 #include "setup.h" // setup
 #include "cursor.h" // moveCursor, updateCursor
-#include "read.h" // readFile
 #include "util.h" // err
 
 struct editor_status E;
@@ -15,17 +14,9 @@ struct line *data;
 
 int main(int argc, char *argv[]){
 
-  E.path = argc>1 ? argv[1] : "./data/test.txt";
-  data = readFile(E.path, NULL);
+  E.path = argc>1 ? argv[1] : "data/test.txt";
   
   setup();
-  
-  struct line *list = data;
-  for(int i=0; list; list = list->next) {
-    mvwprintw(edit_window, i++, 0, "%s ", list->str);
-  }
-  updateCursor();
-  wrefresh(edit_window);
 
   int ch;
 
