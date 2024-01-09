@@ -67,7 +67,10 @@ void print_list(struct line* list) {
     }
 }
 
-void save_file(char * filepath, struct * line document){
+void save_file(char * filepath, struct * line list){
     struct line* doc = document;
     FILE * fp = fopen(filepath, "w+");
+    while (list != NULL){
+        fwrite()
+    }
 }
