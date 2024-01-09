@@ -20,6 +20,11 @@ Split program into multiple files and entirely refactored code (2 hours)
 Added more key functionality and rewrote code (45 min)
 Implemented half a config file (4 hours)
 
+### 2024-01-08 - integration and file-opening
+Integrated Raymond's file-reading code with the display (1 hour)
+Files can now be opened by passing them as a command-line argument (15 minutes)
+Added row numbers and improved config file (30 minutes)
+
 ## Raymond Zhang
 
 ### 2024-01-03 - Wrote proposal
