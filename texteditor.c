@@ -4,6 +4,7 @@ int main(){
     struct line * document = NULL;
     document = readFile("./test.txt", document);
     print_list(document);
+    save_file("./newfile.txt", document);
     return 0;
 }
 
@@ -22,7 +23,7 @@ struct line * readFile(char* filepath, struct line * document){
         err();        
     }
 
-    while(fgets(s, 256, fp) != NULL){
+    while(fgets(s, LINE_SIZE, fp) != NULL){
         document = insert_line(document, s, counter);
         counter++;
     }
@@ -67,10 +68,20 @@ void print_list(struct line* list) {
     }
 }
 
-void save_file(char * filepath, struct * line list){
-    struct line* doc = document;
+void save_file(char * filepath, struct line * list){
+    struct line* doc = list;
     FILE * fp = fopen(filepath, "w+");
+    char* counter = malloc(LINE_SIZE); //format [#]
+    int count;
+    char countbuffer[20];
     while (list != NULL){
-        fwrite()
+        sprintf(countbuffer, "%d", count);
+        strcat(counter, "[");
+        strcat(counter, countbuffer);
+        strcat(counter, "]");
+        count++;
+        fwrite(doc->str, 1, sizeof(doc->str), fp);
+        fwrite("\n", 1, 1, fp);
+        list = list->next;
     }
 }
