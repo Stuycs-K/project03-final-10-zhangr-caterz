@@ -28,9 +28,13 @@ void setup(){
 
   // initialize color pairs
   init_pair(1, COLOR_BLACK, COLOR_WHITE);
+  wbkgd(info_window, COLOR_PAIR(1));
   init_pair(2, COLOR_WHITE, COLOR_BLACK);
+  wbkgd(help_window, COLOR_PAIR(2));
   init_pair(3, COLOR_WHITE, COLOR_BLACK);
+  wbkgd(edit_window, COLOR_PAIR(3));
   init_pair(4, COLOR_WHITE, COLOR_BLACK);
+  wbkgd(nums_window, COLOR_PAIR(4));
 
   // use config file to modify color pairs
   readConfig();
@@ -40,11 +44,9 @@ void setup(){
   getmaxyx(edit_window, E.maxy, E.maxx);
 
   // initialize info window
-  wbkgd(info_window, COLOR_PAIR(1));
   wprintw(info_window, "%s", E.path);
 
   // initialize help window
-  wbkgd(help_window, COLOR_PAIR(2));
   alternate(help_window, A_STANDOUT, "^Q", " quit");
   wmove(help_window, 0, 10);
   alternate(help_window, A_STANDOUT, "^W", " write");
@@ -52,13 +54,11 @@ void setup(){
   alternate(help_window, A_STANDOUT, "^R", " reset");
 
   // initialize edit window
-  wbkgd(edit_window, COLOR_PAIR(3));
   for(int i=E.miny; i<E.maxy; i++){
     mvwaddch(edit_window, i, 0, '~');
   }
 
   // initialize nums window
-  wbkgd(nums_window, COLOR_PAIR(4));
   for(int i=E.miny; i<E.maxy; i++){
     mvwprintw(nums_window, i, 0, "%2d", i);
   }

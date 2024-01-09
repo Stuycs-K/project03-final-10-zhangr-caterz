@@ -1,13 +1,8 @@
 #include <stdio.h> // fopen, fgets
 #include <stdlib.h> // malloc
 #include <string.h> // strcpy
-#include "util.h" // err
+#include "util.h" // err, remove_crlf
 #include "read.h"
-
-void removeCR(char *str){
-  while(*str && *str!='\r' && *str++!='\n');
-  *str = '\0';
-}
 
 struct line* insert_line(struct line* list, char s[], int line_num) {
     struct line* node = malloc(sizeof(struct line));
@@ -46,7 +41,7 @@ struct line * readFile(char* filepath, struct line * document){
     }
 
     while(fgets(s, 256, fp) != NULL){
-        removeCR(s);
+        remove_crlf(s);
         document = insert_line(document, s, counter);
         counter++;
     }

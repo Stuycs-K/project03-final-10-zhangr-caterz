@@ -6,5 +6,6 @@
 int err(int i, char* msg);
 int clamp(int x, int min, int max);
 void split(char* str, char** args);
+void remove_crlf(char *str);
 
 #endif
