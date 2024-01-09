@@ -22,7 +22,7 @@ int main(int argc, char *argv[]){
   
   struct line *list = data;
   for(int i=0; list; list = list->next) {
-    mvwprintw(edit_window, i++, 0, "%s", list->str);
+    mvwprintw(edit_window, i++, 0, "%s ", list->str);
   }
   updateCursor();
   wrefresh(edit_window);
