@@ -10,7 +10,6 @@ WINDOW *info_window;
 WINDOW *help_window;
 WINDOW *edit_window;
 WINDOW *nums_window;
-struct line *data;
 
 int main(int argc, char *argv[]){
 
