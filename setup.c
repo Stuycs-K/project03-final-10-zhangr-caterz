@@ -75,8 +75,8 @@ void setup(){
 
   wrefresh(info_window);
   wrefresh(help_window);
-  wrefresh(edit_window);
   wrefresh(nums_window);
+  wrefresh(edit_window);
 
 }
 
