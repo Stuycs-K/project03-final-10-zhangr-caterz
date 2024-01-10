@@ -75,3 +75,4 @@ struct line* free_doc(struct line * list){
     }
     return NULL;
 }
+
