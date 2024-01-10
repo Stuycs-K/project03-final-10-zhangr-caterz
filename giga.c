@@ -4,13 +4,13 @@
 #include "setup.h" // setup
 #include "cursor.h" // moveCursor, updateCursor
 #include "util.h" // err
+#include "read.h" //save_file
 
 struct editor_status E;
 WINDOW *info_window;
 WINDOW *help_window;
 WINDOW *edit_window;
 WINDOW *nums_window;
-struct line *data;
 
 int main(int argc, char *argv[]){
 
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
   while(1){
     ch = getch();
     if(ch==KEY_CTRL('q')) break;
-    if(ch==KEY_CTRL('w')) mvwprintw(help_window, 0, 60, "can't write, sorry");
+    if(ch==KEY_CTRL('w')) save_file("data/tempfile.txt", E.data);
     if(ch==KEY_CTRL('r')) mvwprintw(help_window, 0, 60, "can't reset, sorry");
 
     mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
