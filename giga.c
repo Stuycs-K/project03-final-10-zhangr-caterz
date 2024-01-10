@@ -14,7 +14,7 @@ WINDOW *nums_window;
 
 int main(int argc, char *argv[]){
 
-  E.path = argc>1 ? argv[1] : "data/test.txt";
+  E.path = argc>1 ? argv[1] : "data/tempfile.txt";
   
   setup();
 
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
   while(1){
     ch = getch();
     if(ch==KEY_CTRL('q')) break;
-    if(ch==KEY_CTRL('w')) save_file("data/tempfile.txt", E.data);
+    if(ch==KEY_CTRL('w')) save_file("./data/output.txt", E.data);
     if(ch==KEY_CTRL('r')) mvwprintw(help_window, 0, 60, "can't reset, sorry");
 
     mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
@@ -32,6 +32,7 @@ int main(int argc, char *argv[]){
     moveCursor(ch);
     if(isprint(ch)) {
       wprintw(edit_window, "%c", ch);
+      (E.curr_line->str)[E.cx_real] = ch;
       E.cx++;
     }
     updateCursor();

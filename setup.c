@@ -43,7 +43,6 @@ void setup(){
   E.miny = 0; E.minx = 0;
   getmaxyx(edit_window, E.maxy, E.maxx);
   E.data = readFile(E.path, NULL);
-  save_file("testing.txt",E.data);
   E.curr_line = E.data;
 
   // initialize info window
