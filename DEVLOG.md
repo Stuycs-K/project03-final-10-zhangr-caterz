@@ -42,5 +42,5 @@ Finished implementing file reading with line numbers, through the use of double 
 ### 2024-01-08 - Saving to file pt. 1
 Wrote savefile (30 min), tried to debug not printing lines correctly but to no avail (30 min)
 
-### 2024-01-09 - Saving to file pt. 2
-Took a while debugging savefile and fixing ncurses issues (40 minutes), freedoc function (15 min)
+### 2024-01-09 - Saving to file pt. 2, Saving file
+Took a while debugging savefile and fixing ncurses issues (40 minutes), freedoc function (15 min), freedoc implementation (10 min)
