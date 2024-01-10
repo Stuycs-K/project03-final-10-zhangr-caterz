@@ -60,6 +60,7 @@ void save_file(char * filepath, struct line * list){
     FILE * fp = fopen(filepath, "w");
     while (doc != NULL){
         fwrite(doc->str, 1, sizeof(doc->str), fp);
+        fwrite("\n",1,1,fp);
         doc = doc->next;
     }
 }

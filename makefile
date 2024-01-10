@@ -4,7 +4,7 @@ run: giga
 	./giga
 
 compile giga: giga.o cursor.o setup.o config.o util.o read.o
-	gcc -o giga giga.o cursor.o setup.o config.o util.o read.o -lncurses
+	gcc -o giga giga.o cursor.o setup.o config.o util.o read.o -lncursesw
 
 giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h read.c read.h
 	gcc -c giga.c
