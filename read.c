@@ -65,3 +65,13 @@ void save_file(char * filepath, struct line * list){
     }
     fclose(fp);
 }
+
+struct line* free_doc(struct line * list){
+    struct line* temp;
+    while(list != NULL){
+        temp = list->next;
+        free(list);
+        list = temp;
+    }
+    return NULL;
+}
