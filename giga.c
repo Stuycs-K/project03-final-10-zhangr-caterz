@@ -23,11 +23,10 @@ int main(int argc, char *argv[]){
   while(1){
     ch = getch();
     if(ch==KEY_CTRL('q')){
-      free_doc(E.data);
       break;
     }
     if(ch==KEY_CTRL('w')) save_file("./data/output.txt", E.data);
-    if(ch==KEY_CTRL('r')) mvwprintw(help_window, 0, 60, "can't reset, sorry");
+    if(ch==KEY_CTRL('r')) mvwprintw(help_window, 0, 60, "can't revert, sorry");
 
     mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
     wrefresh(help_window);

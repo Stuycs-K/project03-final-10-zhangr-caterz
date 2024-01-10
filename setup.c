@@ -80,12 +80,13 @@ void setup(){
 
 }
 
-
+//runs at very end of the program, when exited or returned
 void reset(){
   delwin(info_window);
   delwin(help_window);
   delwin(edit_window);
   endwin();
+  free_doc(E.data);
 }
 
 void alternate(WINDOW* win, attr_t attr, char* special, char* normal){
