@@ -44,3 +44,6 @@ Wrote savefile (30 min), tried to debug not printing lines correctly but to no a
 
 ### 2024-01-09 - Saving to file pt. 2, Saving file
 Took a while debugging savefile and fixing ncurses issues (40 minutes), freedoc function (15 min), freedoc implementation (10 min)
+
+### 2024-01-10 - Fixing spacing error, Moving code around to more reasonable areas
+Debugging spacing error (20 min), moving code (10 min)
