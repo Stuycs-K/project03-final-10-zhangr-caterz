@@ -1,7 +1,7 @@
 #ifndef GIGA_H
 #define GIGA_H
 
-#define LINE_SIZE 256
+#define LINE_SIZE 64
 
 struct editor_status{
   int maxx, maxy, minx, miny;
