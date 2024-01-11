@@ -3,7 +3,6 @@
 run: giga
 	./giga
 	@[ -f ./data/output.txt ] && cat ./data/output.txt || true
-	@rm -f ./data/output.txt
 
 compile giga: giga.o cursor.o setup.o config.o util.o read.o
 	gcc -o giga giga.o cursor.o setup.o config.o util.o read.o -lncursesw
