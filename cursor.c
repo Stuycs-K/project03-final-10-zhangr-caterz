@@ -2,6 +2,7 @@
 #include "giga.h"
 #include "util.h" // clamp
 #include "cursor.h"
+#include <string.h> // strlen
 
 // reads character from keyboard input and moves cursor
 // TODO: replace enter with line-breaking functionality
@@ -12,9 +13,11 @@ void moveCursor(int ch){
   E.cy_old = E.cy;
   switch(ch){
     case KEY_UP:
-      E.cy--; break;
+      if(E.curr_line->previous) E.cy -= strlen(E.curr_line->previous->str) / E.maxx + 1;
+      break;
     case KEY_DOWN:
-      E.cy++; break;
+      E.cy += strlen(E.curr_line->str) / E.maxx + 1;
+      break;
     case KEY_LEFT:
       E.cx = E.cx_real - 1; break;
     case KEY_RIGHT:
@@ -40,13 +43,13 @@ void moveCursor(int ch){
 void updateCursor(){
   while(E.cy_old < E.cy){
     if(!E.curr_line->next) {E.cy = E.cy_old; break;}
+    E.cy_old += strlen(E.curr_line->str) / E.maxx + 1;
     E.curr_line = E.curr_line->next;
-    E.cy_old++;
   }
   while(E.cy_old > E.cy){
     if(!E.curr_line->previous) {E.cy = E.cy_old; break;}
+    E.cy_old -= strlen(E.curr_line->previous->str) / E.maxx + 1;
     E.curr_line = E.curr_line->previous;
-    E.cy_old--;
   }
   E.cx = MAX(E.cx, E.minx);
   E.cx_real = MIN(E.cx, E.curr_line->line_len);
