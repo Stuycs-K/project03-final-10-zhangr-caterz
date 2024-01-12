@@ -46,7 +46,7 @@ struct line * readFile(char* filepath, struct line * document){
     }
 
 
-    while(fgets(s, 256, fp) != NULL){
+    while(fgets(s, LINE_SIZE, fp) != NULL){
         remove_crlf(s);
         document = insert_line(document, s, counter);
         counter++;
