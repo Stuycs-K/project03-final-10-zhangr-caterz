@@ -29,7 +29,7 @@ Added row numbers and improved config file (30 minutes)
 The cursor can no longer freely move and instead follows a vi-esque movement style (30 minutes)
 
 ### 2024-01-11 - wrote all of the insertion code
-Insertion now works like a regular text editor (20 minutes)
+Insertion now works like a regular text editor (20 minutes)  
 Insertion and deletion of lines works as expected (2.5 hours)
 
 
@@ -52,3 +52,6 @@ Took a while debugging savefile and fixing ncurses issues (40 minutes), freedoc 
 
 ### 2024-01-10 - Fixing spacing error, Moving code around to more reasonable areas
 Debugging spacing error (20 min), moving code (10 min)
+
+### 2024-01-11 - Extensive testing of text editor, preliminary select function written
+Testing (40 min), Select function (15 min)
