@@ -40,16 +40,32 @@ int main(int argc, char *argv[]){
       E.cx++;
       refresh_line();
     }
-    else if(ch==KEY_BACKSPACE){
-      del_char(E.curr_line->str, MAX(0, E.cx_real-1));
+    else if(ch==KEY_BACKSPACE && E.cx_real==E.minx && E.curr_line->previous){
+      E.curr_line = E.curr_line->previous;
+      E.cx_real = E.curr_line->line_len;
+      E.cx = E.cx_real;
+      del_lf(E.curr_line);
+      E.cy--; E.cy_old--;
+      refresh_all();
+    }
+    else if(ch==KEY_DC && E.cx_real==E.curr_line->line_len && E.curr_line->next){
+      E.cx = E.cx_real;
+      del_lf(E.curr_line);
+      refresh_all();
+    }
+    else if(ch==KEY_BACKSPACE && E.cx_real!=E.minx){
+      E.cx = E.cx_real-1;
+      del_char(E.curr_line->str, E.cx_real-1);
       refresh_line();
     }
-    else if(ch==KEY_DC){
+    else if(ch==KEY_DC && E.cx_real!=E.curr_line->line_len){
       del_char(E.curr_line->str, E.cx_real);
       refresh_line();
     }
     else if(ch==KEY_CTRL('m')){
+      E.cx = E.minx;
       ins_lf(E.curr_line, E.cx_real);
+      E.cy++;
       refresh_all();
     }
     updateCursor();

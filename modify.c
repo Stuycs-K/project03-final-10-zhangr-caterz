@@ -35,6 +35,14 @@ void del_char(char* str, int n){
   E.curr_line->line_len--;
 }
 
+void update_line_nums(struct line *node, int n){
+  while(node){
+    node->line_num = n;
+    node = node->next;
+    n++;
+  }
+}
+
 void ins_lf(struct line *node, int n){
   // copy remainding line into str2
   char *pos = node->str+n;
@@ -48,21 +56,39 @@ void ins_lf(struct line *node, int n){
   *pos2 = *pos;
   (node->str)[n] = '\0';
 
+  // update linked list
   struct line* node2 = malloc(sizeof(struct line));
   strcpy(node2->str, str2);
   node2->next = node->next;
   node2->previous = node;
-  node->next->previous = node2;
+  if(node->next) node->next->previous = node2;
   node->next = node2;
-  node2->line_num = 0;
+  update_line_nums(node2, node->line_num+1);
   node->line_len = strlen(node->str);
   node2->line_len = strlen(str2);
-  refresh_all();
 }
 
+// node is the node BEFORE the line feed
+void del_lf(struct line *node){
+  struct line *node2 = node->next;
+  char *pos = node->str + node->line_len;
+  char *pos2 = node2->str;
+  while(*pos2){
+    *pos = *pos2;
+    pos++;
+    pos2++;
+  }
+  *pos = *pos2;
+
+  node->next = node2->next;
+  if(node2->next) node2->next->previous = node;
+  update_line_nums(node, node->line_num);
+  node->line_len = strlen(node->str);
+  free(node2);
+}
 
 void refresh_line(){
-  wmove(edit_window, E.cy, 0);
+  wmove(edit_window, E.cy, E.minx);
   wclrtoeol(edit_window);
   wprintw(edit_window, "%s", E.curr_line->str);
 }
@@ -73,7 +99,7 @@ void refresh_all(){
   int i=0;
   for(struct line *node = E.data; node; node = node->next) {
     mvwprintw(nums_window, i+E.miny, 0, "%2d", node->line_num);
-    mvwprintw(edit_window, i++, 0, "%s", node->str);
+    mvwprintw(edit_window, i++, E.minx, "%s", node->str);
   }
   while(i+E.miny<E.maxy){
     mvwprintw(nums_window, i+E.miny, 0, "~");
