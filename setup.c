@@ -45,6 +45,7 @@ void setup(){
   getmaxyx(edit_window, E.maxy, E.maxx);
   E.data = readFile(E.path, NULL);
   E.curr_line = E.data;
+  E.first_line = E.data;
 
   // initialize info window
   wprintw(info_window, "%s", E.path);

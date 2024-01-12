@@ -9,8 +9,9 @@ struct editor_status{
   int cx_real; // actual cursor x-coordinate
   int cy_old; // previous cursor row (used to calculate new current line)
   char* path;
-  struct line* data;
-  struct line* curr_line;
+  struct line *data;
+  struct line *curr_line;
+  struct line *first_line;
 };
 
 struct line{

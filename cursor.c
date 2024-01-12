@@ -2,6 +2,7 @@
 #include "giga.h"
 #include "util.h" // clamp
 #include "cursor.h"
+#include "modify.h" // refreshall
 #include <string.h> // strlen
 
 // reads character from keyboard input and moves cursor
@@ -51,6 +52,20 @@ void updateCursor(){
     E.cy_old -= strlen(E.curr_line->previous->str) / E.maxx + 1;
     E.curr_line = E.curr_line->previous;
   }
+
+  if(E.cy==E.miny && E.first_line->previous){
+    E.cy += strlen(E.first_line->previous->str) / E.maxx + 1;
+    E.cy_old = E.cy;
+    E.first_line = E.first_line->previous;
+    refresh_all();
+  }
+  if(E.cy>=E.maxy-(strlen(E.curr_line->str) / E.maxx + 1) && E.first_line->next){
+    E.cy -= strlen(E.first_line->str) / E.maxx + 1;
+    E.cy_old = E.cy;
+    E.first_line = E.first_line->next;
+    refresh_all();
+  }
+
   E.cx = MAX(E.cx, E.minx);
   E.cx_real = MIN(E.cx, E.curr_line->line_len);
   wmove(edit_window, E.cy + E.cx_real / E.maxx, E.cx_real % E.maxx);
