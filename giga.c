@@ -30,10 +30,6 @@ int main(int argc, char *argv[]){
     if(ch==KEY_CTRL('w')) save_file("./data/output.txt", E.data);
     if(ch==KEY_CTRL('r')) mvwprintw(help_window, 0, 60, "can't revert, sorry");
 
-    mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
-    mvwprintw(help_window, 0, 90, "x: %d, y: %d", E.cx_real, E.cy);
-    wrefresh(help_window);
-
     moveCursor(ch);
     if(isprint(ch)) {
       //replace(E.curr_line->str, E.cx_real, ch); // replace
@@ -70,6 +66,10 @@ int main(int argc, char *argv[]){
       refresh_all();
     }
     updateCursor();
+    mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
+    mvwprintw(help_window, 0, 90, "x: %2d, y: %2d", E.cx_real, E.cy);
+    wrefresh(help_window);
+
     wrefresh(nums_window);
     wrefresh(edit_window);
   }
