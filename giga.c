@@ -31,6 +31,7 @@ int main(int argc, char *argv[]){
     if(ch==KEY_CTRL('r')) mvwprintw(help_window, 0, 60, "can't revert, sorry");
 
     mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
+    mvwprintw(help_window, 0, 90, "x: %d, y: %d", E.cx_real, E.cy);
     wrefresh(help_window);
 
     moveCursor(ch);
