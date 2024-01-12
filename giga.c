@@ -65,6 +65,9 @@ int main(int argc, char *argv[]){
       E.cy++;
       refresh_all();
     }
+    else if (ch == KEY_CTRL('z')){
+      E.data = 
+    }
     updateCursor();
     mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
     mvwprintw(help_window, 0, 90, "x: %2d, y: %2d", E.cx_real, E.cy);

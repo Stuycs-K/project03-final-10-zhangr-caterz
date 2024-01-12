@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <string.h> 
 #include "util.h"
+#include "modify.h"
 
 char* substr(int startx, int endx, char str[]){ 
 	char subs[LINE_SIZE];
@@ -13,9 +14,14 @@ char* substr(int startx, int endx, char str[]){
 	return subs;
 }
 
-//while holding down shift, use arrow keys
+//hit ctrl-z, use arrow keys
 //only works for same line (limitation- can only have a length of LINE_SIZE at a time)
-char* select_text(int startx, int starty, int endx, int endy){
+char* copy_text(int startx, int starty, int endx, int endy){
 	char buffer[LINE_SIZE];
 	strcpy(buffer, substr(startx, endx, E.data->str));
+
+}
+
+int[] markplace(int cx_real, int cy){
+	
 }
