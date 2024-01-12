@@ -1,6 +1,5 @@
 #include <ncurses.h>
 #include "giga.h"
-#include "util.h" // err
 #include "modify.h"
 
 void replace(char* str, int n, char ch){
@@ -8,7 +7,7 @@ void replace(char* str, int n, char ch){
   *pos = ch;
 }
 
-void insert(char* str, int n, char ch){
+void ins_char(char* str, int n, char ch){
   char temp;
   char* pos = str+n;
   while(*pos){
@@ -23,4 +22,17 @@ void insert(char* str, int n, char ch){
   E.curr_line->line_len++;
 }
 
+void del_char(char* str, int n){
+  char* pos = str+n;
+  while(*pos){
+    *pos = *(pos+1);
+    pos++;
+  }
+}
+
+void update(){
+  wmove(edit_window, E.cy, 0);
+  wclrtoeol(edit_window);
+  wprintw(edit_window, "%s", E.curr_line->str);
+}
 

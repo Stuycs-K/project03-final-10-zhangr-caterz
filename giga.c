@@ -35,10 +35,18 @@ int main(int argc, char *argv[]){
 
     moveCursor(ch);
     if(isprint(ch)) {
-      wprintw(edit_window, "%c", ch);
       //replace(E.curr_line->str, E.cx_real, ch); // replace
-      insert(E.curr_line->str, E.cx_real, ch); // insert
+      ins_char(E.curr_line->str, E.cx_real, ch); // insert
       E.cx++;
+      update();
+    }
+    if(ch==KEY_BACKSPACE){
+      del_char(E.curr_line->str, MAX(0, E.cx_real-1));
+      update();
+    }
+    if(ch==KEY_DC){
+      del_char(E.curr_line->str, E.cx_real);
+      update();
     }
     updateCursor();
     wrefresh(edit_window);
