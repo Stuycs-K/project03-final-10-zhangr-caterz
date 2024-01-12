@@ -3,6 +3,7 @@
 #include <stdlib.h> // atexit
 #include "config.h"
 #include "read.h" // readFile
+#include "modify.h" // refresh_all
 #include "setup.h"
 
 void reset();
@@ -56,15 +57,7 @@ void setup(){
   alternate(help_window, A_STANDOUT, "^R", " reset");
 
   // initialize nums and edit windows
-  int i=0;
-  for(struct line *node = E.data; node; node = node->next) {
-    mvwprintw(nums_window, i+E.miny, 0, "%2d", i);
-    mvwprintw(edit_window, i++, 0, "%s", node->str);
-  }
-  while(i+E.miny<E.maxy){
-    mvwprintw(nums_window, i+E.miny, 0, "~");
-    i++;
-  }
+  refresh_all();
   
   // initialize cursor
   E.cx = E.minx;
