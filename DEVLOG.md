@@ -28,6 +28,11 @@ Added row numbers and improved config file (30 minutes)
 ### 2024-01-09 - better cursor behavior
 The cursor can no longer freely move and instead follows a vi-esque movement style (30 minutes)
 
+### 2024-01-11 - wrote all of the insertion code
+Insertion now works like a regular text editor (20 minutes)
+Insertion and deletion of lines works as expected (2.5 hours)
+
+
 ## Raymond Zhang
 
 ### 2024-01-03 - Wrote proposal
@@ -44,3 +49,6 @@ Wrote savefile (30 min), tried to debug not printing lines correctly but to no a
 
 ### 2024-01-09 - Saving to file pt. 2, Saving file
 Took a while debugging savefile and fixing ncurses issues (40 minutes), freedoc function (15 min), freedoc implementation (10 min)
+
+### 2024-01-10 - Fixing spacing error, Moving code around to more reasonable areas
+Debugging spacing error (20 min), moving code (10 min)

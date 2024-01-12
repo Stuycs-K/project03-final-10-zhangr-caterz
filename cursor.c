@@ -27,10 +27,10 @@ void moveCursor(int ch){
       E.cy = E.miny; break;
     case KEY_NPAGE: // page down
       E.cy = E.maxy; break;
-    case KEY_CTRL('m'): // enter, but KEY_ENTER is mapped to the numpad
-      E.cy++; E.cx = E.minx; break;
-    case KEY_BACKSPACE:
-      E.cx--; break;
+    //case KEY_CTRL('m'): // enter, but KEY_ENTER is mapped to the numpad
+    //  E.cy++; E.cx = E.minx; break;
+    //case KEY_BACKSPACE:
+    //  E.cx--; break;
   }
 }
 

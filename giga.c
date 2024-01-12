@@ -5,12 +5,14 @@
 #include "cursor.h" // moveCursor, updateCursor
 #include "util.h" // err
 #include "read.h" //save_file, free_list
+#include "modify.h" // replace, insert, delete
 
 struct editor_status E;
 WINDOW *info_window;
 WINDOW *help_window;
 WINDOW *edit_window;
 WINDOW *nums_window;
+
 
 int main(int argc, char *argv[]){
 
@@ -33,11 +35,41 @@ int main(int argc, char *argv[]){
 
     moveCursor(ch);
     if(isprint(ch)) {
-      wprintw(edit_window, "%c", ch);
-      (E.curr_line->str)[E.cx_real] = ch;
+      //replace(E.curr_line->str, E.cx_real, ch); // replace
+      ins_char(E.curr_line->str, E.cx_real, ch); // insert
       E.cx++;
+      refresh_line();
+    }
+    else if(ch==KEY_BACKSPACE && E.cx_real==E.minx && E.curr_line->previous){
+      E.curr_line = E.curr_line->previous;
+      E.cx_real = E.curr_line->line_len;
+      E.cx = E.cx_real;
+      del_lf(E.curr_line);
+      E.cy--; E.cy_old--;
+      refresh_all();
+    }
+    else if(ch==KEY_DC && E.cx_real==E.curr_line->line_len && E.curr_line->next){
+      E.cx = E.cx_real;
+      del_lf(E.curr_line);
+      refresh_all();
+    }
+    else if(ch==KEY_BACKSPACE && E.cx_real!=E.minx){
+      E.cx = E.cx_real-1;
+      del_char(E.curr_line->str, E.cx_real-1);
+      refresh_line();
+    }
+    else if(ch==KEY_DC && E.cx_real!=E.curr_line->line_len){
+      del_char(E.curr_line->str, E.cx_real);
+      refresh_line();
+    }
+    else if(ch==KEY_CTRL('m')){
+      E.cx = E.minx;
+      ins_lf(E.curr_line, E.cx_real);
+      E.cy++;
+      refresh_all();
     }
     updateCursor();
+    wrefresh(nums_window);
     wrefresh(edit_window);
   }
 
