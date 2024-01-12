@@ -38,17 +38,22 @@ int main(int argc, char *argv[]){
       //replace(E.curr_line->str, E.cx_real, ch); // replace
       ins_char(E.curr_line->str, E.cx_real, ch); // insert
       E.cx++;
-      update();
+      refresh_line();
     }
-    if(ch==KEY_BACKSPACE){
+    else if(ch==KEY_BACKSPACE){
       del_char(E.curr_line->str, MAX(0, E.cx_real-1));
-      update();
+      refresh_line();
     }
-    if(ch==KEY_DC){
+    else if(ch==KEY_DC){
       del_char(E.curr_line->str, E.cx_real);
-      update();
+      refresh_line();
+    }
+    else if(ch==KEY_CTRL('m')){
+      ins_lf(E.curr_line, E.cx_real);
+      refresh_all();
     }
     updateCursor();
+    wrefresh(nums_window);
     wrefresh(edit_window);
   }
 

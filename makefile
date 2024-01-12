@@ -5,7 +5,7 @@ run: giga
 	@[ -f ./data/output.txt ] && cat ./data/output.txt || true
 
 compile giga: giga.o cursor.o setup.o config.o util.o read.o modify.o
-	gcc -o giga giga.o cursor.o setup.o config.o util.o read.o modify.o -lncursesw
+	gcc -Wall -Werror -o giga giga.o cursor.o setup.o config.o util.o read.o modify.o -lncursesw
 
 giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h read.c read.h modify.c modify.h
 	gcc -c giga.c
@@ -13,7 +13,7 @@ giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h read.c rea
 cursor.o: cursor.c cursor.h giga.c giga.h util.c util.h
 	gcc -c cursor.c
 
-setup.o: setup.c setup.h giga.c giga.h config.c config.h
+setup.o: setup.c setup.h giga.c giga.h config.c config.h modify.c modify.h
 	gcc -c setup.c
 
 config.o: config.c config.h giga.c giga.h util.c util.h
