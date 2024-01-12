@@ -53,6 +53,6 @@ void updateCursor(){
   }
   E.cx = MAX(E.cx, E.minx);
   E.cx_real = MIN(E.cx, E.curr_line->line_len);
-  wmove(edit_window, E.cy, E.cx_real);
+  wmove(edit_window, E.cy + E.cx_real / E.maxx, E.cx_real % E.maxx);
 }
 
