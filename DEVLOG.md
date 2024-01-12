@@ -28,6 +28,11 @@ Added row numbers and improved config file (30 minutes)
 ### 2024-01-09 - better cursor behavior
 The cursor can no longer freely move and instead follows a vi-esque movement style (30 minutes)
 
+### 2024-01-11 - wrote all of the insertion code
+Insertion now works like a regular text editor (20 minutes)
+Insertion and deletion of lines works as expected (2.5 hours)
+
+
 ## Raymond Zhang
 
 ### 2024-01-03 - Wrote proposal
