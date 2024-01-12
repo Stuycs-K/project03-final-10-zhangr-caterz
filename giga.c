@@ -5,12 +5,14 @@
 #include "cursor.h" // moveCursor, updateCursor
 #include "util.h" // err
 #include "read.h" //save_file, free_list
+#include "modify.h" // replace, insert, delete
 
 struct editor_status E;
 WINDOW *info_window;
 WINDOW *help_window;
 WINDOW *edit_window;
 WINDOW *nums_window;
+
 
 int main(int argc, char *argv[]){
 
@@ -34,7 +36,8 @@ int main(int argc, char *argv[]){
     moveCursor(ch);
     if(isprint(ch)) {
       wprintw(edit_window, "%c", ch);
-      (E.curr_line->str)[E.cx_real] = ch;
+      //replace(E.curr_line->str, E.cx_real, ch); // replace
+      insert(E.curr_line->str, E.cx_real, ch); // insert
       E.cx++;
     }
     updateCursor();
