@@ -8,6 +8,7 @@ struct editor_status{
   int cx, cy; // cursor desired coordinates
   int cx_real; // actual cursor x-coordinate
   int cy_old; // previous cursor row (used to calculate new current line)
+  int mode; // 0: insert, 1: replace
   char* path;
   struct line *data;
   struct line *curr_line;

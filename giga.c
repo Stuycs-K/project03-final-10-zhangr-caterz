@@ -45,6 +45,11 @@ int main(int argc, char *argv[]){
       refresh_all();
       helpbar_alert("reverted!");
     }
+    else if(ch==KEY_CTRL('e')){
+      E.mode = !E.mode;
+      if(!E.mode) helpbar_alert("editor mode set to INSERT");
+      else helpbar_alert("editor mode set to REPLACE");
+    }
     else{
       helpbar_default();
       //mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
@@ -54,8 +59,8 @@ int main(int argc, char *argv[]){
 
     moveCursor(ch);
     if(isprint(ch)) {
-      //replace(E.curr_line->str, E.cx_real, ch); // replace
-      ins_char(E.curr_line->str, E.cx_real, ch); // insert
+      if(!E.mode) ins_char(E.curr_line->str, E.cx_real, ch);
+      else replace(E.curr_line->str, E.cx_real, ch);
       E.cx++;
       refresh_line();
     }

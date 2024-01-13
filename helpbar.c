@@ -36,11 +36,13 @@ void helpbar_default(){
   wmove(help_window, 0, 10);
   alternate(help_window, A_STANDOUT, "^W", " write");
   wmove(help_window, 0, 20);
-  alternate(help_window, A_STANDOUT, "^R", " revert");
+  alternate(help_window, A_STANDOUT, "^E", " mode");
   wmove(help_window, 0, 30);
-  alternate(help_window, A_STANDOUT, "^Z", " mark");
+  alternate(help_window, A_STANDOUT, "^R", " revert");
   wmove(help_window, 0, 40);
-  alternate(help_window, A_STANDOUT, "^C", " copy");
+  alternate(help_window, A_STANDOUT, "^Z", " mark");
   wmove(help_window, 0, 50);
+  alternate(help_window, A_STANDOUT, "^C", " copy");
+  wmove(help_window, 0, 60);
   alternate(help_window, A_STANDOUT, "^V", " paste");
 }

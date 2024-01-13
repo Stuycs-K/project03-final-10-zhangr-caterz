@@ -45,6 +45,7 @@ void setup(){
   // initialize editor status
   E.miny = 0; E.minx = 0;
   getmaxyx(edit_window, E.maxy, E.maxx);
+  E.mode = 0; // insert mode
   E.data = readFile(E.path, NULL);
   E.curr_line = E.data;
   E.first_line = E.data;
