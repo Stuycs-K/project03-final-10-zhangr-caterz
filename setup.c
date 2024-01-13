@@ -5,6 +5,7 @@
 #include "read.h" // readFile
 #include "modify.h" // refresh_all
 #include "cursor.h" // init_cursor
+#include "helpbar.h" // helpbar_default
 #include "setup.h"
 
 void reset();
@@ -52,17 +53,7 @@ void setup(){
   wprintw(info_window, "%s", E.path);
 
   // initialize help window
-  alternate(help_window, A_STANDOUT, "^Q", " quit");
-  wmove(help_window, 0, 10);
-  alternate(help_window, A_STANDOUT, "^W", " write");
-  wmove(help_window, 0, 20);
-  alternate(help_window, A_STANDOUT, "^R", " revert");
-  wmove(help_window, 0, 30);
-  alternate(help_window, A_STANDOUT, "^Z", " mark");
-  wmove(help_window, 0, 40);
-  alternate(help_window, A_STANDOUT, "^C", " copy");
-  wmove(help_window, 0, 50);
-  alternate(help_window, A_STANDOUT, "^V", " paste");
+  helpbar_default();
 
   // initialize nums and edit windows
   refresh_all();
@@ -86,9 +77,3 @@ void reset(){
   free_doc(E.data);
 }
 
-void alternate(WINDOW* win, attr_t attr, char* special, char* normal){
-  wattron(win, attr);
-  wprintw(win, "%s", special);
-  wattroff(win, attr);
-  wprintw(win, "%s", normal);
-}

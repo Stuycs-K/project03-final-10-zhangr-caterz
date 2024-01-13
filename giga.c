@@ -6,6 +6,7 @@
 #include "util.h" // err
 #include "read.h" //save_file, free_doc
 #include "modify.h" // replace, insert, delete
+#include "helpbar.h" // helpbar_input, helpbar_alert
 
 struct editor_status E;
 WINDOW *info_window;
@@ -24,20 +25,31 @@ int main(int argc, char *argv[]){
 
   while(1){
     ch = getch();
+
+
     if(ch==KEY_CTRL('q')){
       break;
     }
-    if(ch==KEY_CTRL('w')) save_file("./data/output.txt", E.data);
-    if(ch==KEY_CTRL('r')) {
+    else if(ch==KEY_CTRL('w')){
+      char to[LINE_SIZE];
+      helpbar_input("destination: ", to, E.path);
+      save_file(to, E.data);
+      helpbar_alert("saved!");
+    }
+    else if(ch==KEY_CTRL('r')){
       free_doc(E.data);
       E.data=readFile(E.path, NULL);
       E.curr_line = E.data;
       E.first_line = E.curr_line;
       init_cursor();
       refresh_all();
+      helpbar_alert("reverted!");
     }
-
-    mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
+    else{
+      helpbar_default();
+      //mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
+    }
+    
     wrefresh(help_window);
 
     moveCursor(ch);
