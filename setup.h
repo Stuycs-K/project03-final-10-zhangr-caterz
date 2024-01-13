@@ -2,5 +2,6 @@
 #define SETUP_H
 
 void setup();
+void resize();
 
 #endif

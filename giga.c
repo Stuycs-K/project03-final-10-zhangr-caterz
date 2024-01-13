@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include "giga.h"
 #include <ctype.h> // isprint
-#include "setup.h" // setup
+#include "setup.h" // setup, resize
 #include "cursor.h" // moveCursor, updateCursor, init_cursor
 #include "util.h" // err
 #include "read.h" //save_file, free_doc
@@ -49,6 +49,9 @@ int main(int argc, char *argv[]){
       E.mode = !E.mode;
       if(!E.mode) helpbar_alert("editor mode set to INSERT");
       else helpbar_alert("editor mode set to REPLACE");
+    }
+    else if(ch==KEY_RESIZE){
+      resize();
     }
     else{
       helpbar_default();

@@ -12,6 +12,9 @@ void reset();
 void alternate(WINDOW* win, attr_t attr, char* special, char* normal);
 
 void setup(){
+  // low-level setup
+  atexit(reset);
+
   // initialize ncurses
   initscr();
   start_color();
@@ -20,7 +23,6 @@ void setup(){
   noecho();
   nonl();
   curs_set(2);
-  atexit(reset);
 
   // create windows
   info_window = newwin(1, getmaxx(stdscr), 0, 0);
@@ -78,3 +80,27 @@ void reset(){
   free_doc(E.data);
 }
 
+void resize(){
+  endwin();
+  refresh();
+  //doupdate();
+
+  wresize(info_window, 1, getmaxx(stdscr));
+  mvwin(help_window, getmaxy(stdscr)-1, 0);
+  wresize(help_window, 1, getmaxx(stdscr));
+  wresize(edit_window, getmaxy(stdscr)-2, getmaxx(stdscr)-3);
+  wresize(nums_window, getmaxy(stdscr)-2, 3);
+  refresh();
+
+  E.miny = 0; E.minx = 0;
+  getmaxyx(edit_window, E.maxy, E.maxx);
+  refresh_all();
+  helpbar_alert("resized!");
+  // big issue: first_line never updates, and the cursor gets moved
+  updateCursor();
+
+  wrefresh(help_window);
+  wrefresh(nums_window);
+  wrefresh(info_window);
+  wrefresh(edit_window);
+}
