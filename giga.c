@@ -2,9 +2,9 @@
 #include "giga.h"
 #include <ctype.h> // isprint
 #include "setup.h" // setup
-#include "cursor.h" // moveCursor, updateCursor
+#include "cursor.h" // moveCursor, updateCursor, init_cursor
 #include "util.h" // err
-#include "read.h" //save_file, free_list
+#include "read.h" //save_file, free_doc
 #include "modify.h" // replace, insert, delete
 
 struct editor_status E;
@@ -28,7 +28,14 @@ int main(int argc, char *argv[]){
       break;
     }
     if(ch==KEY_CTRL('w')) save_file("./data/output.txt", E.data);
-    if(ch==KEY_CTRL('r')) mvwprintw(help_window, 0, 60, "can't revert, sorry");
+    if(ch==KEY_CTRL('r')) {
+      free_doc(E.data);
+      E.data=readFile(E.path, NULL);
+      E.curr_line = E.data;
+      E.first_line = E.curr_line;
+      init_cursor();
+      refresh_all();
+    }
 
     mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
     wrefresh(help_window);

@@ -71,3 +71,10 @@ void updateCursor(){
   wmove(edit_window, E.cy + E.cx_real / E.maxx, E.cx_real % E.maxx);
 }
 
+void init_cursor(){
+  E.cx = E.minx;
+  E.cy = E.miny;
+  E.cx_real = E.cx;
+  E.cy_old = E.cy;
+  wmove(edit_window, E.cy, E.cx_real);
+}

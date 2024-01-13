@@ -13,7 +13,7 @@ giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h read.c rea
 cursor.o: cursor.c cursor.h giga.c giga.h util.c util.h
 	gcc -c cursor.c
 
-setup.o: setup.c setup.h giga.c giga.h config.c config.h modify.c modify.h
+setup.o: setup.c setup.h giga.c giga.h config.c config.h modify.c modify.h cursor.c cursor.h
 	gcc -c setup.c
 
 config.o: config.c config.h giga.c giga.h util.c util.h

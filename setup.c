@@ -4,6 +4,7 @@
 #include "config.h"
 #include "read.h" // readFile
 #include "modify.h" // refresh_all
+#include "cursor.h" // init_cursor
 #include "setup.h"
 
 void reset();
@@ -55,17 +56,19 @@ void setup(){
   wmove(help_window, 0, 10);
   alternate(help_window, A_STANDOUT, "^W", " write");
   wmove(help_window, 0, 20);
-  alternate(help_window, A_STANDOUT, "^R", " reset");
+  alternate(help_window, A_STANDOUT, "^R", " revert");
+  wmove(help_window, 0, 30);
+  alternate(help_window, A_STANDOUT, "^Z", " mark");
+  wmove(help_window, 0, 40);
+  alternate(help_window, A_STANDOUT, "^C", " copy");
+  wmove(help_window, 0, 50);
+  alternate(help_window, A_STANDOUT, "^V", " paste");
 
   // initialize nums and edit windows
   refresh_all();
   
   // initialize cursor
-  E.cx = E.minx;
-  E.cy = E.miny;
-  E.cx_real = E.cx;
-  E.cy_old = E.cy;
-  wmove(edit_window, E.cy, E.cx_real);
+  init_cursor();
 
   wrefresh(info_window);
   wrefresh(help_window);

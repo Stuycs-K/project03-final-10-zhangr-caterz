@@ -3,5 +3,6 @@
 
 void updateCursor();
 void moveCursor(int ch);
+void init_cursor();
 
 #endif
