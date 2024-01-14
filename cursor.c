@@ -31,6 +31,8 @@ void moveCursor(int ch){
     //  E.cy++; E.cx = E.minx; break;
     //case KEY_BACKSPACE:
     //  E.cx--; break;
+    case KEY_STAB: // tab
+      E.cx = E.cx_real;
   }
 }
 

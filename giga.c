@@ -70,7 +70,7 @@ int main(int argc, char *argv[]){
     else if(ch=='\t'){
       int old=E.cx;
       while(E.cx / E.tabsize != old / E.tabsize + 1){
-        if(!E.mode) ins_char(E.curr_line->str, E.cx_real, ' ');
+        if(!E.mode) ins_char(E.curr_line->str, E.cx, ' ');
         E.cx++;
       }
       refresh_line();
