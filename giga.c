@@ -67,6 +67,14 @@ int main(int argc, char *argv[]){
       E.cx++;
       refresh_line();
     }
+    else if(ch=='\t'){
+      int old=E.cx;
+      while(E.cx / E.tabsize != old / E.tabsize + 1){
+        if(!E.mode) ins_char(E.curr_line->str, E.cx_real, ' ');
+        E.cx++;
+      }
+      refresh_line();
+    }
     else if(ch==KEY_BACKSPACE && E.cx_real==E.minx && E.curr_line->previous){
       E.curr_line = E.curr_line->previous;
       E.cx_real = E.curr_line->line_len;
