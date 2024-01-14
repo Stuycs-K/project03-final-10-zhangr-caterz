@@ -1,0 +1,49 @@
+OFFICIAL GIGA HELP FILE (written using Giga, of course)
+
+giga v0.9: created by R Zhang and Z Cater
+
+---
+
+SHORTCUTS
+
+0: switch to help tab
+1-9: switch between tabs
+
+^Q: quit
+^W: write to file
+^E: toggle edit mode between insert and replace
+^R: revert buffer to match original file, wipe changes
+^T: create new tab
+
+^A: ascend n rows
+^S: skip to row n
+^D: descend n rows
+^F: find string
+^G: get help (switch to help tab)
+
+^Z: begin selection (mark)
+^X: cut from mark
+^C: copy from mark
+^V: paste copy buffer
+
+Enter: insert newline
+Tab: insert tabsize spaces
+Backspace: delete previous character
+
+Delete: delete next character
+Insert: toggle edit mode between insert and replace
+Home: jump to start of line
+End: jump to end of line
+Page Up: jump to top of screen
+Page Down: jump to bottom of screen
+
+---
+
+CONFIG FILE FORMAT
+
+Each line starts with "set" followed by an attribute.
+color: takes a window name and two colors
+bold, underline, dim, highlight: take a window name
+tabsize: takes an integer (default: 4)
+maxlength: takes an integer (default: 256)
+Comments with begin with #

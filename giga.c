@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
 
   E.path = argc>1 ? argv[1] : "data/tempfile.txt";
   E.config_path = "giga.conf";
-  E.help_path = "data/romeo.txt";
+  E.help_path = "help.txt";
   
   setup();
 
