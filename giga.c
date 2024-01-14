@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
       refresh_all();
       helpbar_alert("reverted!");
     }
-    else if(ch==KEY_CTRL('e')){
+    else if(ch==KEY_IC || ch==KEY_CTRL('e')){
       E.mode = !E.mode;
       if(!E.mode) helpbar_alert("editor mode set to INSERT");
       else helpbar_alert("editor mode set to REPLACE");
