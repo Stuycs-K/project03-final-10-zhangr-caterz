@@ -6,6 +6,10 @@
 
 void replace(char* str, int n, char ch){
   char* pos = str+n;
+  if(!*pos){
+    *(pos+1) = '\0';
+    E.curr_line->line_len++;
+  }
   *pos = ch;
 }
 

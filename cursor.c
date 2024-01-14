@@ -60,8 +60,6 @@ void scrollCursor(){
     //E.cy_old = E.cy;
     refresh_all();
   }
-  mvwprintw(help_window, 0, 0, "%d %d %d", E.cy, E.cy_old, E.curr_line->line_num);
-  wrefresh(help_window);
 }
 
 // ensures cursor is in valid position and moves it
