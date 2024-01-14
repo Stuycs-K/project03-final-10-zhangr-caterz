@@ -51,7 +51,7 @@ void update_line_nums(struct line *node, int n){
 void ins_lf(struct line *node, int n){
   // copy remainding line into str2
   char *pos = node->str+n;
-  char str2[LINE_SIZE];
+  char str2[LINE_SIZE+1];
   char *pos2 = str2;
   while(*pos){
     *pos2 = *pos;
@@ -63,7 +63,8 @@ void ins_lf(struct line *node, int n){
 
   // update linked list
   struct line* node2 = malloc(sizeof(struct line));
-  strcpy(node2->str, str2);
+  node2->str = malloc(LINE_SIZE+1);
+  strncpy(node2->str, str2, LINE_SIZE+1);
   node2->next = node->next;
   node2->previous = node;
   if(node->next) node->next->previous = node2;
@@ -89,6 +90,7 @@ void del_lf(struct line *node){
   if(node2->next) node2->next->previous = node;
   update_line_nums(node, node->line_num);
   node->line_len = strlen(node->str);
+  free(node2->str);
   free(node2);
 }
 

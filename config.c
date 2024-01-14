@@ -2,6 +2,7 @@
 #include "giga.h"
 #include <stdio.h> // fopen, fgets
 #include <string.h> // strcmp, strsep
+#include <ctype.h> // isdigit
 #include "util.h" // split, remove_crlf
 
 char *colnames[8] = {"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"};
@@ -31,6 +32,12 @@ attr_t attrname(char* str){
   return A_NORMAL;
 }
 
+int tonum(char* str){
+  int i;
+  if(sscanf(str, "%d", &i)) return i;
+  return -1;
+}
+
 void readConfig(char* path){
   FILE *f = fopen(path, "r");
   if(!f) return;
@@ -50,6 +57,16 @@ void readConfig(char* path){
       if(!strcmp(args[1], "color")){
         if(winname(args[2]) != -1){
           init_pair(winname(args[2])+1, colname(args[3]), colname(args[4]));
+        }
+      }
+      else if(!strcmp(args[1], "tabsize")){
+        if(tonum(args[2]) != -1){
+          E.tabsize = tonum(args[2]);
+        }
+      }
+      else if(!strcmp(args[1], "maxlength")){
+        if(tonum(args[2]) != -1){
+          E.maxlength = tonum(args[2]);
         }
       }
       else if(attrname(args[1]) != -1){

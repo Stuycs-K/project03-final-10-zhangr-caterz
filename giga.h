@@ -1,13 +1,13 @@
 #ifndef GIGA_H
 #define GIGA_H
 
-#define LINE_SIZE 256
 
 struct editor_status{
   WINDOW *windows[4];
   int width, height, minx, miny;
   int mode; // 0: insert, 1: replace
   int tabsize;
+  int maxlength;
   char *config_path;
   char *help_path;
   struct tab_status *tab;
@@ -24,7 +24,7 @@ struct tab_status{
 };
 
 struct line{
-    char str[LINE_SIZE+1]; //line itself
+    char *str; //line itself
     struct line* previous;
     struct line* next;
     int line_num; 
@@ -33,6 +33,7 @@ struct line{
 
 extern struct editor_status E;
 extern struct tab_status T;
+#define LINE_SIZE E.maxlength
 #define INFO_WINDOW E.windows[0]
 #define HELP_WINDOW E.windows[1]
 #define EDIT_WINDOW E.windows[2]

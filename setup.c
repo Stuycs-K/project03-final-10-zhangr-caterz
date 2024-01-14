@@ -38,6 +38,7 @@ void setup(){
   E.miny = 0; E.minx = 0;
   E.mode = 0; // insert mode
   E.tabsize = 4;
+  E.maxlength = 256;
   E.tab = &T;
 
   // use config file to modify color pairs
