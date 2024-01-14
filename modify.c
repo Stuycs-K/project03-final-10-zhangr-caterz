@@ -2,6 +2,7 @@
 #include "giga.h"
 #include <stdlib.h> // malloc
 #include <string.h> // strlen
+#include "visual.h" // refresh_line, refresh_all
 #include "modify.h"
 
 void replace(char* str, int n, char ch){
@@ -91,23 +92,3 @@ void del_lf(struct line *node){
   free(node2);
 }
 
-void refresh_line(){
-  wmove(edit_window, E.cy - E.miny, E.minx);
-  wclrtoeol(edit_window);
-  wprintw(edit_window, "%s", E.curr_line->str);
-}
-
-void refresh_all(){
-  werase(nums_window);
-  werase(edit_window);
-  int i=0;
-  for(struct line *node = E.first_line; node && i<E.height; node = node->next) {
-    mvwprintw(nums_window, i, 0, "%2d", node->line_num);
-    mvwprintw(edit_window, i, E.minx, "%s", node->str);
-    i += node->line_len / E.width + 1;
-  }
-  while(i<E.height){
-    mvwprintw(nums_window, i, 0, "~");
-    i++;
-  }
-}

@@ -7,7 +7,7 @@
 #include "read.h" //save_file, free_doc
 #include "modify.h" // replace, insert, delete
 #include "helpbar.h" // helpbar_input, helpbar_alert
-//#include "visual.h" // scroll_window, refresh_line, refresh_all
+#include "visual.h" // scroll_window, refresh_line, refresh_all
 
 struct editor_status E;
 WINDOW *info_window;

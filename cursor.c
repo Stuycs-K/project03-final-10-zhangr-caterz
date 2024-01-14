@@ -2,7 +2,7 @@
 #include "giga.h"
 #include "util.h" // clamp
 #include "cursor.h"
-#include "modify.h" // refreshall
+#include "visual.h" // scroll_window, refresh_all
 #include <limits.h> // INT_MAX
 
 // reads character from keyboard input and moves cursor
@@ -34,19 +34,6 @@ void moveCursor(int ch){
   }
 }
 
-void scrollCursor(){
-  while(E.cy > E.miny + E.height - 1){
-    E.miny += E.first_line->line_len / E.width + 1;
-    E.first_line = E.first_line->next;
-    refresh_all();
-  }
-  while(E.cy < E.miny){
-    E.miny -= E.first_line->previous->line_len / E.width + 1;
-    E.first_line = E.first_line->previous;
-    refresh_all();
-  }
-}
-
 void updateCurrLine(){
   while(E.cy_old < E.cy){
     if(!E.curr_line->next) {E.cy = E.cy_old; break;}
@@ -63,7 +50,7 @@ void updateCurrLine(){
 // ensures cursor is in valid position and moves it
 void updateCursor(){
   updateCurrLine();
-  scrollCursor();
+  scroll_window();
 
   E.cx = MAX(E.cx, E.minx);
   E.cx_real = MIN(E.cx, E.curr_line->line_len);
