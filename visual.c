@@ -1,5 +1,7 @@
 #include <ncurses.h>
 #include "giga.h"
+#include "helpbar.h" // helpbar_default, infobar_default
+#include "cursor.h" // init_cursor
 #include "visual.h"
 
 
@@ -42,10 +44,7 @@ void init_colors(){
   init_pair(2, COLOR_WHITE, COLOR_BLACK);
   init_pair(3, COLOR_WHITE, COLOR_BLACK);
   init_pair(4, COLOR_WHITE, COLOR_BLACK);
-  wbkgd(INFO_WINDOW, COLOR_PAIR(1));
-  wbkgd(HELP_WINDOW, COLOR_PAIR(2));
-  wbkgd(EDIT_WINDOW, COLOR_PAIR(3));
-  wbkgd(NUMS_WINDOW, COLOR_PAIR(4));
+  for(int i=0; i<4; i++) wbkgd(E.windows[i], COLOR_PAIR(i+1));
 }
 
 void resize_windows(){
@@ -55,4 +54,27 @@ void resize_windows(){
   wresize(EDIT_WINDOW, getmaxy(stdscr)-2, getmaxx(stdscr)-3);
   wresize(NUMS_WINDOW, getmaxy(stdscr)-2, 3);
   refresh();
+}
+
+void redraw(){
+  resize_windows();
+
+  getmaxyx(EDIT_WINDOW, E.height, E.width);
+
+  // initialize info window
+  infobar_default();
+
+  // initialize help window
+  helpbar_default();
+
+  // initialize nums and edit windows
+  refresh_all();
+  
+  // initialize cursor
+  init_cursor();
+
+  wrefresh(INFO_WINDOW);
+  wrefresh(HELP_WINDOW);
+  wrefresh(NUMS_WINDOW);
+  wrefresh(EDIT_WINDOW);
 }

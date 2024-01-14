@@ -3,7 +3,7 @@
 #include <stdlib.h> // atexit
 #include "config.h"
 #include "read.h" // readFile
-#include "visual.h" // refresh_all, init_colors, resize_windows
+#include "visual.h" // refresh_all, init_colors, redraw
 #include "cursor.h" // init_cursor
 #include "helpbar.h" // helpbar_default
 #include "setup.h"
@@ -68,25 +68,3 @@ void resize(){
   redraw();
 }
 
-void redraw(){
-  resize_windows();
-
-  getmaxyx(EDIT_WINDOW, E.height, E.width);
-
-  // initialize info window
-  wprintw(INFO_WINDOW, "%s", E.path);
-
-  // initialize help window
-  helpbar_default();
-
-  // initialize nums and edit windows
-  refresh_all();
-  
-  // initialize cursor
-  init_cursor();
-
-  wrefresh(INFO_WINDOW);
-  wrefresh(HELP_WINDOW);
-  wrefresh(NUMS_WINDOW);
-  wrefresh(EDIT_WINDOW);
-}

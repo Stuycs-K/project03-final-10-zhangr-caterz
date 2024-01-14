@@ -10,7 +10,9 @@ struct editor_status{
   int cx_real; // actual cursor x-coordinate
   int cy_old; // previous cursor row (used to calculate new current line)
   int mode; // 0: insert, 1: replace
-  char* path;
+  char *path;
+  char *config_path;
+  char *help_path;
   struct line *data;
   struct line *curr_line;
   struct line *first_line;

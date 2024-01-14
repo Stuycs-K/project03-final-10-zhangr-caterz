@@ -6,7 +6,7 @@
 #include "util.h" // err
 #include "read.h" // save_file, free_doc
 #include "modify.h" // replace, insert, delete
-#include "helpbar.h" // helpbar_input, helpbar_alert
+#include "helpbar.h" // helpbar_input, helpbar_alert, show_help
 #include "visual.h" // scroll_window, refresh_line, refresh_all
 
 struct editor_status E;
@@ -15,6 +15,8 @@ struct editor_status E;
 int main(int argc, char *argv[]){
 
   E.path = argc>1 ? argv[1] : "data/tempfile.txt";
+  E.config_path = "giga.conf";
+  E.help_path = "data/romeo.txt";
   
   setup();
 
@@ -32,6 +34,9 @@ int main(int argc, char *argv[]){
       helpbar_input("destination: ", to, E.path);
       save_file(to, E.data);
       helpbar_alert("saved!");
+    }
+    else if(ch==KEY_CTRL('G')){
+      show_help();
     }
     else if(ch==KEY_CTRL('r')){
       free_doc(E.data);
