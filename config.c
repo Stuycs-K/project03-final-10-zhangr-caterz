@@ -4,27 +4,19 @@
 #include <string.h> // strcmp, strsep
 #include "util.h" // split, remove_crlf
 
-//todo: rewrite
+char *colnames[8] = {"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"};
+char *winnames[4] = {"info", "help", "edit", "nums"};
+
 short colname(char* str){
-  if(!strcmp(str, "black")) return 0;
-  if(!strcmp(str, "red")) return 1;
-  if(!strcmp(str, "green")) return 2;
-  if(!strcmp(str, "yellow")) return 3;
-  if(!strcmp(str, "blue")) return 4;
-  if(!strcmp(str, "magenta")) return 5;
-  if(!strcmp(str, "cyan")) return 6;
-  if(!strcmp(str, "white")) return 7;
+  for(int i=0; i<8; i++) if(!strcmp(str, colnames[i])) return i;
   return -1;
 }
 
-short elemname(char* str){
-  if(!strcmp(str, "info")) return 1;
-  if(!strcmp(str, "help")) return 2;
-  if(!strcmp(str, "edit")) return 3;
-  if(!strcmp(str, "nums")) return 4;
+short winname(char* str){
+  for(int i=0; i<4; i++) if(!strcmp(str, winnames[i])) return i;
   return -1;
 }
-WINDOW* elemptr(char* str){
+WINDOW* winptr(char* str){
   if(!strcmp(str, "info")) return info_window;
   if(!strcmp(str, "help")) return help_window;
   if(!strcmp(str, "edit")) return edit_window;
@@ -40,8 +32,8 @@ attr_t attrname(char* str){
   return A_NORMAL;
 }
 
-void readConfig(){
-  FILE *f = fopen("giga.conf", "r");
+void readConfig(char* path){
+  FILE *f = fopen(path, "r");
   if(!f) return;
 
   char line[256];
@@ -57,13 +49,13 @@ void readConfig(){
 
     if(!strcmp(args[0], "set")){
       if(!strcmp(args[1], "color")){
-        if(elemname(args[2]) != -1){
-          init_pair(elemname(args[2]), colname(args[3]), colname(args[4]));
+        if(winname(args[2]) != -1){
+          init_pair(winname(args[2])+1, colname(args[3]), colname(args[4]));
         }
       }
       else if(attrname(args[1]) != -1){
-        if(elemptr(args[2])){
-          wattron(elemptr(args[2]), attrname(args[1]));
+        if(winptr(args[2])){
+          wattron(winptr(args[2]), attrname(args[1]));
         }
       }
     }
