@@ -34,16 +34,19 @@ void setup(){
   // initialize color pairs
   init_colors();
 
-  // use config file to modify color pairs
-  readConfig("giga.conf");
-
   // initialize editor status
   E.miny = 0; E.minx = 0;
   E.mode = 0; // insert mode
   E.tabsize = 4;
-  E.data = readFile(E.path, NULL);
-  E.curr_line = E.data;
-  E.first_line = E.data;
+  E.tab = &T;
+
+  // use config file to modify color pairs
+  readConfig("giga.conf");
+
+  // initialize tab
+  T.data = readFile(T.path, NULL);
+  T.curr_line = T.data;
+  T.first_line = T.data;
 
   // initialize screen
   redraw();
@@ -56,7 +59,7 @@ void reset(){
   delwin(EDIT_WINDOW);
   delwin(NUMS_WINDOW);
   endwin();
-  free_doc(E.data);
+  free_doc(T.data);
 }
 
 void resize(){
@@ -64,7 +67,7 @@ void resize(){
   refresh();
 
   E.miny = 0; E.minx = 0;
-  E.first_line = E.curr_line;
+  T.first_line = T.curr_line;
 
   redraw();
 }

@@ -9,7 +9,7 @@ void replace(char* str, int n, char ch){
   char* pos = str+n;
   if(!*pos){
     *(pos+1) = '\0';
-    E.curr_line->line_len++;
+    T.curr_line->line_len++;
   }
   *pos = ch;
 }
@@ -28,7 +28,7 @@ void ins_char(char* str, int n, char ch){
   ch = temp; // '\0'
   pos++;
   *pos = '\0';
-  E.curr_line->line_len++;
+  T.curr_line->line_len++;
 }
 
 void del_char(char* str, int n){
@@ -37,7 +37,7 @@ void del_char(char* str, int n){
     *pos = *(pos+1);
     pos++;
   }
-  E.curr_line->line_len--;
+  T.curr_line->line_len--;
 }
 
 void update_line_nums(struct line *node, int n){

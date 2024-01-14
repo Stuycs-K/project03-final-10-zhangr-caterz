@@ -46,24 +46,21 @@ void helpbar_default(){
 }
 void infobar_default(){
   reset_bar(INFO_WINDOW);
-  wprintw(INFO_WINDOW, "%s", E.path);
+  wprintw(INFO_WINDOW, "%s", T.path);
 }
 
 void show_help(){
-  struct editor_status temp = E;
-  for(int i=0; i<4; i++) E.windows[i] = temp.windows[i];
-  E.path = temp.help_path;
-  E.miny = 0; E.minx = 0;
-  E.mode = 0;
-  E.data = readFile(E.path, NULL);
-  E.curr_line = E.data;
-  E.first_line = E.data;
+  struct tab_status temp = T;
+  T.path = E.help_path;
+  T.data = readFile(T.path, NULL);
+  T.curr_line = T.data;
+  T.first_line = T.data;
   redraw();
   
   getch();
 
-  free_doc(E.data);
-  E = temp;
+  free_doc(T.data);
+  T = temp;
   refresh_all();
   infobar_default();
   wrefresh(INFO_WINDOW);

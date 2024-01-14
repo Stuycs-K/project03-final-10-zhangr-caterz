@@ -10,11 +10,12 @@
 #include "visual.h" // scroll_window, refresh_line, refresh_all
 
 struct editor_status E;
+struct tab_status T;
 
 
 int main(int argc, char *argv[]){
 
-  E.path = argc>1 ? argv[1] : "data/tempfile.txt";
+  T.path = argc>1 ? argv[1] : "data/tempfile.txt";
   E.config_path = "giga.conf";
   E.help_path = "help.txt";
   
@@ -31,18 +32,18 @@ int main(int argc, char *argv[]){
     }
     else if(ch==KEY_CTRL('w')){
       char to[LINE_SIZE];
-      helpbar_input("destination: ", to, E.path);
-      save_file(to, E.data);
+      helpbar_input("destination: ", to, T.path);
+      save_file(to, T.data);
       helpbar_alert("saved!");
     }
     else if(ch==KEY_CTRL('G')){
       show_help();
     }
     else if(ch==KEY_CTRL('r')){
-      free_doc(E.data);
-      E.data=readFile(E.path, NULL);
-      E.curr_line = E.data;
-      E.first_line = E.curr_line;
+      free_doc(T.data);
+      T.data=readFile(T.path, NULL);
+      T.curr_line = T.data;
+      T.first_line = T.curr_line;
       init_cursor();
       refresh_all();
       helpbar_alert("reverted!");
@@ -62,45 +63,45 @@ int main(int argc, char *argv[]){
     moveCursor(ch);
 
     if(isprint(ch)) {
-      if(!E.mode) ins_char(E.curr_line->str, E.cx_real, ch);
-      else replace(E.curr_line->str, E.cx_real, ch);
-      E.cx++;
+      if(!E.mode) ins_char(T.curr_line->str, T.cx_real, ch);
+      else replace(T.curr_line->str, T.cx_real, ch);
+      T.cx++;
       refresh_line();
     }
     else if(ch=='\t'){
-      int old=E.cx;
-      while(E.cx / E.tabsize != old / E.tabsize + 1){
-        if(!E.mode) ins_char(E.curr_line->str, E.cx, ' ');
-        E.cx++;
+      int old=T.cx;
+      while(T.cx / E.tabsize != old / E.tabsize + 1){
+        if(!E.mode) ins_char(T.curr_line->str, T.cx, ' ');
+        T.cx++;
       }
       refresh_line();
     }
-    else if(ch==KEY_BACKSPACE && E.cx_real==E.minx && E.curr_line->previous){
-      E.curr_line = E.curr_line->previous;
-      E.cx_real = E.curr_line->line_len;
-      E.cx = E.cx_real;
-      del_lf(E.curr_line);
-      E.cy--; E.cy_old--;
+    else if(ch==KEY_BACKSPACE && T.cx_real==E.minx && T.curr_line->previous){
+      T.curr_line = T.curr_line->previous;
+      T.cx_real = T.curr_line->line_len;
+      T.cx = T.cx_real;
+      del_lf(T.curr_line);
+      T.cy--; T.cy_old--;
       refresh_all();
     }
-    else if(ch==KEY_DC && E.cx_real==E.curr_line->line_len && E.curr_line->next){
-      E.cx = E.cx_real;
-      del_lf(E.curr_line);
+    else if(ch==KEY_DC && T.cx_real==T.curr_line->line_len && T.curr_line->next){
+      T.cx = T.cx_real;
+      del_lf(T.curr_line);
       refresh_all();
     }
-    else if(ch==KEY_BACKSPACE && E.cx_real!=E.minx){
-      E.cx = E.cx_real-1;
-      del_char(E.curr_line->str, E.cx_real-1);
+    else if(ch==KEY_BACKSPACE && T.cx_real!=E.minx){
+      T.cx = T.cx_real-1;
+      del_char(T.curr_line->str, T.cx_real-1);
       refresh_line();
     }
-    else if(ch==KEY_DC && E.cx_real!=E.curr_line->line_len){
-      del_char(E.curr_line->str, E.cx_real);
+    else if(ch==KEY_DC && T.cx_real!=T.curr_line->line_len){
+      del_char(T.curr_line->str, T.cx_real);
       refresh_line();
     }
     else if(ch==KEY_CTRL('m')){
-      E.cx = E.minx;
-      ins_lf(E.curr_line, E.cx_real);
-      E.cy++;
+      T.cx = E.minx;
+      ins_lf(T.curr_line, T.cx_real);
+      T.cy++;
       refresh_all();
     }
 

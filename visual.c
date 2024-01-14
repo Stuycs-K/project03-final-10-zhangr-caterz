@@ -6,29 +6,29 @@
 
 
 void scroll_window(){
-  while(E.cy > E.miny + E.height - 1){
-    E.miny += E.first_line->line_len / E.width + 1;
-    E.first_line = E.first_line->next;
+  while(T.cy > E.miny + E.height - 1){
+    E.miny += T.first_line->line_len / E.width + 1;
+    T.first_line = T.first_line->next;
     refresh_all();
   }
-  while(E.cy < E.miny){
-    E.miny -= E.first_line->previous->line_len / E.width + 1;
-    E.first_line = E.first_line->previous;
+  while(T.cy < E.miny){
+    E.miny -= T.first_line->previous->line_len / E.width + 1;
+    T.first_line = T.first_line->previous;
     refresh_all();
   }
 }
 
 void refresh_line(){
-  wmove(EDIT_WINDOW, E.cy - E.miny, E.minx);
+  wmove(EDIT_WINDOW, T.cy - E.miny, E.minx);
   wclrtoeol(EDIT_WINDOW);
-  wprintw(EDIT_WINDOW, "%s", E.curr_line->str);
+  wprintw(EDIT_WINDOW, "%s", T.curr_line->str);
 }
 
 void refresh_all(){
   werase(NUMS_WINDOW);
   werase(EDIT_WINDOW);
   int i=0;
-  for(struct line *node = E.first_line; node && i<E.height; node = node->next) {
+  for(struct line *node = T.first_line; node && i<E.height; node = node->next) {
     mvwprintw(NUMS_WINDOW, i, 0, "%2d", node->line_num);
     mvwprintw(EDIT_WINDOW, i, E.minx, "%s", node->str);
     i += node->line_len / E.width + 1;

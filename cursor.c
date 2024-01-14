@@ -7,45 +7,45 @@
 
 // reads character from keyboard input and moves cursor
 void moveCursor(int ch){
-  E.cy_old = E.cy;
+  T.cy_old = T.cy;
   switch(ch){
     case KEY_UP:
-      if(E.curr_line->previous) E.cy -= E.curr_line->previous->line_len / E.width + 1;
+      if(T.curr_line->previous) T.cy -= T.curr_line->previous->line_len / E.width + 1;
       break;
     case KEY_DOWN:
-      E.cy += E.curr_line->line_len / E.width + 1;
+      T.cy += T.curr_line->line_len / E.width + 1;
       break;
     case KEY_LEFT:
-      E.cx = E.cx_real - 1; break;
+      T.cx = T.cx_real - 1; break;
     case KEY_RIGHT:
-      if(E.cx<E.curr_line->line_len) E.cx = E.cx_real + 1; break;
+      if(T.cx<T.curr_line->line_len) T.cx = T.cx_real + 1; break;
     case KEY_HOME:
-      E.cx = E.minx; break;
+      T.cx = E.minx; break;
     case KEY_END:
-      E.cx = INT_MAX; break;
+      T.cx = INT_MAX; break;
     case KEY_PPAGE: // page up
-      E.cy = E.miny; break;
+      T.cy = E.miny; break;
     case KEY_NPAGE: // page down
-      E.cy = E.miny + E.height - 1; break;
+      T.cy = E.miny + E.height - 1; break;
     //case KEY_CTRL('m'): // enter, but KEY_ENTER is mapped to the numpad
-    //  E.cy++; E.cx = E.minx; break;
+    //  T.cy++; T.cx = E.minx; break;
     //case KEY_BACKSPACE:
-    //  E.cx--; break;
+    //  T.cx--; break;
     case KEY_STAB: // tab
-      E.cx = E.cx_real;
+      T.cx = T.cx_real;
   }
 }
 
 void updateCurrLine(){
-  while(E.cy_old < E.cy){
-    if(!E.curr_line->next) {E.cy = E.cy_old; break;}
-    E.cy_old += E.curr_line->line_len / E.width + 1;
-    E.curr_line = E.curr_line->next;
+  while(T.cy_old < T.cy){
+    if(!T.curr_line->next) {T.cy = T.cy_old; break;}
+    T.cy_old += T.curr_line->line_len / E.width + 1;
+    T.curr_line = T.curr_line->next;
   }
-  while(E.cy_old > E.cy){
-    if(!E.curr_line->previous) {E.cy = E.cy_old; break;}
-    E.cy_old -= E.curr_line->previous->line_len / E.width + 1;
-    E.curr_line = E.curr_line->previous;
+  while(T.cy_old > T.cy){
+    if(!T.curr_line->previous) {T.cy = T.cy_old; break;}
+    T.cy_old -= T.curr_line->previous->line_len / E.width + 1;
+    T.curr_line = T.curr_line->previous;
   }
 }
 
@@ -54,15 +54,15 @@ void updateCursor(){
   updateCurrLine();
   scroll_window();
 
-  E.cx = MAX(E.cx, E.minx);
-  E.cx_real = MIN(E.cx, E.curr_line->line_len);
-  wmove(EDIT_WINDOW, E.cy - E.miny + E.cx_real / E.width, E.cx_real % E.width);
+  T.cx = MAX(T.cx, E.minx);
+  T.cx_real = MIN(T.cx, T.curr_line->line_len);
+  wmove(EDIT_WINDOW, T.cy - E.miny + T.cx_real / E.width, T.cx_real % E.width);
 }
 
 void init_cursor(){
-  E.cx = E.minx;
-  E.cy = E.miny;
-  E.cx_real = E.cx;
-  E.cy_old = E.cy;
-  wmove(EDIT_WINDOW, E.cy - E.miny, E.cx_real);
+  T.cx = E.minx;
+  T.cy = E.miny;
+  T.cx_real = T.cx;
+  T.cy_old = T.cy;
+  wmove(EDIT_WINDOW, T.cy - E.miny, T.cx_real);
 }
