@@ -4,7 +4,7 @@
 #define LINE_SIZE 256
 
 struct editor_status{
-  int maxx, maxy, minx, miny;
+  int width, height, minx, miny;
   int cx, cy; // cursor desired coordinates
   int cx_real; // actual cursor x-coordinate
   int cy_old; // previous cursor row (used to calculate new current line)

@@ -101,12 +101,12 @@ void refresh_all(){
   werase(nums_window);
   werase(edit_window);
   int i=0;
-  for(struct line *node = E.first_line; node && i<E.maxy-E.miny; node = node->next) {
+  for(struct line *node = E.first_line; node && i<E.height; node = node->next) {
     mvwprintw(nums_window, i, 0, "%2d", node->line_num);
     mvwprintw(edit_window, i, E.minx, "%s", node->str);
-    i += strlen(node->str) / E.maxx + 1;
+    i += node->line_len / E.width + 1;
   }
-  while(i+E.miny<E.maxy){
+  while(i<E.height){
     mvwprintw(nums_window, i, 0, "~");
     i++;
   }

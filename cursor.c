@@ -3,27 +3,22 @@
 #include "util.h" // clamp
 #include "cursor.h"
 #include "modify.h" // refreshall
-#include <string.h> // strlen
 #include <limits.h> // INT_MAX
 
 // reads character from keyboard input and moves cursor
-// TODO: replace enter with line-breaking functionality
-// replace backspace with deletion functionality
-// make end smarter
-// re-evaluate use of page up and page down
 void moveCursor(int ch){
   E.cy_old = E.cy;
   switch(ch){
     case KEY_UP:
-      if(E.curr_line->previous) E.cy -= strlen(E.curr_line->previous->str) / E.maxx + 1;
+      if(E.curr_line->previous) E.cy -= E.curr_line->previous->line_len / E.width + 1;
       break;
     case KEY_DOWN:
-      E.cy += strlen(E.curr_line->str) / E.maxx + 1;
+      E.cy += E.curr_line->line_len / E.width + 1;
       break;
     case KEY_LEFT:
       E.cx = E.cx_real - 1; break;
     case KEY_RIGHT:
-      E.cx = E.cx_real + 1; break;
+      if(E.cx<E.curr_line->line_len) E.cx = E.cx_real + 1; break;
     case KEY_HOME:
       E.cx = E.minx; break;
     case KEY_END:
@@ -31,7 +26,7 @@ void moveCursor(int ch){
     case KEY_PPAGE: // page up
       E.cy = E.miny; break;
     case KEY_NPAGE: // page down
-      E.cy = E.maxy-1; break;
+      E.cy = E.miny + E.height - 1; break;
     //case KEY_CTRL('m'): // enter, but KEY_ENTER is mapped to the numpad
     //  E.cy++; E.cx = E.minx; break;
     //case KEY_BACKSPACE:
@@ -40,61 +35,39 @@ void moveCursor(int ch){
 }
 
 void scrollCursor(){
-  while(E.cy_old > E.maxy-1){
-    E.miny += strlen(E.first_line->str) / E.maxx + 1;
-    E.maxy += strlen(E.first_line->str) / E.maxx + 1;
-    //E.cy -= strlen(E.curr_line->str) / E.maxx + 1;
-    //E.cy_old -= strlen(E.curr_line->str) / E.maxx + 1;
-    //E.curr_line = E.curr_line->next;
+  while(E.cy > E.miny + E.height - 1){
+    E.miny += E.first_line->line_len / E.width + 1;
     E.first_line = E.first_line->next;
-    //E.cy_old = E.cy;
     refresh_all();
   }
-  while(E.cy_old < E.miny){
-    E.miny -= strlen(E.first_line->previous->str) / E.maxx + 1;
-    E.maxy -= strlen(E.first_line->previous->str) / E.maxx + 1;
-    //E.cy += strlen(E.curr_line->previous->str) / E.maxx + 1;
-    //E.cy_old += strlen(E.curr_line->previous->str) / E.maxx + 1;
-    //E.curr_line = E.curr_line->previous;
+  while(E.cy < E.miny){
+    E.miny -= E.first_line->previous->line_len / E.width + 1;
     E.first_line = E.first_line->previous;
-    //E.cy_old = E.cy;
     refresh_all();
   }
 }
 
-// ensures cursor is in valid position and moves it
-// improve this. a lot.
-// minor bug: hitting right arrow at the end of a line will move the desired cursor position, which is annoying when moving vertically (can either go straight or shift right)
-void updateCursor(){
+void updateCurrLine(){
   while(E.cy_old < E.cy){
     if(!E.curr_line->next) {E.cy = E.cy_old; break;}
-    E.cy_old += strlen(E.curr_line->str) / E.maxx + 1;
+    E.cy_old += E.curr_line->line_len / E.width + 1;
     E.curr_line = E.curr_line->next;
   }
   while(E.cy_old > E.cy){
     if(!E.curr_line->previous) {E.cy = E.cy_old; break;}
-    E.cy_old -= strlen(E.curr_line->previous->str) / E.maxx + 1;
+    E.cy_old -= E.curr_line->previous->line_len / E.width + 1;
     E.curr_line = E.curr_line->previous;
   }
+}
 
+// ensures cursor is in valid position and moves it
+void updateCursor(){
+  updateCurrLine();
   scrollCursor();
-
-  /*if(E.cy==E.miny && E.first_line->previous){
-    E.cy += strlen(E.first_line->previous->str) / E.maxx + 1;
-    E.cy_old = E.cy;
-    E.first_line = E.first_line->previous;
-    refresh_all();
-  }
-  if(E.cy>=E.maxy-(strlen(E.curr_line->str) / E.maxx + 1) && E.first_line->next){
-    E.cy -= strlen(E.first_line->str) / E.maxx + 1;
-    E.cy_old = E.cy;
-    E.first_line = E.first_line->next;
-    refresh_all();
-  }*/
 
   E.cx = MAX(E.cx, E.minx);
   E.cx_real = MIN(E.cx, E.curr_line->line_len);
-  wmove(edit_window, E.cy - E.miny + E.cx_real / E.maxx, E.cx_real % E.maxx);
+  wmove(edit_window, E.cy - E.miny + E.cx_real / E.width, E.cx_real % E.width);
 }
 
 void init_cursor(){
