@@ -94,9 +94,10 @@ void resize(){
 
   E.miny = 0; E.minx = 0;
   getmaxyx(edit_window, E.maxy, E.maxx);
+  E.first_line = E.curr_line;
+  E.cy = 0; E.cy_old = 0;
   refresh_all();
   helpbar_alert("resized!");
-  // big issue: first_line never updates, and the cursor gets moved
   updateCursor();
 
   wrefresh(help_window);
