@@ -2,7 +2,7 @@
 #include "giga.h"
 #include <ctype.h> // isprint
 #include "setup.h" // setup, resize
-#include "cursor.h" // moveCursor, updateCursor, init_cursor
+#include "cursor.h" // moveCursor, scrollCursor, updateCursor, init_cursor
 #include "util.h" // err
 #include "read.h" //save_file, free_doc
 #include "modify.h" // replace, insert, delete
@@ -61,6 +61,8 @@ int main(int argc, char *argv[]){
     wrefresh(help_window);
 
     moveCursor(ch);
+    //scrollCursor();
+
     if(isprint(ch)) {
       if(!E.mode) ins_char(E.curr_line->str, E.cx_real, ch);
       else replace(E.curr_line->str, E.cx_real, ch);

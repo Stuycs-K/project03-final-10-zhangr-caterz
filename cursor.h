@@ -3,6 +3,7 @@
 
 void updateCursor();
 void moveCursor(int ch);
+void scrollCursor();
 void init_cursor();
 
 #endif

@@ -4,6 +4,7 @@
 #include "cursor.h"
 #include "modify.h" // refreshall
 #include <string.h> // strlen
+#include <limits.h> // INT_MAX
 
 // reads character from keyboard input and moves cursor
 // TODO: replace enter with line-breaking functionality
@@ -26,16 +27,41 @@ void moveCursor(int ch){
     case KEY_HOME:
       E.cx = E.minx; break;
     case KEY_END:
-      E.cx = E.maxx; break;
+      E.cx = INT_MAX; break;
     case KEY_PPAGE: // page up
       E.cy = E.miny; break;
     case KEY_NPAGE: // page down
-      E.cy = E.maxy; break;
+      E.cy = E.maxy-1; break;
     //case KEY_CTRL('m'): // enter, but KEY_ENTER is mapped to the numpad
     //  E.cy++; E.cx = E.minx; break;
     //case KEY_BACKSPACE:
     //  E.cx--; break;
   }
+}
+
+void scrollCursor(){
+  while(E.cy_old > E.maxy-1){
+    E.miny += strlen(E.first_line->str) / E.maxx + 1;
+    E.maxy += strlen(E.first_line->str) / E.maxx + 1;
+    //E.cy -= strlen(E.curr_line->str) / E.maxx + 1;
+    //E.cy_old -= strlen(E.curr_line->str) / E.maxx + 1;
+    //E.curr_line = E.curr_line->next;
+    E.first_line = E.first_line->next;
+    //E.cy_old = E.cy;
+    refresh_all();
+  }
+  while(E.cy_old < E.miny){
+    E.miny -= strlen(E.first_line->previous->str) / E.maxx + 1;
+    E.maxy -= strlen(E.first_line->previous->str) / E.maxx + 1;
+    //E.cy += strlen(E.curr_line->previous->str) / E.maxx + 1;
+    //E.cy_old += strlen(E.curr_line->previous->str) / E.maxx + 1;
+    //E.curr_line = E.curr_line->previous;
+    E.first_line = E.first_line->previous;
+    //E.cy_old = E.cy;
+    refresh_all();
+  }
+  mvwprintw(help_window, 0, 0, "%d %d %d", E.cy, E.cy_old, E.curr_line->line_num);
+  wrefresh(help_window);
 }
 
 // ensures cursor is in valid position and moves it
@@ -53,7 +79,9 @@ void updateCursor(){
     E.curr_line = E.curr_line->previous;
   }
 
-  if(E.cy==E.miny && E.first_line->previous){
+  scrollCursor();
+
+  /*if(E.cy==E.miny && E.first_line->previous){
     E.cy += strlen(E.first_line->previous->str) / E.maxx + 1;
     E.cy_old = E.cy;
     E.first_line = E.first_line->previous;
@@ -64,11 +92,11 @@ void updateCursor(){
     E.cy_old = E.cy;
     E.first_line = E.first_line->next;
     refresh_all();
-  }
+  }*/
 
   E.cx = MAX(E.cx, E.minx);
   E.cx_real = MIN(E.cx, E.curr_line->line_len);
-  wmove(edit_window, E.cy + E.cx_real / E.maxx, E.cx_real % E.maxx);
+  wmove(edit_window, E.cy - E.miny + E.cx_real / E.maxx, E.cx_real % E.maxx);
 }
 
 void init_cursor(){
@@ -76,5 +104,5 @@ void init_cursor(){
   E.cy = E.miny;
   E.cx_real = E.cx;
   E.cy_old = E.cy;
-  wmove(edit_window, E.cy, E.cx_real);
+  wmove(edit_window, E.cy - E.miny, E.cx_real);
 }
