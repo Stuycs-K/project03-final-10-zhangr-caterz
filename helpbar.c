@@ -2,7 +2,9 @@
 #include "giga.h"
 #include <string.h> // strlen
 
-void alternate(WINDOW* win, attr_t attr, char* special, char* normal){
+void alternate(char* special, char* normal){
+  WINDOW *win = HELP_WINDOW;
+  attr_t attr = A_STANDOUT;
   wattron(win, attr);
   wprintw(win, "%s", special);
   wattroff(win, attr);
@@ -10,39 +12,39 @@ void alternate(WINDOW* win, attr_t attr, char* special, char* normal){
 }
 
 void helpbar_reset(){
-  wmove(help_window, 0, 0);
-  wclrtoeol(help_window);
+  wmove(HELP_WINDOW, 0, 0);
+  wclrtoeol(HELP_WINDOW);
 }
 
 void helpbar_input(char *prompt, char buf[], char *guess){
   helpbar_reset();
-  wprintw(help_window, "%s", prompt);
+  wprintw(HELP_WINDOW, "%s", prompt);
   for(int i=strlen(guess)-1; i>=0; i--){
     ungetch(guess[i]);
   }
   echo();
-  wgetnstr(help_window, buf, LINE_SIZE);
+  wgetnstr(HELP_WINDOW, buf, LINE_SIZE);
   noecho();
 }
 
 void helpbar_alert(char* str){
   helpbar_reset();
-  wprintw(help_window, "%s", str);
+  wprintw(HELP_WINDOW, "%s", str);
 }
 
 void helpbar_default(){
   helpbar_reset();
-  alternate(help_window, A_STANDOUT, "^Q", " quit");
-  wmove(help_window, 0, 10);
-  alternate(help_window, A_STANDOUT, "^W", " write");
-  wmove(help_window, 0, 20);
-  alternate(help_window, A_STANDOUT, "^E", " mode");
-  wmove(help_window, 0, 30);
-  alternate(help_window, A_STANDOUT, "^R", " revert");
-  wmove(help_window, 0, 40);
-  alternate(help_window, A_STANDOUT, "^Z", " mark");
-  wmove(help_window, 0, 50);
-  alternate(help_window, A_STANDOUT, "^C", " copy");
-  wmove(help_window, 0, 60);
-  alternate(help_window, A_STANDOUT, "^V", " paste");
+  alternate("^Q", " quit");
+  wmove(HELP_WINDOW, 0, 10);
+  alternate("^W", " write");
+  wmove(HELP_WINDOW, 0, 20);
+  alternate("^E", " mode");
+  wmove(HELP_WINDOW, 0, 30);
+  alternate("^R", " revert");
+  wmove(HELP_WINDOW, 0, 40);
+  alternate("^Z", " mark");
+  wmove(HELP_WINDOW, 0, 50);
+  alternate("^C", " copy");
+  wmove(HELP_WINDOW, 0, 60);
+  alternate("^V", " paste");
 }

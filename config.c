@@ -7,6 +7,7 @@
 char *colnames[8] = {"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"};
 char *winnames[4] = {"info", "help", "edit", "nums"};
 
+
 short colname(char* str){
   for(int i=0; i<8; i++) if(!strcmp(str, colnames[i])) return i;
   return -1;
@@ -16,11 +17,9 @@ short winname(char* str){
   for(int i=0; i<4; i++) if(!strcmp(str, winnames[i])) return i;
   return -1;
 }
+
 WINDOW* winptr(char* str){
-  if(!strcmp(str, "info")) return info_window;
-  if(!strcmp(str, "help")) return help_window;
-  if(!strcmp(str, "edit")) return edit_window;
-  if(!strcmp(str, "nums")) return nums_window;
+  for(int i=0; i<4; i++) if(!strcmp(str, winnames[i])) return E.windows[i];
   return NULL;
 }
 
@@ -36,10 +35,10 @@ void readConfig(char* path){
   FILE *f = fopen(path, "r");
   if(!f) return;
 
-  char line[256];
+  char line[LINE_SIZE];
   char *args[16];
 
-  while(fgets(line, 256, f)){
+  while(fgets(line, LINE_SIZE, f)){
     char *ptr = strchr(line, '#');
     if(ptr) *ptr = '\0';
     remove_crlf(line);

@@ -2,18 +2,14 @@
 #include "giga.h"
 #include <ctype.h> // isprint
 #include "setup.h" // setup, resize
-#include "cursor.h" // moveCursor, scrollCursor, updateCursor, init_cursor
+#include "cursor.h" // moveCursor, updateCursor, init_cursor
 #include "util.h" // err
-#include "read.h" //save_file, free_doc
+#include "read.h" // save_file, free_doc
 #include "modify.h" // replace, insert, delete
 #include "helpbar.h" // helpbar_input, helpbar_alert
 #include "visual.h" // scroll_window, refresh_line, refresh_all
 
 struct editor_status E;
-WINDOW *info_window;
-WINDOW *help_window;
-WINDOW *edit_window;
-WINDOW *nums_window;
 
 
 int main(int argc, char *argv[]){
@@ -56,13 +52,9 @@ int main(int argc, char *argv[]){
     }
     else{
       helpbar_default();
-      //mvwprintw(help_window, 0, 30, "Key pressed: %d   ", ch);
     }
     
-    wrefresh(help_window);
-
     moveCursor(ch);
-    //scrollCursor();
 
     if(isprint(ch)) {
       if(!E.mode) ins_char(E.curr_line->str, E.cx_real, ch);
@@ -98,9 +90,11 @@ int main(int argc, char *argv[]){
       E.cy++;
       refresh_all();
     }
+
     updateCursor();
-    wrefresh(nums_window);
-    wrefresh(edit_window);
+    wrefresh(HELP_WINDOW);
+    wrefresh(NUMS_WINDOW);
+    wrefresh(EDIT_WINDOW);
   }
 
   return 0;

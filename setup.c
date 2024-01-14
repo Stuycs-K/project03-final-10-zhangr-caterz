@@ -26,10 +26,10 @@ void setup(){
   curs_set(2);
 
   // create windows
-  info_window = newwin(0, 0, 0, 0);
-  help_window = newwin(0, 0, getmaxy(stdscr)-1, 0);
-  edit_window = newwin(0, 0, 1, 3);
-  nums_window = newwin(0, 0, 1, 0);
+  INFO_WINDOW = newwin(0, 0, 0, 0);
+  HELP_WINDOW = newwin(0, 0, getmaxy(stdscr)-1, 0);
+  EDIT_WINDOW = newwin(0, 0, 1, 3);
+  NUMS_WINDOW = newwin(0, 0, 1, 0);
 
   // initialize color pairs
   init_colors();
@@ -50,10 +50,10 @@ void setup(){
 
 // runs at very end of the program, when exited or returned
 void reset(){
-  delwin(info_window);
-  delwin(help_window);
-  delwin(edit_window);
-  delwin(nums_window);
+  delwin(INFO_WINDOW);
+  delwin(HELP_WINDOW);
+  delwin(EDIT_WINDOW);
+  delwin(NUMS_WINDOW);
   endwin();
   free_doc(E.data);
 }
@@ -71,10 +71,10 @@ void resize(){
 void redraw(){
   resize_windows();
 
-  getmaxyx(edit_window, E.height, E.width);
+  getmaxyx(EDIT_WINDOW, E.height, E.width);
 
   // initialize info window
-  wprintw(info_window, "%s", E.path);
+  wprintw(INFO_WINDOW, "%s", E.path);
 
   // initialize help window
   helpbar_default();
@@ -85,8 +85,8 @@ void redraw(){
   // initialize cursor
   init_cursor();
 
-  wrefresh(info_window);
-  wrefresh(help_window);
-  wrefresh(nums_window);
-  wrefresh(edit_window);
+  wrefresh(INFO_WINDOW);
+  wrefresh(HELP_WINDOW);
+  wrefresh(NUMS_WINDOW);
+  wrefresh(EDIT_WINDOW);
 }

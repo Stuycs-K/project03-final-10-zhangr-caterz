@@ -4,6 +4,7 @@
 #define LINE_SIZE 256
 
 struct editor_status{
+  WINDOW *windows[4];
   int width, height, minx, miny;
   int cx, cy; // cursor desired coordinates
   int cx_real; // actual cursor x-coordinate
@@ -24,9 +25,9 @@ struct line{
 };
 
 extern struct editor_status E;
-extern WINDOW *info_window;
-extern WINDOW *help_window;
-extern WINDOW *edit_window;
-extern WINDOW *nums_window;
+#define INFO_WINDOW E.windows[0]
+#define HELP_WINDOW E.windows[1]
+#define EDIT_WINDOW E.windows[2]
+#define NUMS_WINDOW E.windows[3]
 
 #endif

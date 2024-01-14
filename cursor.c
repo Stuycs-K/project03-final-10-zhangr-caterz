@@ -54,7 +54,7 @@ void updateCursor(){
 
   E.cx = MAX(E.cx, E.minx);
   E.cx_real = MIN(E.cx, E.curr_line->line_len);
-  wmove(edit_window, E.cy - E.miny + E.cx_real / E.width, E.cx_real % E.width);
+  wmove(EDIT_WINDOW, E.cy - E.miny + E.cx_real / E.width, E.cx_real % E.width);
 }
 
 void init_cursor(){
@@ -62,5 +62,5 @@ void init_cursor(){
   E.cy = E.miny;
   E.cx_real = E.cx;
   E.cy_old = E.cy;
-  wmove(edit_window, E.cy - E.miny, E.cx_real);
+  wmove(EDIT_WINDOW, E.cy - E.miny, E.cx_real);
 }

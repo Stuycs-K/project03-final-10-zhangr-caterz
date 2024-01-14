@@ -17,22 +17,22 @@ void scroll_window(){
 }
 
 void refresh_line(){
-  wmove(edit_window, E.cy - E.miny, E.minx);
-  wclrtoeol(edit_window);
-  wprintw(edit_window, "%s", E.curr_line->str);
+  wmove(EDIT_WINDOW, E.cy - E.miny, E.minx);
+  wclrtoeol(EDIT_WINDOW);
+  wprintw(EDIT_WINDOW, "%s", E.curr_line->str);
 }
 
 void refresh_all(){
-  werase(nums_window);
-  werase(edit_window);
+  werase(NUMS_WINDOW);
+  werase(EDIT_WINDOW);
   int i=0;
   for(struct line *node = E.first_line; node && i<E.height; node = node->next) {
-    mvwprintw(nums_window, i, 0, "%2d", node->line_num);
-    mvwprintw(edit_window, i, E.minx, "%s", node->str);
+    mvwprintw(NUMS_WINDOW, i, 0, "%2d", node->line_num);
+    mvwprintw(EDIT_WINDOW, i, E.minx, "%s", node->str);
     i += node->line_len / E.width + 1;
   }
   while(i<E.height){
-    mvwprintw(nums_window, i, 0, "~");
+    mvwprintw(NUMS_WINDOW, i, 0, "~");
     i++;
   }
 }
@@ -42,17 +42,17 @@ void init_colors(){
   init_pair(2, COLOR_WHITE, COLOR_BLACK);
   init_pair(3, COLOR_WHITE, COLOR_BLACK);
   init_pair(4, COLOR_WHITE, COLOR_BLACK);
-  wbkgd(info_window, COLOR_PAIR(1));
-  wbkgd(help_window, COLOR_PAIR(2));
-  wbkgd(edit_window, COLOR_PAIR(3));
-  wbkgd(nums_window, COLOR_PAIR(4));
+  wbkgd(INFO_WINDOW, COLOR_PAIR(1));
+  wbkgd(HELP_WINDOW, COLOR_PAIR(2));
+  wbkgd(EDIT_WINDOW, COLOR_PAIR(3));
+  wbkgd(NUMS_WINDOW, COLOR_PAIR(4));
 }
 
 void resize_windows(){
-  wresize(info_window, 1, getmaxx(stdscr));
-  mvwin(help_window, getmaxy(stdscr)-1, 0);
-  wresize(help_window, 1, getmaxx(stdscr));
-  wresize(edit_window, getmaxy(stdscr)-2, getmaxx(stdscr)-3);
-  wresize(nums_window, getmaxy(stdscr)-2, 3);
+  wresize(INFO_WINDOW, 1, getmaxx(stdscr));
+  mvwin(HELP_WINDOW, getmaxy(stdscr)-1, 0);
+  wresize(HELP_WINDOW, 1, getmaxx(stdscr));
+  wresize(EDIT_WINDOW, getmaxy(stdscr)-2, getmaxx(stdscr)-3);
+  wresize(NUMS_WINDOW, getmaxy(stdscr)-2, 3);
   refresh();
 }
