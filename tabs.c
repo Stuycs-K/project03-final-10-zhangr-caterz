@@ -50,8 +50,14 @@ void switch_tab(int intended){
   redraw();
 }
 
-void change_tab(int ch){
+void tab_keyhandler(int ch){
   if(ch==KEY_CTRL('g')) show_help();
+  else if(ch==KEY_CTRL('t')){
+    char to[LINE_SIZE+1];
+    helpbar_input("File to open: ", to, "");
+    create_tab(to, 1);
+    switch_tab(E.tabcount-1);
+  }
   else{
     for(int i=1; i<=8; i++) if(ch==KEY_F(i)) switch_tab(i);
   }

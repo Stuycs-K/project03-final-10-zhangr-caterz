@@ -60,9 +60,8 @@ int main(int argc, char *argv[]){
       helpbar_default();
     }
     
-    change_tab(ch);
+    tab_keyhandler(ch);
     moveCursor(ch);
-    //wprintw(HELP_WINDOW, "%d %d %d %d", ch, );
 
     if(isprint(ch)) {
       if(!E.mode) ins_char(T.curr_line->str, T.cx_real, ch);
