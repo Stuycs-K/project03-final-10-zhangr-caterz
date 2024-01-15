@@ -2,54 +2,67 @@
 #include "giga.h"
 #include "util.h" // clamp
 #include "cursor.h"
+#include "visual.h" // scroll_window, refresh_all
+#include <limits.h> // INT_MAX
 
 // reads character from keyboard input and moves cursor
-// TODO: replace enter with line-breaking functionality
-// replace backspace with deletion functionality
-// make end smarter
-// re-evaluate use of page up and page down
 void moveCursor(int ch){
-  E.cy_old = E.cy;
+  T.cy_old = T.cy;
   switch(ch){
     case KEY_UP:
-      E.cy--; break;
+      if(T.curr_line->previous) T.cy -= T.curr_line->previous->line_len / E.width + 1;
+      break;
     case KEY_DOWN:
-      E.cy++; break;
+      T.cy += T.curr_line->line_len / E.width + 1;
+      break;
     case KEY_LEFT:
-      E.cx = E.cx_real - 1; break;
+      T.cx = T.cx_real - 1; break;
     case KEY_RIGHT:
-      E.cx = E.cx_real + 1; break;
+      if(T.cx<T.curr_line->line_len) T.cx = T.cx_real + 1; break;
     case KEY_HOME:
-      E.cx = E.minx; break;
+      T.cx = 0; break;
     case KEY_END:
-      E.cx = E.maxx; break;
+      T.cx = INT_MAX; break;
     case KEY_PPAGE: // page up
-      E.cy = E.miny; break;
+      T.cy = T.miny; break;
     case KEY_NPAGE: // page down
-      E.cy = E.maxy; break;
+      T.cy = T.miny + E.height - 1; break;
     //case KEY_CTRL('m'): // enter, but KEY_ENTER is mapped to the numpad
-    //  E.cy++; E.cx = E.minx; break;
+    //  T.cy++; T.cx = 0; break;
     //case KEY_BACKSPACE:
-    //  E.cx--; break;
+    //  T.cx--; break;
+    case KEY_STAB: // tab
+      T.cx = T.cx_real;
+  }
+}
+
+void updateCurrLine(){
+  while(T.cy_old < T.cy){
+    if(!T.curr_line->next) {T.cy = T.cy_old; break;}
+    T.cy_old += T.curr_line->line_len / E.width + 1;
+    T.curr_line = T.curr_line->next;
+  }
+  while(T.cy_old > T.cy){
+    if(!T.curr_line->previous) {T.cy = T.cy_old; break;}
+    T.cy_old -= T.curr_line->previous->line_len / E.width + 1;
+    T.curr_line = T.curr_line->previous;
   }
 }
 
 // ensures cursor is in valid position and moves it
-// improve this. a lot.
-// minor bug: hitting right arrow at the end of a line will move the desired cursor position, which is annoying when moving vertically (can either go straight or shift right)
 void updateCursor(){
-  while(E.cy_old < E.cy){
-    if(!E.curr_line->next) {E.cy = E.cy_old; break;}
-    E.curr_line = E.curr_line->next;
-    E.cy_old++;
-  }
-  while(E.cy_old > E.cy){
-    if(!E.curr_line->previous) {E.cy = E.cy_old; break;}
-    E.curr_line = E.curr_line->previous;
-    E.cy_old--;
-  }
-  E.cx = MAX(E.cx, E.minx);
-  E.cx_real = MIN(E.cx, E.curr_line->line_len);
-  wmove(edit_window, E.cy, E.cx_real);
+  updateCurrLine();
+  scroll_window();
+
+  T.cx = MAX(T.cx, 0);
+  T.cx_real = MIN(T.cx, T.curr_line->line_len);
+  wmove(EDIT_WINDOW, T.cy - T.miny + T.cx_real / E.width, T.cx_real % E.width);
 }
 
+void init_cursor(struct tab_status *tab){
+  tab->cx = 0;
+  tab->cy = tab->miny;
+  tab->cx_real = 0;
+  tab->cy_old = tab->miny;
+  wmove(EDIT_WINDOW, tab->cy - tab->miny, tab->cx_real);
+}

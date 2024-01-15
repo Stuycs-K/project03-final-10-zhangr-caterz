@@ -2,14 +2,20 @@
 #include "giga.h"
 #include <stdlib.h> // atexit
 #include "config.h"
-#include "read.h" // readFile
-#include "modify.h" // refresh_all
+#include "read.h" // free_doc
+#include "visual.h" // init_colors, redraw
+#include "util.h" // err
+#include "tabs.h" // create_tab
 #include "setup.h"
 
 void reset();
 void alternate(WINDOW* win, attr_t attr, char* special, char* normal);
+void redraw();
 
-void setup(){
+void setup(char *path){
+  // low-level setup
+  atexit(reset);
+
   // initialize ncurses
   initscr();
   start_color();
@@ -18,73 +24,56 @@ void setup(){
   noecho();
   nonl();
   curs_set(2);
-  atexit(reset);
 
   // create windows
-  info_window = newwin(1, getmaxx(stdscr), 0, 0);
-  help_window = newwin(1, getmaxx(stdscr), getmaxy(stdscr)-1, 0);
-  edit_window = newwin(getmaxy(stdscr)-2, getmaxx(stdscr)-3, 1, 3);
-  nums_window = newwin(getmaxy(stdscr)-2, 3, 1, 0);
-  refresh();
+  INFO_WINDOW = newwin(0, 0, 0, 0);
+  HELP_WINDOW = newwin(0, 0, getmaxy(stdscr)-1, 0);
+  EDIT_WINDOW = newwin(0, 0, 1, 3);
+  NUMS_WINDOW = newwin(0, 0, 1, 0);
 
   // initialize color pairs
-  init_pair(1, COLOR_BLACK, COLOR_WHITE);
-  init_pair(2, COLOR_WHITE, COLOR_BLACK);
-  init_pair(3, COLOR_WHITE, COLOR_BLACK);
-  init_pair(4, COLOR_WHITE, COLOR_BLACK);
-  wbkgd(info_window, COLOR_PAIR(1));
-  wbkgd(help_window, COLOR_PAIR(2));
-  wbkgd(edit_window, COLOR_PAIR(3));
-  wbkgd(nums_window, COLOR_PAIR(4));
-
-  // use config file to modify color pairs
-  readConfig();
+  init_colors();
 
   // initialize editor status
-  E.miny = 0; E.minx = 0;
-  getmaxyx(edit_window, E.maxy, E.maxx);
-  E.data = readFile(E.path, NULL);
-  E.curr_line = E.data;
+  E.mode = 0; // insert mode
+  E.tabsize = 4;
+  E.maxlength = 256;
+  E.curr_tab = 1;
+  E.last_tab = 0;
+  E.tabcount = 0;
 
-  // initialize info window
-  wprintw(info_window, "%s", E.path);
+  // use config file to modify color pairs
+  readConfig(E.config_path);
 
-  // initialize help window
-  alternate(help_window, A_STANDOUT, "^Q", " quit");
-  wmove(help_window, 0, 10);
-  alternate(help_window, A_STANDOUT, "^W", " write");
-  wmove(help_window, 0, 20);
-  alternate(help_window, A_STANDOUT, "^R", " reset");
+  // initialize tabs
+  create_tab(E.help_path, 0);
+  create_tab(path, 1);
 
-  // initialize nums and edit windows
-  refresh_all();
-  
-  // initialize cursor
-  E.cx = E.minx;
-  E.cy = E.miny;
-  E.cx_real = E.cx;
-  E.cy_old = E.cy;
-  wmove(edit_window, E.cy, E.cx_real);
+  T = *(E.tabs[E.curr_tab]);
 
-  wrefresh(info_window);
-  wrefresh(help_window);
-  wrefresh(nums_window);
-  wrefresh(edit_window);
-
+  // initialize screen
+  resize_windows();
+  redraw();
 }
 
-//runs at very end of the program, when exited or returned
+// runs at very end of the program, when exited or returned
 void reset(){
-  delwin(info_window);
-  delwin(help_window);
-  delwin(edit_window);
+  delwin(INFO_WINDOW);
+  delwin(HELP_WINDOW);
+  delwin(EDIT_WINDOW);
+  delwin(NUMS_WINDOW);
   endwin();
-  free_doc(E.data);
+  for(int i=0; i<E.tabcount; i++) delete_tab(i);
 }
 
-void alternate(WINDOW* win, attr_t attr, char* special, char* normal){
-  wattron(win, attr);
-  wprintw(win, "%s", special);
-  wattroff(win, attr);
-  wprintw(win, "%s", normal);
+void resize(){
+  endwin();
+  refresh();
+
+  T.cy = T.miny;
+  T.cy_old = T.miny;
+  T.first_line = T.curr_line;
+
+  resize_windows();
+  redraw();
 }

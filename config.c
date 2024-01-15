@@ -2,33 +2,25 @@
 #include "giga.h"
 #include <stdio.h> // fopen, fgets
 #include <string.h> // strcmp, strsep
+#include <ctype.h> // isdigit
 #include "util.h" // split, remove_crlf
 
-//todo: rewrite
+char *colnames[8] = {"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"};
+char *winnames[4] = {"info", "help", "edit", "nums"};
+
+
 short colname(char* str){
-  if(!strcmp(str, "black")) return 0;
-  if(!strcmp(str, "red")) return 1;
-  if(!strcmp(str, "green")) return 2;
-  if(!strcmp(str, "yellow")) return 3;
-  if(!strcmp(str, "blue")) return 4;
-  if(!strcmp(str, "magenta")) return 5;
-  if(!strcmp(str, "cyan")) return 6;
-  if(!strcmp(str, "white")) return 7;
+  for(int i=0; i<8; i++) if(!strcmp(str, colnames[i])) return i;
   return -1;
 }
 
-short elemname(char* str){
-  if(!strcmp(str, "info")) return 1;
-  if(!strcmp(str, "help")) return 2;
-  if(!strcmp(str, "edit")) return 3;
-  if(!strcmp(str, "nums")) return 4;
+short winname(char* str){
+  for(int i=0; i<4; i++) if(!strcmp(str, winnames[i])) return i;
   return -1;
 }
-WINDOW* elemptr(char* str){
-  if(!strcmp(str, "info")) return info_window;
-  if(!strcmp(str, "help")) return help_window;
-  if(!strcmp(str, "edit")) return edit_window;
-  if(!strcmp(str, "nums")) return nums_window;
+
+WINDOW* winptr(char* str){
+  for(int i=0; i<4; i++) if(!strcmp(str, winnames[i])) return E.windows[i];
   return NULL;
 }
 
@@ -40,14 +32,20 @@ attr_t attrname(char* str){
   return A_NORMAL;
 }
 
-void readConfig(){
-  FILE *f = fopen("giga.conf", "r");
+int tonum(char* str){
+  int i;
+  if(sscanf(str, "%d", &i)) return i;
+  return -1;
+}
+
+void readConfig(char* path){
+  FILE *f = fopen(path, "r");
   if(!f) return;
 
-  char line[256];
+  char line[LINE_SIZE];
   char *args[16];
 
-  while(fgets(line, 256, f)){
+  while(fgets(line, LINE_SIZE, f)){
     char *ptr = strchr(line, '#');
     if(ptr) *ptr = '\0';
     remove_crlf(line);
@@ -57,13 +55,23 @@ void readConfig(){
 
     if(!strcmp(args[0], "set")){
       if(!strcmp(args[1], "color")){
-        if(elemname(args[2]) != -1){
-          init_pair(elemname(args[2]), colname(args[3]), colname(args[4]));
+        if(winname(args[2]) != -1){
+          init_pair(winname(args[2])+1, colname(args[3]), colname(args[4]));
+        }
+      }
+      else if(!strcmp(args[1], "tabsize")){
+        if(tonum(args[2]) != -1){
+          E.tabsize = tonum(args[2]);
+        }
+      }
+      else if(!strcmp(args[1], "maxlength")){
+        if(tonum(args[2]) != -1){
+          E.maxlength = tonum(args[2]);
         }
       }
       else if(attrname(args[1]) != -1){
-        if(elemptr(args[2])){
-          wattron(elemptr(args[2]), attrname(args[1]));
+        if(winptr(args[2])){
+          wattron(winptr(args[2]), attrname(args[1]));
         }
       }
     }

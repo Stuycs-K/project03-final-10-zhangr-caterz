@@ -2,13 +2,14 @@
 #include "giga.h" // struct line
 #include <stdio.h> // fopen, fgets
 #include <stdlib.h> // malloc
-#include <string.h> // strcpy, strlen
+#include <string.h> // strncpy, strlen
 #include "util.h" // err, remove_crlf
 #include "read.h"
 
 struct line* insert_line(struct line* list, char s[], int line_num) {
     struct line* node = malloc(sizeof(struct line));
-    strcpy(node->str,s);
+    node->str = malloc(LINE_SIZE+1);
+    strncpy(node->str,s, LINE_SIZE+1);
     node->next = NULL;
     node->line_num = line_num;
     node->previous = NULL;
@@ -38,20 +39,22 @@ struct line* insert_line(struct line* list, char s[], int line_num) {
 
 //params: filepath is path of the file, current is current node (when passing in pass first node in)
 struct line * readFile(char* filepath, struct line * document){
-    int counter = 0;
-    char s[LINE_SIZE+1];
-    FILE* fp = fopen(filepath,"r");
-    if(fp == NULL) {
-        err(-1, "error reading file");        
+    if(filepath==NULL){
+        document = insert_line(document, "", 0);
     }
+    else{
+        int counter = 0;
+        char s[LINE_SIZE+1];
+        FILE* fp = fopen(filepath,"r");
+        if(fp == NULL) err(-1, "error reading file");        
 
-
-    while(fgets(s, LINE_SIZE, fp) != NULL){
-        remove_crlf(s);
-        document = insert_line(document, s, counter);
-        counter++;
+        while(fgets(s, LINE_SIZE, fp) != NULL){
+            remove_crlf(s);
+            document = insert_line(document, s, counter);
+            counter++;
+        }
+        fclose(fp);
     }
-    fclose(fp);
     return document;
 }
 
@@ -70,6 +73,7 @@ struct line* free_doc(struct line * list){
     struct line* temp;
     while(list != NULL){
         temp = list->next;
+        free(list->str);
         free(list);
         list = temp;
     }
