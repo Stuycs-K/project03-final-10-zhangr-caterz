@@ -2,11 +2,10 @@
 #include "giga.h"
 #include <stdlib.h> // atexit
 #include "config.h"
-#include "read.h" // readFile
-#include "visual.h" // refresh_all, init_colors, redraw
-#include "cursor.h" // init_cursor
-#include "helpbar.h" // helpbar_default
+#include "read.h" // free_doc
+#include "visual.h" // init_colors, redraw
 #include "util.h" // err
+#include "tabs.h" // create_tab
 #include "setup.h"
 
 void reset();
@@ -41,31 +40,14 @@ void setup(char *path){
   E.maxlength = 256;
   E.curr_tab = 1;
   E.last_tab = 0;
+  E.tabcount = 0;
 
   // use config file to modify color pairs
   readConfig(E.config_path);
 
-  struct tab_status *help = malloc(sizeof(struct tab_status));
-  E.tabs[0] = help;
-  help->mutable = 0;
-  help->path = E.help_path;
-  help->miny = 0;
-  help->data = readFile(help->path, NULL);
-  help->curr_line = help->data;
-  help->first_line = help->data;
-  init_cursor(help);
-
-  // initialize tab
-  struct tab_status *first = malloc(sizeof(struct tab_status));
-  E.tabs[1] = first;
-  first->mutable = 1;
-  first->path = path;
-  first->miny = 0;
-  first->data = readFile(first->path, NULL);
-  first->curr_line = first->data;
-  first->first_line = first->data;
-  init_cursor(first);
-
+  // initialize tabs
+  create_tab(E.help_path, 0);
+  create_tab(path, 1);
 
   T = *(E.tabs[E.curr_tab]);
 

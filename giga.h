@@ -13,6 +13,7 @@ struct editor_status{
   struct tab_status *tabs[10];
   int curr_tab;
   int last_tab;
+  int tabcount;
 };
 
 struct tab_status{

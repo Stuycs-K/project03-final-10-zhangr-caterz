@@ -3,7 +3,6 @@
 #include <string.h> // strlen
 #include "read.h" // readFile, free_doc
 #include "visual.h" // refresh_all
-//#include "cursor.h" // init_cursor
 #include "setup.h" // redraw
 
 void alternate(char* special, char* normal){
@@ -47,18 +46,4 @@ void helpbar_default(){
 void infobar_default(){
   reset_bar(INFO_WINDOW);
   wprintw(INFO_WINDOW, "%s", T.path);
-}
-
-void show_help(){
-  *(E.tabs[E.curr_tab]) = T;
-  if(E.curr_tab){
-    E.last_tab = E.curr_tab;
-    E.curr_tab = 0;
-  }
-  else{
-    E.curr_tab = E.last_tab;
-    E.last_tab = 0;
-  }
-  T = *(E.tabs[E.curr_tab]);
-  redraw();
 }

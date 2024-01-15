@@ -6,12 +6,12 @@
 #include "util.h" // err
 #include "read.h" // save_file, free_doc
 #include "modify.h" // replace, insert, delete
-#include "helpbar.h" // helpbar_input, helpbar_alert, show_help
+#include "helpbar.h" // helpbar_input, helpbar_alert
 #include "visual.h" // scroll_window, refresh_line, refresh_all
+#include "tabs.h" // switch_tab, show_help
 
 struct editor_status E;
 struct tab_status T;
-//struct tab_status H;
 
 
 int main(int argc, char *argv[]){
