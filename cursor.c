@@ -20,15 +20,15 @@ void moveCursor(int ch){
     case KEY_RIGHT:
       if(T.cx<T.curr_line->line_len) T.cx = T.cx_real + 1; break;
     case KEY_HOME:
-      T.cx = E.minx; break;
+      T.cx = 0; break;
     case KEY_END:
       T.cx = INT_MAX; break;
     case KEY_PPAGE: // page up
-      T.cy = E.miny; break;
+      T.cy = T.miny; break;
     case KEY_NPAGE: // page down
-      T.cy = E.miny + E.height - 1; break;
+      T.cy = T.miny + E.height - 1; break;
     //case KEY_CTRL('m'): // enter, but KEY_ENTER is mapped to the numpad
-    //  T.cy++; T.cx = E.minx; break;
+    //  T.cy++; T.cx = 0; break;
     //case KEY_BACKSPACE:
     //  T.cx--; break;
     case KEY_STAB: // tab
@@ -54,15 +54,15 @@ void updateCursor(){
   updateCurrLine();
   scroll_window();
 
-  T.cx = MAX(T.cx, E.minx);
+  T.cx = MAX(T.cx, 0);
   T.cx_real = MIN(T.cx, T.curr_line->line_len);
-  wmove(EDIT_WINDOW, T.cy - E.miny + T.cx_real / E.width, T.cx_real % E.width);
+  wmove(EDIT_WINDOW, T.cy - T.miny + T.cx_real / E.width, T.cx_real % E.width);
 }
 
-void init_cursor(){
-  T.cx = E.minx;
-  T.cy = E.miny;
-  T.cx_real = T.cx;
-  T.cy_old = T.cy;
-  wmove(EDIT_WINDOW, T.cy - E.miny, T.cx_real);
+void init_cursor(struct tab_status *tab){
+  tab->cx = 0;
+  tab->cy = tab->miny;
+  tab->cx_real = 0;
+  tab->cy_old = tab->miny;
+  wmove(EDIT_WINDOW, tab->cy - tab->miny, tab->cx_real);
 }

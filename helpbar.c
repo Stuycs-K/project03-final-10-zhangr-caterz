@@ -50,20 +50,15 @@ void infobar_default(){
 }
 
 void show_help(){
-  struct tab_status temp = T;
-  T.path = E.help_path;
-  T.data = readFile(T.path, NULL);
-  T.curr_line = T.data;
-  T.first_line = T.data;
+  *(E.tabs[E.curr_tab]) = T;
+  if(E.curr_tab){
+    E.last_tab = E.curr_tab;
+    E.curr_tab = 0;
+  }
+  else{
+    E.curr_tab = E.last_tab;
+    E.last_tab = 0;
+  }
+  T = *(E.tabs[E.curr_tab]);
   redraw();
-  
-  getch();
-
-  free_doc(T.data);
-  T = temp;
-  refresh_all();
-  infobar_default();
-  wrefresh(INFO_WINDOW);
-  wrefresh(NUMS_WINDOW);
-  wrefresh(EDIT_WINDOW);
 }

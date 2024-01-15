@@ -6,6 +6,7 @@
 #include "modify.h"
 
 void replace(char* str, int n, char ch){
+  if(!T.mutable) return;
   char* pos = str+n;
   if(!*pos){
     *(pos+1) = '\0';
@@ -15,6 +16,7 @@ void replace(char* str, int n, char ch){
 }
 
 void ins_char(char* str, int n, char ch){
+  if(!T.mutable) return;
   char temp;
   char* pos = str+n;
   while(*pos){
@@ -32,6 +34,7 @@ void ins_char(char* str, int n, char ch){
 }
 
 void del_char(char* str, int n){
+  if(!T.mutable) return;
   char* pos = str+n;
   while(*pos){
     *pos = *(pos+1);
@@ -49,6 +52,7 @@ void update_line_nums(struct line *node, int n){
 }
 
 void ins_lf(struct line *node, int n){
+  if(!T.mutable) return;
   // copy remainding line into str2
   char *pos = node->str+n;
   char str2[LINE_SIZE+1];
@@ -76,6 +80,7 @@ void ins_lf(struct line *node, int n){
 
 // node is the node BEFORE the line feed
 void del_lf(struct line *node){
+  if(!T.mutable) return;
   struct line *node2 = node->next;
   char *pos = node->str + node->line_len;
   char *pos2 = node2->str;
@@ -93,4 +98,3 @@ void del_lf(struct line *node){
   free(node2->str);
   free(node2);
 }
-

@@ -11,15 +11,15 @@
 
 struct editor_status E;
 struct tab_status T;
+//struct tab_status H;
 
 
 int main(int argc, char *argv[]){
 
-  T.path = argc>1 ? argv[1] : "data/tempfile.txt";
   E.config_path = "giga.conf";
   E.help_path = "help.txt";
   
-  setup();
+  setup(argc>1 ? argv[1] : "data/tempfile.txt");
 
   int ch;
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]){
       T.data=readFile(T.path, NULL);
       T.curr_line = T.data;
       T.first_line = T.curr_line;
-      init_cursor();
+      init_cursor(&T);
       refresh_all();
       helpbar_alert("reverted!");
     }
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
       }
       refresh_line();
     }
-    else if(ch==KEY_BACKSPACE && T.cx_real==E.minx && T.curr_line->previous){
+    else if(ch==KEY_BACKSPACE && T.cx_real==0 && T.curr_line->previous){
       T.curr_line = T.curr_line->previous;
       T.cx_real = T.curr_line->line_len;
       T.cx = T.cx_real;
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]){
       del_lf(T.curr_line);
       refresh_all();
     }
-    else if(ch==KEY_BACKSPACE && T.cx_real!=E.minx){
+    else if(ch==KEY_BACKSPACE && T.cx_real>0){
       T.cx = T.cx_real-1;
       del_char(T.curr_line->str, T.cx_real-1);
       refresh_line();
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]){
       refresh_line();
     }
     else if(ch==KEY_CTRL('m')){
-      T.cx = E.minx;
+      T.cx = 0;
       ins_lf(T.curr_line, T.cx_real);
       T.cy++;
       refresh_all();

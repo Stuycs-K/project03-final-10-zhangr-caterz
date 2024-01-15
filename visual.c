@@ -1,25 +1,26 @@
 #include <ncurses.h>
 #include "giga.h"
 #include "helpbar.h" // helpbar_default, infobar_default
-#include "cursor.h" // init_cursor
+#include "cursor.h" // updateCursor
+#include "util.h" // err
 #include "visual.h"
 
 
 void scroll_window(){
-  while(T.cy > E.miny + E.height - 1){
-    E.miny += T.first_line->line_len / E.width + 1;
+  while(T.cy > T.miny + E.height - 1){
+    T.miny += T.first_line->line_len / E.width + 1;
     T.first_line = T.first_line->next;
     refresh_all();
   }
-  while(T.cy < E.miny){
-    E.miny -= T.first_line->previous->line_len / E.width + 1;
+  while(T.cy < T.miny){
+    T.miny -= T.first_line->previous->line_len / E.width + 1;
     T.first_line = T.first_line->previous;
     refresh_all();
   }
 }
 
 void refresh_line(){
-  wmove(EDIT_WINDOW, T.cy - E.miny, E.minx);
+  wmove(EDIT_WINDOW, T.cy - T.miny, 0);
   wclrtoeol(EDIT_WINDOW);
   wprintw(EDIT_WINDOW, "%s", T.curr_line->str);
 }
@@ -30,7 +31,7 @@ void refresh_all(){
   int i=0;
   for(struct line *node = T.first_line; node && i<E.height; node = node->next) {
     mvwprintw(NUMS_WINDOW, i, 0, "%2d", node->line_num);
-    mvwprintw(EDIT_WINDOW, i, E.minx, "%s", node->str);
+    mvwprintw(EDIT_WINDOW, i, 0, "%s", node->str);
     i += node->line_len / E.width + 1;
   }
   while(i<E.height){
@@ -54,13 +55,10 @@ void resize_windows(){
   wresize(EDIT_WINDOW, getmaxy(stdscr)-2, getmaxx(stdscr)-3);
   wresize(NUMS_WINDOW, getmaxy(stdscr)-2, 3);
   refresh();
+  getmaxyx(EDIT_WINDOW, E.height, E.width);
 }
 
 void redraw(){
-  resize_windows();
-
-  getmaxyx(EDIT_WINDOW, E.height, E.width);
-
   // initialize info window
   infobar_default();
 
@@ -70,8 +68,8 @@ void redraw(){
   // initialize nums and edit windows
   refresh_all();
   
-  // initialize cursor
-  init_cursor();
+  // move cursor into position
+  updateCursor();
 
   wrefresh(INFO_WINDOW);
   wrefresh(HELP_WINDOW);
