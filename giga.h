@@ -10,7 +10,7 @@ struct editor_status{
   int maxlength;
   char *config_path;
   char *help_path;
-  struct tab_status *tabs[10];
+  struct tab_status *tabs[9];
   int curr_tab;
   int last_tab;
   int tabcount;

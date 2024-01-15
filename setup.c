@@ -63,8 +63,7 @@ void reset(){
   delwin(EDIT_WINDOW);
   delwin(NUMS_WINDOW);
   endwin();
-  for(int i=0; i<2; i++) free_doc(E.tabs[i]->data);
-  for(int i=0; i<2; i++) free(E.tabs[i]);
+  for(int i=0; i<E.tabcount; i++) delete_tab(i);
 }
 
 void resize(){

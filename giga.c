@@ -36,9 +36,6 @@ int main(int argc, char *argv[]){
       save_file(to, T.data);
       helpbar_alert("saved!");
     }
-    else if(ch==KEY_CTRL('G')){
-      show_help();
-    }
     else if(ch==KEY_CTRL('r')){
       free_doc(T.data);
       T.data=readFile(T.path, NULL);
@@ -60,7 +57,9 @@ int main(int argc, char *argv[]){
       helpbar_default();
     }
     
+    change_tab(ch);
     moveCursor(ch);
+    //wprintw(HELP_WINDOW, "%d %d %d %d", ch, );
 
     if(isprint(ch)) {
       if(!E.mode) ins_char(T.curr_line->str, T.cx_real, ch);

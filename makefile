@@ -34,7 +34,7 @@ helpbar.o: helpbar.c helpbar.h giga.c giga.h
 visual.o: visual.c visual.h giga.c giga.h
 	gcc -c visual.c
 
-tabs.o: tabs.c tabs.h giga.c giga.h visual.c visual.h
+tabs.o: tabs.c tabs.h giga.c giga.h visual.c visual.h helpbar.c helpbar.h util.c util.h
 	gcc -c tabs.c
 
 clean:

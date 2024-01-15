@@ -43,7 +43,9 @@ void helpbar_default(){
   wmove(HELP_WINDOW, 0, 20);
   alternate("^G", " help");
 }
+
 void infobar_default(){
   reset_bar(INFO_WINDOW);
-  wprintw(INFO_WINDOW, "%s", T.path);
+  wprintw(INFO_WINDOW, "Tab %d: %s", E.curr_tab, T.path);
+  if(!T.mutable) wprintw(INFO_WINDOW, " - immutable");
 }

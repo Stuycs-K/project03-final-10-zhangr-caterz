@@ -6,8 +6,7 @@ giga v0.9: created by R Zhang and Z Cater
 
 SHORTCUTS
 
-0: switch to help tab
-1-9: switch between tabs
+F1-F8: switch between tabs
 
 ^Q: quit
 ^W: write to file
@@ -26,16 +25,23 @@ SHORTCUTS
 ^C: copy from mark
 ^V: paste copy buffer
 
-Enter: insert newline
-Tab: insert tabsize spaces
+Arrow keys to navigate
+
+Enter:     insert newline
+Tab:       insert tabsize spaces
 Backspace: delete previous character
 
-Delete: delete next character
-Insert: toggle edit mode between insert and replace
-Home: jump to start of line
-End: jump to end of line
-Page Up: jump to top of screen
+Delete:    delete next character
+Insert:    toggle edit mode between insert and replace
+Home:      jump to start of line
+End:       jump to end of line
+Page Up:   jump to top of screen
 Page Down: jump to bottom of screen
+
+Shift+Left:  delete to beginning of line
+Shift+Right: delete to end of line
+Shift+Up:    insert row above
+Shift+Down:  insert row below
 
 ---
 
