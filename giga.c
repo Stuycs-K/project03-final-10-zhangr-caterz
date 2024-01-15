@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include "giga.h"
 #include <ctype.h> // isprint
+#include <string.h> // strlen
 #include "setup.h" // setup, resize
 #include "cursor.h" // moveCursor, updateCursor, init_cursor
 #include "util.h" // err
@@ -35,6 +36,8 @@ int main(int argc, char *argv[]){
       helpbar_input("destination: ", to, T.path ? T.path : "");
       save_file(to, T.data);
       helpbar_alert("saved!");
+      if(!strlen(T.path)) strncpy(T.path, to, LINE_SIZE+1);
+      infobar_default();
     }
     else if(ch==KEY_CTRL('r')){
       free_doc(T.data);
@@ -105,6 +108,7 @@ int main(int argc, char *argv[]){
     }
 
     updateCursor();
+    wrefresh(INFO_WINDOW);
     wrefresh(HELP_WINDOW);
     wrefresh(NUMS_WINDOW);
     wrefresh(EDIT_WINDOW);

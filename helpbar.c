@@ -46,6 +46,6 @@ void helpbar_default(){
 
 void infobar_default(){
   reset_bar(INFO_WINDOW);
-  wprintw(INFO_WINDOW, "Tab %d: %s", E.curr_tab, T.path ? T.path : "no file");
+  wprintw(INFO_WINDOW, "Tab %d: %s", E.curr_tab, strlen(T.path) ? T.path : "no file");
   if(!T.mutable) wprintw(INFO_WINDOW, " - immutable");
 }

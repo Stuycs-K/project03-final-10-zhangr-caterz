@@ -39,7 +39,7 @@ struct line* insert_line(struct line* list, char s[], int line_num) {
 
 //params: filepath is path of the file, current is current node (when passing in pass first node in)
 struct line * readFile(char* filepath, struct line * document){
-    if(filepath==NULL){
+    if(!strlen(filepath)){
         document = insert_line(document, "", 0);
     }
     else{

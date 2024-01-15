@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include "giga.h"
 #include <stdlib.h> // malloc
+#include <string.h> // strcpy
 #include "read.h" // readFile
 #include "cursor.h" // init_cursor
 #include "visual.h" // redraw
@@ -15,7 +16,8 @@ void create_tab(char *path, int mutable){
   }
   struct tab_status *tab = malloc(sizeof(struct tab_status));
   tab->mutable = mutable;
-  tab->path = path;
+  tab->path = calloc(LINE_SIZE+1, 1);
+  if(path) strncpy(tab->path, path, LINE_SIZE+1);
   tab->miny = 0;
   tab->data = readFile(tab->path, NULL);
   tab->curr_line = tab->data;
@@ -29,6 +31,7 @@ void create_tab(char *path, int mutable){
 void delete_tab(int which){
   struct tab_status *tab = E.tabs[which];
   free_doc(tab->data);
+  free(tab->path);
   free(tab);
   E.tabcount--;
   for(int i=which; i<E.tabcount; i++) E.tabs[i] = E.tabs[i+1];
