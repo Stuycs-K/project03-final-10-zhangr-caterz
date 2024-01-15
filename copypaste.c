@@ -4,25 +4,32 @@
 #include <errno.h>
 #include <string.h> 
 #include "util.h"
-// #include "modify.h"
+#include "giga.h"
+#include "modify.h"
 #include "copypaste.h"
 
-// char* substr(int startx, int endx, char str[]){ 
-// 	char subs[LINE_SIZE];
-// 	for (int i = startx; i < endx; i++){
-// 		strcat(subs, str[i]);
-// 	}
-// 	return subs;
-// }
+char* substr(int startx, int endx, char str[]){ 
+	char subs[LINE_SIZE];
+	for (int i = startx; i <= endx; i++){
+		strcat(subs, str[i]);
+	}
+	return subs;
+}
 
 //hit ctrl-z, use arrow keys
 //only works for same line (limitation- can only have a length of LINE_SIZE at a time)
-// char* copy_text(int startx, int starty, int endx, int endy){
-// 	char buffer[LINE_SIZE];
-	
-// 	strcpy(buffer, substr(startx, endx, E.data->str));
+char* copy_text(int * marked, int endx, int endy){
+	char buffer[LINE_SIZE];
+	int startx = marked[0];
+	int starty = marked[1];
+	if (startx < endx){
+		strcpy(buffer, substr(startx, endx, E.data->str));
+	}
+	else{
+		strcpy(buffer, substr(endx, startx, E.data->str));
+	}
 
-// }
+}
 
 int * mark(int x, int y){
 	int markx = x;
@@ -33,6 +40,6 @@ int * mark(int x, int y){
 	return coords;
 }
 
-char* cut_text(int marked[], int endx, int endy){
-
+char* cut_text(int * marked, int endx, int endy){
+	
 }

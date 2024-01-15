@@ -60,6 +60,7 @@ int main(int argc, char *argv[]){
     
     change_tab(ch);
     moveCursor(ch);
+    int isMarked = 0; //0 = false, 1 = true (checks if marked)
     //wprintw(HELP_WINDOW, "%d %d %d %d", ch, );
 
     if(isprint(ch)) {
@@ -104,9 +105,13 @@ int main(int argc, char *argv[]){
       T.cy++;
       refresh_all();
     }
-    else if(ch==KEY_CTRL('z')){
-        int * marked;
-        marked = mark(T.cx_real, T.cy);
+    else if(ch==KEY_CTRL('z') && isMarked){
+      int * marked;
+      marked = mark(T.cx_real, T.cy);
+      isMarked = 1;
+    }
+    else if(ch==KEY_CTRL('c') && !isMarked){
+
     }
     
     updateCursor();
