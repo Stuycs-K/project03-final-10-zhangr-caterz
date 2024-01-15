@@ -38,11 +38,6 @@ End:       jump to end of line
 Page Up:   jump to top of screen
 Page Down: jump to bottom of screen
 
-Shift+Left:  delete to beginning of line
-Shift+Right: delete to end of line
-Shift+Up:    insert row above
-Shift+Down:  insert row below
-
 ---
 
 CONFIG FILE FORMAT

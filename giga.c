@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
   E.config_path = "giga.conf";
   E.help_path = "help.txt";
   
-  setup(argc>1 ? argv[1] : "data/tempfile.txt");
+  setup(argc>1 ? argv[1] : NULL);
 
   int ch;
 
@@ -32,7 +32,7 @@ int main(int argc, char *argv[]){
     }
     else if(ch==KEY_CTRL('w')){
       char to[LINE_SIZE];
-      helpbar_input("destination: ", to, T.path);
+      helpbar_input("destination: ", to, T.path ? T.path : "");
       save_file(to, T.data);
       helpbar_alert("saved!");
     }

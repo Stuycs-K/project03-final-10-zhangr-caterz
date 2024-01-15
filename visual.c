@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include "giga.h"
+#include <string.h> // strcmp
 #include "helpbar.h" // helpbar_default, infobar_default
 #include "cursor.h" // updateCursor
 #include "util.h" // err
@@ -19,10 +20,15 @@ void scroll_window(){
   }
 }
 
+void print(char* str){
+  if(!strcmp(str, "---")) whline(EDIT_WINDOW, ACS_HLINE, E.width);
+  else wprintw(EDIT_WINDOW, "%s", str);
+}
+
 void refresh_line(){
   wmove(EDIT_WINDOW, T.cy - T.miny, 0);
   wclrtoeol(EDIT_WINDOW);
-  wprintw(EDIT_WINDOW, "%s", T.curr_line->str);
+  print(T.curr_line->str);
 }
 
 void refresh_all(){
@@ -31,7 +37,8 @@ void refresh_all(){
   int i=0;
   for(struct line *node = T.first_line; node && i<E.height; node = node->next) {
     mvwprintw(NUMS_WINDOW, i, 0, "%2d", node->line_num);
-    mvwprintw(EDIT_WINDOW, i, 0, "%s", node->str);
+    wmove(EDIT_WINDOW, i, 0);
+    print(node->str);
     i += node->line_len / E.width + 1;
   }
   while(i<E.height){
