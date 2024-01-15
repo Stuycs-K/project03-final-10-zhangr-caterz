@@ -9,6 +9,7 @@
 #include "helpbar.h" // helpbar_input, helpbar_alert
 #include "visual.h" // scroll_window, refresh_line, refresh_all
 #include "tabs.h" // switch_tab, show_help
+#include "copypaste.h"
 
 struct editor_status E;
 struct tab_status T;
@@ -103,7 +104,11 @@ int main(int argc, char *argv[]){
       T.cy++;
       refresh_all();
     }
-
+    else if(ch==KEY_CTRL('z')){
+        int * marked;
+        marked = mark(T.cx_real, T.cy);
+    }
+    
     updateCursor();
     wrefresh(HELP_WINDOW);
     wrefresh(NUMS_WINDOW);
