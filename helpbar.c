@@ -1,9 +1,6 @@
 #include <ncurses.h>
 #include "giga.h"
 #include <string.h> // strlen
-#include "read.h" // readFile, free_doc
-#include "visual.h" // refresh_all
-#include "setup.h" // redraw
 
 void alternate(char* special, char* normal){
   WINDOW *win = HELP_WINDOW;

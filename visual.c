@@ -11,12 +11,10 @@ void scroll_window(){
   while(T.cy > T.miny + E.height - 1){
     T.miny += T.first_line->line_len / E.width + 1;
     T.first_line = T.first_line->next;
-    refresh_all();
   }
   while(T.cy < T.miny){
     T.miny -= T.first_line->previous->line_len / E.width + 1;
     T.first_line = T.first_line->previous;
-    refresh_all();
   }
 }
 
@@ -25,11 +23,11 @@ void print(char* str){
   else wprintw(EDIT_WINDOW, "%s", str);
 }
 
-void refresh_line(){
+/*void refresh_line(){
   wmove(EDIT_WINDOW, T.cy - T.miny, 0);
   wclrtoeol(EDIT_WINDOW);
   print(T.curr_line->str);
-}
+}*/
 
 void refresh_all(){
   werase(NUMS_WINDOW);
@@ -45,6 +43,13 @@ void refresh_all(){
     mvwprintw(NUMS_WINDOW, i, 0, "~");
     i++;
   }
+
+  updateCursor();
+
+  wrefresh(INFO_WINDOW);
+  wrefresh(HELP_WINDOW);
+  wrefresh(NUMS_WINDOW);
+  wrefresh(EDIT_WINDOW);
 }
 
 void init_colors(){
@@ -75,11 +80,4 @@ void redraw(){
   // initialize nums and edit windows
   refresh_all();
   
-  // move cursor into position
-  updateCursor();
-
-  wrefresh(INFO_WINDOW);
-  wrefresh(HELP_WINDOW);
-  wrefresh(NUMS_WINDOW);
-  wrefresh(EDIT_WINDOW);
 }

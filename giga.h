@@ -21,7 +21,7 @@ struct tab_status{
   int miny;
   int cx, cy; // cursor desired coordinates
   int cx_real; // actual cursor x-coordinate
-  int cy_old; // previous cursor row (used to calculate new current line)
+  int line_goal;
   char *path;
   struct line *data;
   struct line *curr_line;

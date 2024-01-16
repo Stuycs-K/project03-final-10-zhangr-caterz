@@ -13,7 +13,7 @@ giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h read.c rea
 cursor.o: cursor.c cursor.h giga.c giga.h util.c util.h visual.c visual.h helpbar.c helpbar.h
 	gcc -c cursor.c
 
-setup.o: setup.c setup.h giga.c giga.h config.c config.h visual.c visual.h tabs.c tabs.h
+setup.o: setup.c setup.h giga.c giga.h config.c config.h visual.c visual.h tabs.c tabs.h read.c read.h util.c util.h
 	gcc -c setup.c
 
 config.o: config.c config.h giga.c giga.h util.c util.h
@@ -22,19 +22,19 @@ config.o: config.c config.h giga.c giga.h util.c util.h
 util.o: util.c util.h
 	gcc -c util.c
 
-read.o: read.c read.h giga.c giga.h util.c util.h
+read.o: read.c read.h giga.c giga.h util.c util.h helpbar.c helpbar.h cursor.c cursor.h
 	gcc -c read.c
 
-modify.o: modify.c modify.h giga.c giga.h visual.c visual.o
+modify.o: modify.c modify.h giga.c giga.h util.c util.h
 	gcc -c modify.c
 
 helpbar.o: helpbar.c helpbar.h giga.c giga.h
 	gcc -c helpbar.c
 
-visual.o: visual.c visual.h giga.c giga.h
+visual.o: visual.c visual.h giga.c giga.h helpbar.c helpbar.h cursor.c cursor.h util.c util.h
 	gcc -c visual.c
 
-tabs.o: tabs.c tabs.h giga.c giga.h visual.c visual.h helpbar.c helpbar.h util.c util.h
+tabs.o: tabs.c tabs.h giga.c giga.h visual.c visual.h helpbar.c helpbar.h util.c util.h read.c read.h cursor.c cursor.h
 	gcc -c tabs.c
 
 clean:

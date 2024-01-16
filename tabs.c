@@ -17,7 +17,7 @@ void create_tab(char *path, int mutable){
   struct tab_status *tab = malloc(sizeof(struct tab_status));
   tab->mutable = mutable;
   tab->path = calloc(LINE_SIZE+1, 1);
-  if(path) strncpy(tab->path, path, LINE_SIZE+1);
+  strncpy(tab->path, path, LINE_SIZE+1);
   tab->miny = 0;
   tab->data = readFile(tab->path, NULL);
   tab->curr_line = tab->data;

@@ -2,8 +2,39 @@
 #include "giga.h"
 #include <stdlib.h> // malloc
 #include <string.h> // strlen
-#include "visual.h" // refresh_line, refresh_all
+#include <ctype.h> // isprint
+#include "util.h" // KEY_CTRL
 #include "modify.h"
+
+void modify_keyhandler(int ch){
+  switch(ch){
+    case '\t':
+      for(int i=T.cx_real; i<T.cx; i++){
+        if(!E.mode) ins_char(T.curr_line->str, i, ' ');
+      }
+      break;
+    case KEY_BACKSPACE:
+      ungetch(KEY_DC);
+      break;
+    case KEY_DC:
+      if(T.cx_real==T.curr_line->line_len && T.curr_line->next){
+      del_lf(T.curr_line);
+      }
+      else if(T.cx_real!=T.curr_line->line_len){
+      del_char(T.curr_line->str, T.cx_real);
+      }
+      break;
+    case KEY_CTRL('m'):
+      ins_lf(T.curr_line, T.cx_real);
+      break;
+    default:
+      if(isprint(ch)){
+        if(!E.mode) ins_char(T.curr_line->str, T.cx_real, ch);
+        else replace(T.curr_line->str, T.cx_real, ch);
+      }
+      break;
+  }
+}
 
 void replace(char* str, int n, char ch){
   if(!T.mutable) return;

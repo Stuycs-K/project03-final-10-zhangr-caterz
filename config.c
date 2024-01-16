@@ -4,6 +4,7 @@
 #include <string.h> // strcmp, strsep
 #include <ctype.h> // isdigit
 #include "util.h" // split, remove_crlf
+#include "config.h"
 
 char *colnames[8] = {"black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"};
 char *winnames[4] = {"info", "help", "edit", "nums"};

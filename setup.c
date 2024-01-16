@@ -71,7 +71,6 @@ void resize(){
   refresh();
 
   T.cy = T.miny;
-  T.cy_old = T.miny;
   T.first_line = T.curr_line;
 
   resize_windows();

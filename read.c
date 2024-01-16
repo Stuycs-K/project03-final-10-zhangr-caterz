@@ -3,8 +3,35 @@
 #include <stdio.h> // fopen, fgets
 #include <stdlib.h> // malloc
 #include <string.h> // strncpy, strlen
-#include "util.h" // err, remove_crlf
+#include "helpbar.h" // helpbar_input, helpbar_alert, infobar_default
+#include "util.h" // err, remove_crlf, KEY_CTRL
+#include "cursor.h" // init_cursor
 #include "read.h"
+
+int readwrite_keyhandler(int ch){
+    char to[LINE_SIZE];
+    switch(ch){
+      case KEY_CTRL('w'):
+        helpbar_input("destination: ", to, T.path ? T.path : "");
+        save_file(to, T.data);
+        helpbar_alert("saved!");
+        if(!strlen(T.path)) strncpy(T.path, to, LINE_SIZE+1);
+        infobar_default();
+        break;
+      case KEY_CTRL('r'):
+        free_doc(T.data);
+        T.data=readFile(T.path, NULL);
+        T.curr_line = T.data;
+        T.first_line = T.curr_line;
+        init_cursor(&T);
+        helpbar_alert("reverted!");
+        break;
+      default:
+        return 0;
+        break;
+    }
+    return 1;
+} 
 
 struct line* insert_line(struct line* list, char s[], int line_num) {
     struct line* node = malloc(sizeof(struct line));
