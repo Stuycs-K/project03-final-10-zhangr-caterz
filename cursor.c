@@ -62,6 +62,8 @@ void cursor_keyhandler(int ch){
       if(i != -1) T.line_goal += 1;
       break;
     case KEY_CTRL('s'):
+      i = helpbar_input_int("Line to skip to: ");
+      if(i != -1) T.line_goal = i;
       break;
     default:
       if(isprint(ch)) T.cx = T.cx_real + 1;
