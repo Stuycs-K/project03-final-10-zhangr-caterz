@@ -25,7 +25,8 @@ int main(int argc, char *argv[]){
   setup(argc>1 ? argv[1] : NULL);
 
   int ch;
-
+  int * marked = malloc(sizeof(int) * 2);
+  char buffer[LINE_SIZE];
   while(1){
     ch = getch();
 
@@ -62,9 +63,6 @@ int main(int argc, char *argv[]){
     
     change_tab(ch);
     moveCursor(ch);
-    int isMarked = 0; //0 = false, 1 = true (checks if marked)
-    int * marked = malloc(sizeof(int) * 2);
-    char buffer[LINE_SIZE];
     //wprintw(HELP_WINDOW, "%d %d %d %d", ch, );
 
     if(isprint(ch)) {
@@ -109,16 +107,20 @@ int main(int argc, char *argv[]){
       T.cy++;
       refresh_all();
     }
-    else if(ch==KEY_CTRL('z') && !isMarked){
+    else if(ch==KEY_CTRL('z') && !E.isMarked){
       marked = marking(T.cx_real, T.cy);
-      isMarked = 1;
+      E.isMarked = 1;
     }
-    else if(ch==KEY_CTRL('c') && isMarked){
-      strcpy(buffer, copy_text(marked, T.cx_real, T.cy, buffer));
-      isMarked = 0;
+    else if(ch==KEY_CTRL('c') && E.isMarked){
+      copy_text(marked, T.cx_real, T.cy, buffer);
+      // err(-1, "works up to here");
+      E.isMarked = 0;
     }
-    else if(ch==KEY_CTRL('v') && buffer != NULL){
+    else if(ch==KEY_CTRL('n') && buffer != NULL){
+      // printf("%s", buffer);
       paste_text(buffer);
+      // printf("%s\n", T.curr_line->str);
+      refresh_all();
     }
 
     

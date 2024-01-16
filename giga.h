@@ -14,6 +14,7 @@ struct editor_status{
   int curr_tab;
   int last_tab;
   int tabcount;
+  int isMarked; //0 unmarked, 1 marked
 };
 
 struct tab_status{
