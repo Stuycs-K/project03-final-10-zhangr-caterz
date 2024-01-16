@@ -55,3 +55,6 @@ Debugging spacing error (20 min), moving code (10 min)
 
 ### 2024-01-11 - Extensive testing of text editor, preliminary select function written
 Testing (40 min), Select function (15 min)
+
+### 2024-01-12 to 2024-01-15 - Mark, Copy, and Paste 
+Writing functions (1 hour), debugging (1.5 hours), testing (20 min)
