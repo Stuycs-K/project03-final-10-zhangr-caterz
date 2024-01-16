@@ -113,13 +113,10 @@ int main(int argc, char *argv[]){
     }
     else if(ch==KEY_CTRL('c') && E.isMarked){
       copy_text(marked, T.cx_real, T.cy, buffer);
-      // err(-1, "works up to here");
       E.isMarked = 0;
     }
-    else if(ch==KEY_CTRL('n') && buffer != NULL){
-      // printf("%s", buffer);
+    else if((ch==KEY_CTRL('n') || ch==KEYCTRL('v')) && buffer != NULL){
       paste_text(buffer);
-      // printf("%s\n", T.curr_line->str);
       refresh_all();
     }
 
