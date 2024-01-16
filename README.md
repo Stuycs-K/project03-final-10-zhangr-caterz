@@ -1,19 +1,87 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/SQs7pKlr)
-# Text File Editor-Giga
+# OFFICIAL GIGA HELP FILE (written using Giga, of course)
 
-### placeholder name
+## giga v1
 
-Group Members
+### created by R Zhang and Z Cater
 
-Zameen Cater
+Giga, stylized as giga, is a minimalistic text editor intended to be a cross between vi's line-based approach and cute aesthetic and nano's usage of simpler-than-emacs keybinds, instead of using separate modes and recursive commands.
 
-Raymond Zhang
+To compile:
+0. Install libncurses5-dev using `sudo apt-get install libncurses5-dev` or an equivalent (or ask Mr K)
+1. Run `make compile` and ensure there are no errors. If there are errors, cry and do not continue.
 
-### Project Description:
+To run:
+0. Run `./giga` to open giga with an empty buffer, or `./giga data/beemovie.txt`, for example, to open giga with a file already opened.
+1. Press ^Q at any time (except during an input prompt) to quit.
 
-Explain what is this project.
-  
-### Instructions:
 
-How does the user install/compile/run the program.
-How does the user interact with this program?
+---
+
+## SHORTCUTS
+
+F1-F8: switch between tabs
+
+^Q: quit
+^W: write to file
+^E: toggle edit mode between insert and replace
+^R: revert buffer to match original file, wipe changes
+^T: create new tab
+
+^A: ascend n rows
+^S: skip to row n
+^D: descend n rows
+^F: find string
+^G: get help (switch to help tab)
+
+^Z: begin selection (mark)
+^C: copy from mark
+^V: paste copy buffer
+^N: paste copy buffer (for systems overriding ^V)
+
+Arrow keys to navigate
+
+Enter:     insert newline
+Tab:       insert tabsize spaces
+Backspace: delete previous character
+
+Delete:    delete next character
+Insert:    toggle edit mode between insert and replace
+Home:      jump to start of line
+End:       jump to end of line
+Page Up:   jump to top of screen
+Page Down: jump to bottom of screen
+
+---
+
+## CONFIG FILE FORMAT
+
+Each line starts with "set" followed by an attribute.
+color: takes a window name and two colors
+bold, underline, dim, highlight: take a window name
+tabsize: takes an integer (default: 4)
+maxlength: takes an integer (default: 256)
+Comments with begin with #
+
+---
+
+## ADDITIONAL FEATURES
+
+Triple dashes (---) appear as horizontal lines in giga
+Immutable files, such as the built-in helpfile tab
+Automatic adjustment on window resize
+Writing to a file will default to the current file name
+Writing a blank buffer into a file will update the tab name and default file name
+Automatic prevention of creating more than 8 tabs (+1 for the helpfile)
+^G in the helpfile will always return to the most recent file
+Bottom-bar alerts disappear as soon as a key is pressed
+
+---
+
+## KNOWN BUGS
+
+Pressing Enter on the last line of the screen will not visually scroll the screen until another key is pressed
+Typing off the bottom edge of the screen will not visually scroll the screen
+Page Down does not function
+Unknown and most likely unintended behavior if a line ever has more than maxlength characters
+Program quits with an error if an unavailable file is specified
+Pressing ^anything while in an input prompt will lock up the program indefinitely (not our problem, it's ncurses' fault--it'll never read an end-of-input and give us control back)

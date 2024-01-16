@@ -1,10 +1,23 @@
-OFFICIAL GIGA HELP FILE (written using Giga, of course)
+# OFFICIAL GIGA HELP FILE (written using Giga, of course)
 
-giga v0.9: created by R Zhang and Z Cater
+## giga v1
+
+### created by R Zhang and Z Cater
+
+Giga, stylized as giga, is a minimalistic text editor intended to be a cross between vi's line-based approach and cute aesthetic and nano's usage of simpler-than-emacs keybinds, instead of using separate modes and recursive commands.
+
+To compile:
+0. Install libncurses5-dev using `sudo apt-get install libncurses5-dev` or an equivalent (or ask Mr K)
+1. Run `make compile` and ensure there are no errors. If there are errors, cry and do not continue.
+
+To run:
+0. Run `./giga` to open giga with an empty buffer, or `./giga data/beemovie.txt`, for example, to open giga with a file already opened.
+1. Press ^Q at any time (except during an input prompt) to quit.
+
 
 ---
 
-SHORTCUTS
+## SHORTCUTS
 
 F1-F8: switch between tabs
 
@@ -21,9 +34,9 @@ F1-F8: switch between tabs
 ^G: get help (switch to help tab)
 
 ^Z: begin selection (mark)
-^X: cut from mark
 ^C: copy from mark
 ^V: paste copy buffer
+^N: paste copy buffer (for systems overriding ^V)
 
 Arrow keys to navigate
 
@@ -40,7 +53,7 @@ Page Down: jump to bottom of screen
 
 ---
 
-CONFIG FILE FORMAT
+## CONFIG FILE FORMAT
 
 Each line starts with "set" followed by an attribute.
 color: takes a window name and two colors
@@ -48,3 +61,27 @@ bold, underline, dim, highlight: take a window name
 tabsize: takes an integer (default: 4)
 maxlength: takes an integer (default: 256)
 Comments with begin with #
+
+---
+
+## ADDITIONAL FEATURES
+
+Triple dashes (---) appear as horizontal lines in giga
+Immutable files, such as the built-in helpfile tab
+Automatic adjustment on window resize
+Writing to a file will default to the current file name
+Writing a blank buffer into a file will update the tab name and default file name
+Automatic prevention of creating more than 8 tabs (+1 for the helpfile)
+^G in the helpfile will always return to the most recent file
+Bottom-bar alerts disappear as soon as a key is pressed
+
+---
+
+## KNOWN BUGS
+
+Pressing Enter on the last line of the screen will not visually scroll the screen until another key is pressed
+Typing off the bottom edge of the screen will not visually scroll the screen
+Page Down does not function
+Unknown and most likely unintended behavior if a line ever has more than maxlength characters
+Program quits with an error if an unavailable file is specified
+Pressing ^anything while in an input prompt will lock up the program indefinitely (not our problem, it's ncurses' fault--it'll never read an end-of-input and give us control back)
