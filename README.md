@@ -19,69 +19,66 @@ To run:
 
 ## SHORTCUTS
 
-F1-F8: switch between tabs
+- F1-F8: switch between tabs
 
-^Q: quit
-^W: write to file
-^E: toggle edit mode between insert and replace
-^R: revert buffer to match original file, wipe changes
-^T: create new tab
+- ^Q: quit
+- ^W: write to file
+- ^E: toggle edit mode between insert and replace
+- ^R: revert buffer to match original file, wipe changes
+- ^T: create new tab
 
-^A: ascend n rows
-^S: skip to row n
-^D: descend n rows
-^F: find string
-^G: get help (switch to help tab)
+- ^A: ascend n rows
+- ^S: skip to row n
+- ^D: descend n rows
+- ^G: get help (switch to help tab)
 
-^Z: begin selection (mark)
-^C: copy from mark
-^V: paste copy buffer
-^N: paste copy buffer (for systems overriding ^V)
+- ^Z: begin selection (mark)
+- ^C: copy from mark
+- ^V: paste copy buffer
+- ^N: paste copy buffer (for systems overriding ^V)
 
-Arrow keys to navigate
+- Arrow keys to navigate
 
-Enter:     insert newline
-Tab:       insert tabsize spaces
-Backspace: delete previous character
+- Enter:     insert newline
+- Tab:       insert tabsize spaces
+- Backspace: delete previous character
 
-Delete:    delete next character
-Insert:    toggle edit mode between insert and replace
-Home:      jump to start of line
-End:       jump to end of line
-Page Up:   jump to top of screen
-Page Down: jump to bottom of screen
+- Delete:    delete next character
+- Insert:    toggle edit mode between insert and replace
+- Home:      jump to start of line
+- End:       jump to end of line
+- Page Up:   jump to top of screen
+- Page Down: jump to bottom of screen
 
 ---
 
 ## CONFIG FILE FORMAT
 
 Each line starts with "set" followed by an attribute.
-color: takes a window name and two colors
-bold, underline, dim, highlight: take a window name
-tabsize: takes an integer (default: 4)
-maxlength: takes an integer (default: 256)
+- color: takes a window name and two colors
+- bold, underline, dim, highlight: take a window name
+- tabsize: takes an integer (default: 4)
+- maxlength: takes an integer (default: 256)
 Comments with begin with #
 
 ---
 
 ## ADDITIONAL FEATURES
 
-Triple dashes (---) appear as horizontal lines in giga  
-Immutable files, such as the built-in helpfile tab  
-Automatic adjustment on window resize  
-Writing to a file will default to the current file name  
-Writing a blank buffer into a file will update the tab name and default file name  
-Automatic prevention of creating more than 8 tabs (+1 for the helpfile)  
-^G in the helpfile will always return to the most recent file  
-Bottom-bar alerts disappear as soon as a key is pressed  
+- Triple dashes (---) appear as horizontal lines in giga
+- Immutable files, such as the built-in helpfile tab
+- Automatic adjustment on window resize
+- Writing to a file will default to the current file name
+- Writing a blank buffer into a file will update the tab name and default file name
+- Automatic prevention of creating more than 8 tabs (+1 for the helpfile)
+- ^G in the helpfile will always return to the most recent file
+- Bottom-bar alerts disappear as soon as a key is pressed
 
 ---
 
 ## KNOWN BUGS
 
-Pressing Enter on the last line of the screen will not visually scroll the screen until another key is pressed  
-Typing off the bottom edge of the screen will not visually scroll the screen  
-Page Down does not function  
-Unknown and most likely unintended behavior if a line ever has more than maxlength characters  
-Program quits with an error if an unavailable file is specified  
-Pressing ^anything while in an input prompt will lock up the program indefinitely (not our problem, it's ncurses' fault--it'll never read an end-of-input and give us control back)  
+- Pressing End on the last line of the screen will not visually scroll the screen until another key is pressed
+- Unknown and most likely unintended behavior if a line ever has more than maxlength characters
+- Undefined behavior (probably an error) if an unavailable file is specified
+- Pressing ^anything while in an input prompt will lock up the program indefinitely (not our problem, it's ncurses' fault--it'll never read an end-of-input and give us control back)
