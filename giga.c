@@ -45,8 +45,6 @@ int main(int argc, char *argv[]){
     modify_keyhandler(ch);
 
     refresh_all();
-    wrefresh(HELP_WINDOW);
-    wrefresh(EDIT_WINDOW);
   }
 
   return 0;

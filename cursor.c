@@ -28,13 +28,14 @@ void cursor_keyhandler(int ch){
       T.cx = 0;
       break;
     case KEY_END:
-      T.cx = INT_MAX;
+      T.cx = LINE_SIZE+1;
       break;
     case KEY_PPAGE: // page up
       T.line_goal = T.first_line->line_num;
       break;
     case KEY_NPAGE: // page down
-      T.cy = T.miny + E.height - 1;
+      //T.cy = T.miny + E.height - 1;
+      T.line_goal = T.lastlinenum;
       break;
     case KEY_CTRL('m'): // enter
       T.line_goal++;

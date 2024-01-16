@@ -30,7 +30,6 @@ F1-F8: switch between tabs
 ^A: ascend n rows
 ^S: skip to row n
 ^D: descend n rows
-^F: find string
 ^G: get help (switch to help tab)
 
 ^Z: begin selection (mark)
@@ -79,9 +78,7 @@ Bottom-bar alerts disappear as soon as a key is pressed
 
 ## KNOWN BUGS
 
-Pressing Enter on the last line of the screen will not visually scroll the screen until another key is pressed
-Typing off the bottom edge of the screen will not visually scroll the screen
-Page Down does not function
+Pressing End on the last line of the screen will not visually scroll the screen until another key is pressed
 Unknown and most likely unintended behavior if a line ever has more than maxlength characters
-Program quits with an error if an unavailable file is specified
+Undefined behavior (probably an error) if an unavailable file is specified
 Pressing ^anything while in an input prompt will lock up the program indefinitely (not our problem, it's ncurses' fault--it'll never read an end-of-input and give us control back)

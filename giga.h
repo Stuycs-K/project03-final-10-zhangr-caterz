@@ -19,6 +19,7 @@ struct editor_status{
 struct tab_status{
   int mutable; // 0: immutable, 1: mutable
   int miny;
+  int lastlinenum; // set by refresh_all, only read by pagedown
   int cx, cy; // cursor desired coordinates
   int cx_real; // actual cursor x-coordinate
   int line_goal;
