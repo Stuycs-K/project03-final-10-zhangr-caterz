@@ -62,6 +62,7 @@ int main(int argc, char *argv[]){
     moveCursor(ch);
     int isMarked = 0; //0 = false, 1 = true (checks if marked)
     int * marked; = malloc(sizeof(int) * 2);
+    char buffer[LINE_SIZE];
     //wprintw(HELP_WINDOW, "%d %d %d %d", ch, );
 
     if(isprint(ch)) {
@@ -111,8 +112,11 @@ int main(int argc, char *argv[]){
       isMarked = 1;
     }
     else if(ch==KEY_CTRL('c') && !isMarked){
-      copy_text(marked, T.cx_real, T.cy);
+      strcpy(buffer, copy_text(marked, T.cx_real, T.cy));
       isMarked = 0;
+    }
+    else if(ch==KEY_CTRL('v') && ){
+      paste_text(buffer);
     }
 
     
