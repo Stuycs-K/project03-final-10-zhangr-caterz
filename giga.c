@@ -10,6 +10,8 @@
 #include "visual.h" // scroll_window, refresh_line, refresh_all
 #include "tabs.h" // switch_tab, show_help
 #include "copypaste.h"
+#include <stdlib.h>
+#include <string.h>
 
 struct editor_status E;
 struct tab_status T;
@@ -61,7 +63,7 @@ int main(int argc, char *argv[]){
     change_tab(ch);
     moveCursor(ch);
     int isMarked = 0; //0 = false, 1 = true (checks if marked)
-    int * marked; = malloc(sizeof(int) * 2);
+    int * marked = malloc(sizeof(int) * 2);
     char buffer[LINE_SIZE];
     //wprintw(HELP_WINDOW, "%d %d %d %d", ch, );
 
@@ -107,15 +109,15 @@ int main(int argc, char *argv[]){
       T.cy++;
       refresh_all();
     }
-    else if(ch==KEY_CTRL('z') && isMarked){
-      marked = mark(T.cx_real, T.cy);
+    else if(ch==KEY_CTRL('z') && !isMarked){
+      marked = marking(T.cx_real, T.cy);
       isMarked = 1;
     }
-    else if(ch==KEY_CTRL('c') && !isMarked){
-      strcpy(buffer, copy_text(marked, T.cx_real, T.cy));
+    else if(ch==KEY_CTRL('c') && isMarked){
+      strcpy(buffer, copy_text(marked, T.cx_real, T.cy, buffer));
       isMarked = 0;
     }
-    else if(ch==KEY_CTRL('v') && ){
+    else if(ch==KEY_CTRL('v') && buffer != NULL){
       paste_text(buffer);
     }
 
