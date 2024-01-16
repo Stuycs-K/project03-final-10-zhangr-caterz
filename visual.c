@@ -30,6 +30,8 @@ void print(char* str){
 }*/
 
 void refresh_all(){
+  updateCursor();
+
   werase(NUMS_WINDOW);
   werase(EDIT_WINDOW);
   int i=0;
