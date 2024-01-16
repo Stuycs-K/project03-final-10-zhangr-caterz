@@ -66,22 +66,22 @@ Comments with begin with #
 
 ## ADDITIONAL FEATURES
 
-Triple dashes (---) appear as horizontal lines in giga
-Immutable files, such as the built-in helpfile tab
-Automatic adjustment on window resize
-Writing to a file will default to the current file name
-Writing a blank buffer into a file will update the tab name and default file name
-Automatic prevention of creating more than 8 tabs (+1 for the helpfile)
-^G in the helpfile will always return to the most recent file
-Bottom-bar alerts disappear as soon as a key is pressed
+Triple dashes (---) appear as horizontal lines in giga  
+Immutable files, such as the built-in helpfile tab  
+Automatic adjustment on window resize  
+Writing to a file will default to the current file name  
+Writing a blank buffer into a file will update the tab name and default file name  
+Automatic prevention of creating more than 8 tabs (+1 for the helpfile)  
+^G in the helpfile will always return to the most recent file  
+Bottom-bar alerts disappear as soon as a key is pressed  
 
 ---
 
 ## KNOWN BUGS
 
-Pressing Enter on the last line of the screen will not visually scroll the screen until another key is pressed
-Typing off the bottom edge of the screen will not visually scroll the screen
-Page Down does not function
-Unknown and most likely unintended behavior if a line ever has more than maxlength characters
-Program quits with an error if an unavailable file is specified
-Pressing ^anything while in an input prompt will lock up the program indefinitely (not our problem, it's ncurses' fault--it'll never read an end-of-input and give us control back)
+Pressing Enter on the last line of the screen will not visually scroll the screen until another key is pressed  
+Typing off the bottom edge of the screen will not visually scroll the screen  
+Page Down does not function  
+Unknown and most likely unintended behavior if a line ever has more than maxlength characters  
+Program quits with an error if an unavailable file is specified  
+Pressing ^anything while in an input prompt will lock up the program indefinitely (not our problem, it's ncurses' fault--it'll never read an end-of-input and give us control back)  
