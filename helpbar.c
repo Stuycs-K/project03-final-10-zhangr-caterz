@@ -19,6 +19,11 @@ void reset_bar(WINDOW* win){
   wclrtoeol(win);
 }
 
+void helpbar_alert(char* str){
+  reset_bar(HELP_WINDOW);
+  wprintw(HELP_WINDOW, "%s", str);
+}
+
 void helpbar_input(char *prompt, char buf[], char *guess){
   reset_bar(HELP_WINDOW);
   wprintw(HELP_WINDOW, "%s", prompt);
@@ -30,9 +35,13 @@ void helpbar_input(char *prompt, char buf[], char *guess){
   noecho();
 }
 
-void helpbar_alert(char* str){
-  reset_bar(HELP_WINDOW);
-  wprintw(HELP_WINDOW, "%s", str);
+int helpbar_input_int(char* prompt){
+  char to[LINE_SIZE+1];
+  int i;
+  helpbar_input(prompt, to, "");
+  if(sscanf(to, "%d", &i)) return i;
+  helpbar_alert("Not a valid input!");
+  return -1;
 }
 
 void helpbar_default(){

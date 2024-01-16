@@ -10,7 +10,7 @@ compile giga: giga.o cursor.o setup.o config.o util.o read.o modify.o helpbar.o 
 giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h read.c read.h modify.c modify.h helpbar.c helpbar.h visual.c visual.h tabs.c tabs.h
 	gcc -c giga.c
 
-cursor.o: cursor.c cursor.h giga.c giga.h util.c util.h visual.c visual.o
+cursor.o: cursor.c cursor.h giga.c giga.h util.c util.h visual.c visual.h helpbar.c helpbar.h
 	gcc -c cursor.c
 
 setup.o: setup.c setup.h giga.c giga.h config.c config.h visual.c visual.h tabs.c tabs.h

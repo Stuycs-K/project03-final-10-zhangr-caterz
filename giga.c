@@ -3,13 +3,13 @@
 #include <ctype.h> // isprint
 #include <string.h> // strlen
 #include "setup.h" // setup, resize
-#include "cursor.h" // moveCursor, updateCursor, init_cursor
+#include "cursor.h" // cursor_keyhandler, updateCursor, init_cursor
 #include "util.h" // err
 #include "read.h" // save_file, free_doc
 #include "modify.h" // replace, insert, delete
 #include "helpbar.h" // helpbar_input, helpbar_alert
 #include "visual.h" // scroll_window, refresh_line, refresh_all
-#include "tabs.h" // switch_tab, show_help
+#include "tabs.h" // tab_keyhandler, show_help
 
 struct editor_status E;
 struct tab_status T;
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]){
     }
     
     tab_keyhandler(ch);
-    moveCursor(ch);
+    cursor_keyhandler(ch);
 
     if(isprint(ch)) {
       if(!E.mode) ins_char(T.curr_line->str, T.cx_real, ch);

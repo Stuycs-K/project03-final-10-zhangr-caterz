@@ -3,10 +3,11 @@
 #include "util.h" // clamp
 #include "cursor.h"
 #include "visual.h" // scroll_window, refresh_all
+#include "helpbar.h" // helpbar_input_int
 #include <limits.h> // INT_MAX
 
 // reads character from keyboard input and moves cursor
-void moveCursor(int ch){
+void cursor_keyhandler(int ch){
   T.cy_old = T.cy;
   switch(ch){
     case KEY_UP:
@@ -16,23 +17,50 @@ void moveCursor(int ch){
       T.cy += T.curr_line->line_len / E.width + 1;
       break;
     case KEY_LEFT:
-      T.cx = T.cx_real - 1; break;
+      T.cx = T.cx_real - 1;
+      break;
     case KEY_RIGHT:
-      if(T.cx<T.curr_line->line_len) T.cx = T.cx_real + 1; break;
+      if(T.cx<T.curr_line->line_len) T.cx = T.cx_real + 1;
+      break;
     case KEY_HOME:
-      T.cx = 0; break;
+      T.cx = 0;
+      break;
     case KEY_END:
-      T.cx = INT_MAX; break;
+      T.cx = INT_MAX;
+      break;
     case KEY_PPAGE: // page up
-      T.cy = T.miny; break;
+      T.cy = T.miny;
+      break;
     case KEY_NPAGE: // page down
-      T.cy = T.miny + E.height - 1; break;
+      T.cy = T.miny + E.height - 1;
+      break;
     //case KEY_CTRL('m'): // enter, but KEY_ENTER is mapped to the numpad
     //  T.cy++; T.cx = 0; break;
     //case KEY_BACKSPACE:
     //  T.cx--; break;
     case KEY_STAB: // tab
       T.cx = T.cx_real;
+      break;
+    case KEY_CTRL('a'):
+      for(int i = helpbar_input_int("Lines to ascend: "); i>0; i--){
+        if(!T.curr_line->previous) {T.cy = T.cy_old; break;}
+        T.cy_old -= T.curr_line->previous->line_len / E.width + 1;
+        T.curr_line = T.curr_line->previous;
+      }
+      T.cy = T.cy_old;
+      break;
+    case KEY_CTRL('d'):
+      for(int i = helpbar_input_int("Lines to descend: "); i>0; i--){
+        if(!T.curr_line->next) {T.cy = T.cy_old; break;}
+        T.cy_old += T.curr_line->line_len / E.width + 1;
+        T.curr_line = T.curr_line->next;
+      }
+      T.cy = T.cy_old;
+      break;
+    case KEY_CTRL('s'):
+      break;
+        
+
   }
 }
 

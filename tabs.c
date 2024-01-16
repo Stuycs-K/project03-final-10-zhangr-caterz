@@ -5,7 +5,7 @@
 #include "read.h" // readFile
 #include "cursor.h" // init_cursor
 #include "visual.h" // redraw
-#include "helpbar.h" // helpbar_alert
+#include "helpbar.h" // helpbar_alert, helpbar_input
 #include "util.h" // KEY_CTRL
 #include "tabs.h"
 
