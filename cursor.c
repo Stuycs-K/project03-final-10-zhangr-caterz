@@ -56,11 +56,11 @@ void cursor_keyhandler(int ch){
       break;
     case KEY_CTRL('a'):
       i = helpbar_input_int("Lines to ascend: ");
-      if(i != -1) T.line_goal -= 1;
+      if(i != -1) T.line_goal -= i;
       break;
     case KEY_CTRL('d'):
       i = helpbar_input_int("Lines to descend: ");
-      if(i != -1) T.line_goal += 1;
+      if(i != -1) T.line_goal += i;
       break;
     case KEY_CTRL('s'):
       i = helpbar_input_int("Line to skip to: ");
