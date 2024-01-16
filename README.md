@@ -2,7 +2,7 @@
 
 ## giga v1
 
-### created by R Zhang and Z Cater (Team Name: TEAM C(RAY)TER)
+### created by R Zhang and Z Cater (Team Name: TEAM C[RAY]TER)
 
 Giga, stylized as giga, is a minimalistic text editor intended to be a cross between vi's line-based approach and cute aesthetic and nano's usage of simpler-than-emacs keybinds, instead of using separate modes and recursive commands.
 
