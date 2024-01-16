@@ -8,10 +8,10 @@ Giga, stylized as giga, is a minimalistic text editor intended to be a cross bet
 
 To compile:
 0. Install libncurses5-dev using `sudo apt-get install libncurses5-dev` or an equivalent (or ask Mr K)
-1. Run `make compile` and ensure there are no errors. If there are errors, cry and do not continue.
+1. Run `make compile` while in the same directory as giga and ensure there are no errors. If there are errors, cry and do not continue.
 
 To run:
-0. Run `./giga` to open giga with an empty buffer, or `./giga data/beemovie.txt`, for example, to open giga with a file already opened.
+0. While in the same directory as giga, run `./giga` to open giga with an empty buffer, or `./giga data/beemovie.txt`, for example, to open giga with a file already opened.
 1. Press ^Q at any time (except during an input prompt) to quit.
 
 
@@ -73,6 +73,7 @@ Comments with begin with #
 - Automatic prevention of creating more than 8 tabs (+1 for the helpfile)
 - ^G in the helpfile will always return to the most recent file
 - Bottom-bar alerts disappear as soon as a key is pressed
+- Customizable config file and help file, set to read from giga.conf and help.txt
 
 ---
 
@@ -82,3 +83,4 @@ Comments with begin with #
 - Unknown and most likely unintended behavior if a line ever has more than maxlength characters
 - Undefined behavior (probably an error) if an unavailable file is specified
 - Pressing ^anything while in an input prompt will lock up the program indefinitely (not our problem, it's ncurses' fault--it'll never read an end-of-input and give us control back)
+- Running giga while in another directory will fail
