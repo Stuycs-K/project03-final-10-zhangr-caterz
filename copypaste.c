@@ -10,6 +10,7 @@
 
 char* substr(int startx, int endx, char * str, char * buffer){ 
 	strncpy(buffer, str+startx, endx-startx);
+  buffer[endx-startx+1] = '\0';
 	return buffer;
 }
 

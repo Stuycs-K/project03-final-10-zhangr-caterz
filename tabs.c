@@ -22,6 +22,7 @@ void create_tab(char *path, int mutable){
   tab->data = readFile(tab->path, NULL);
   tab->curr_line = tab->data;
   tab->first_line = tab->data;
+  tab->isMarked = 0;
   init_cursor(tab);
 
   E.tabs[E.tabcount] = tab;

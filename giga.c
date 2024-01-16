@@ -50,17 +50,19 @@ int main(int argc, char *argv[]){
     modify_keyhandler(ch);
 
 
-    if(ch==KEY_CTRL('z') && !E.isMarked){
+    if(ch==KEY_CTRL('z')){
       marked = marking(T.cx_real, T.cy);
-      E.isMarked = 1;
+      T.isMarked = 1;
+      helpbar_alert("Mark placed!");
     }
-    else if(ch==KEY_CTRL('c') && E.isMarked){
+    else if(ch==KEY_CTRL('c') && T.isMarked){
       copy_text(marked, T.cx_real, T.cy, buffer);
-      E.isMarked = 0;
+      T.isMarked = 0;
+      helpbar_alert("Copied!");
     }
-    else if((ch==KEY_CTRL('n') || ch==KEY_CTRL('v')) && buffer != NULL){
+    else if((ch==KEY_CTRL('n') || ch==KEY_CTRL('v')) && buffer){
       paste_text(buffer);
-      refresh_all();
+      helpbar_alert("Pasted!");
     }
     
     refresh_all();
