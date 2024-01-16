@@ -41,6 +41,7 @@ void setup(char *path){
   E.curr_tab = 1;
   E.last_tab = 0;
   E.tabcount = 0;
+  E.isMarked = 0;
 
   // use config file to modify color pairs
   readConfig(E.config_path);
