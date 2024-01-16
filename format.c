@@ -5,3 +5,15 @@
 #include <string.h>
 #include "format.h"
 
+
+void bold(){
+
+}
+
+void italics(){
+
+}
+
+void underline(){
+
+}

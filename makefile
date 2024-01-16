@@ -4,10 +4,10 @@ run: giga
 	./giga
 	@[ -f ./data/output.txt ] && cat ./data/output.txt || true
 
-compile giga: giga.o cursor.o setup.o config.o util.o read.o modify.o helpbar.o visual.o tabs.o
-	gcc -Wall -Werror -o giga giga.o cursor.o setup.o config.o util.o read.o modify.o helpbar.o visual.o tabs.o -lncursesw
+compile giga: giga.o cursor.o setup.o config.o util.o read.o modify.o helpbar.o visual.o tabs.o copypaste.o
+	gcc -Wall -Werror -o giga giga.o cursor.o setup.o config.o util.o read.o modify.o helpbar.o visual.o tabs.o copypaste.o -lncursesw
 
-giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h read.c read.h modify.c modify.h helpbar.c helpbar.h visual.c visual.h tabs.c tabs.h
+giga.o: giga.c giga.h cursor.c cursor.h setup.c setup.h util.c util.h read.c read.h modify.c modify.h helpbar.c helpbar.h visual.c visual.h tabs.c tabs.h copypaste.c copypaste.h
 	gcc -c giga.c
 
 cursor.o: cursor.c cursor.h giga.c giga.h util.c util.h visual.c visual.h helpbar.c helpbar.h
@@ -36,6 +36,9 @@ visual.o: visual.c visual.h giga.c giga.h helpbar.c helpbar.h cursor.c cursor.h 
 
 tabs.o: tabs.c tabs.h giga.c giga.h visual.c visual.h helpbar.c helpbar.h util.c util.h read.c read.h cursor.c cursor.h
 	gcc -c tabs.c
+
+copypaste.o: copypaste.c util.h modify.h
+	gcc -c copypaste.c
 
 clean:
 	rm giga
