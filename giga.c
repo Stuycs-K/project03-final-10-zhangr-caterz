@@ -32,6 +32,7 @@ int main(int argc, char *argv[]){
 
 
     if(ch==KEY_CTRL('q')){
+      free(marked);
       break;
     }
     else if(ch==KEY_CTRL('w')){
@@ -115,7 +116,7 @@ int main(int argc, char *argv[]){
       copy_text(marked, T.cx_real, T.cy, buffer);
       E.isMarked = 0;
     }
-    else if((ch==KEY_CTRL('n') || ch==KEYCTRL('v')) && buffer != NULL){
+    else if((ch==KEY_CTRL('n') || ch==KEY_CTRL('v')) && buffer != NULL){
       paste_text(buffer);
       refresh_all();
     }
